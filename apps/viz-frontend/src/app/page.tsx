@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 // import DevLayout from '@/components/layout/DevLayout'
 
 export default function Home() {
