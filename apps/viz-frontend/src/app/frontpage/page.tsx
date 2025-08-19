@@ -1,58 +1,42 @@
 'use client';
 
-import Link from 'next/link'
-import { useEffect, useRef, useState } from 'react'
-import Layout from '@/src/components/Layout'
+import Link from 'next/link';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
+import { US, BO, ES, DE, DK, BR, IN } from 'country-flag-icons/react/3x2';
+import { isMobile, isTablet, isDesktop, isAndroid, isIOS, isWindows, isMacOs } from 'react-device-detect';
+import { useWindowSize, useWindowScroll } from '@uidotdev/usehooks';
+
+import Layout from '@/src/components/Layout';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 // import { CldImage } from 'next-cloudinary';
 
-import { US, BO, ES, DE, DK, BR, IN } from 'country-flag-icons/react/3x2'
-import ReactIcon from '@/src/svg/reactIcon.svg'
-import NextIcon from '@/src/svg/nextIcon.svg'
-import NestIcon from '@/src/svg/nestIcon.svg'
-import SupabaseIcon from '@/src/svg/supabaseIcon.svg'
-import VercelIcon from '@/src/svg/vercelIcon.svg'
-import PrismaIcon from '@/src/svg/prismaIcon.svg'
-import GraphQLIcon from '@/src/svg/graphqlIcon.svg'
-import TailwindIcon from '@/src/svg/tailwindIcon.svg'
-import ShadcnIcon from '@/src/svg/shadcnIcon.svg'
-import PostgresIcon from '@/src/svg/postgresIcon.svg'
-import GmailIcon from '@/src/svg/gmailIcon.svg'
-import GithubIcon from '@/src/svg/githubIcon.svg'
-import LinkedinIcon from '@/src/svg/linkedinIcon.svg'
-import WhatsappIcon from '@/src/svg/whatsappIcon.svg'
-import LetterIcon from '@/src/svg/letterIcon.svg'
-import ContactsIcon from '@/src/svg/contactsIcon.svg'
-import ProjectsIcon from '@/src/svg/projectsIcon.svg'
-import AboutMeIcon from '@/src/svg/aboutmeIcon.svg'
-import PaymentsIcon from '@/src/svg/paymentsIcon.svg'
-import HomeIcon from '@/src/svg/homeIcon.svg'
-import YoutubeIcon from '@/src/svg/youtubeIcon.svg'
+import ReactIcon from '@/src/svg/reactIcon.svg';
+import NextIcon from '@/src/svg/nextIcon.svg';
+import NestIcon from '@/src/svg/nestIcon.svg';
+import SupabaseIcon from '@/src/svg/supabaseIcon.svg';
+import VercelIcon from '@/src/svg/vercelIcon.svg';
+import PrismaIcon from '@/src/svg/prismaIcon.svg';
+import GraphQLIcon from '@/src/svg/graphqlIcon.svg';
+import TailwindIcon from '@/src/svg/tailwindIcon.svg';
+import ShadcnIcon from '@/src/svg/shadcnIcon.svg';
+import PostgresIcon from '@/src/svg/postgresIcon.svg';
+import GmailIcon from '@/src/svg/gmailIcon.svg';
+import GithubIcon from '@/src/svg/githubIcon.svg';
+import LinkedinIcon from '@/src/svg/linkedinIcon.svg';
+import WhatsappIcon from '@/src/svg/whatsappIcon.svg';
+import LetterIcon from '@/src/svg/letterIcon.svg';
+import ContactsIcon from '@/src/svg/contactsIcon.svg';
+import ProjectsIcon from '@/src/svg/projectsIcon.svg';
+import AboutMeIcon from '@/src/svg/aboutmeIcon.svg';
+import PaymentsIcon from '@/src/svg/paymentsIcon.svg';
+import HomeIcon from '@/src/svg/homeIcon.svg';
+import YoutubeIcon from '@/src/svg/youtubeIcon.svg';
+import { ConsoleLogoGreeting } from '@/src/components/ConsoleLogoGreeting';
+import { CellphoneLogoGreeting } from '@/src/components/CellphoneLogoGreeting';
 
-import { ConsoleLogoGreeting } from '@/src/components/ConsoleLogoGreeting'
-import { CellphoneLogoGreeting } from '@/src/components/CellphoneLogoGreeting'
-import {
-  isMobile,
-  isTablet,
-  isDesktop,
-  isAndroid,
-  isIOS,
-  isWindows,
-  isMacOs,
-} from "react-device-detect";
-import { useWindowSize, useWindowScroll } from "@uidotdev/usehooks";
 import './page.css';
 
 const navigation = [
@@ -60,32 +44,30 @@ const navigation = [
   { name: 'Servicios', href: '#' },
   { name: 'Productos', href: '#' },
   { name: 'Preguntame', href: '#' },
-]
+];
 
 export function useDeviceType() {
-  if (isAndroid) return "android";
-  if (isIOS) return "ios";
-  if (isTablet) return "tablet";
-  if (isMobile) return "mobile";
-  if (isDesktop) return "desktop";
-  if (isWindows) return "windows";
-  if (isMacOs) return "mac";
-  return "unknown";
+  if (isAndroid) return 'android';
+  if (isIOS) return 'ios';
+  if (isTablet) return 'tablet';
+  if (isMobile) return 'mobile';
+  if (isDesktop) return 'desktop';
+  if (isWindows) return 'windows';
+  if (isMacOs) return 'mac';
+  return 'unknown';
 }
 
 export default function Page() {
-
-
   useEffect(() => {
     const deviceType = useDeviceType();
     if (isMobile) {
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) {
-        meta.setAttribute("content", "#111827");
+        meta.setAttribute('content', '#111827');
       } else {
-        const newMeta = document.createElement("meta");
-        newMeta.name = "theme-color";
-        newMeta.content = "#111827";
+        const newMeta = document.createElement('meta');
+        newMeta.name = 'theme-color';
+        newMeta.content = '#111827';
         document.head.appendChild(newMeta);
       }
     }
@@ -98,20 +80,90 @@ export default function Page() {
     { title: 'Softwareudvikler', flag: <DK title="Danish" width={24} /> },
     { title: 'Desenvolvedor de software', flag: <BR title="Portugues" width={24} /> },
     { title: 'Softwareentwickler', flag: <DE title="German" width={24} /> },
-    { title: 'सॉफ़्टवेयर डेवलपर', flag: <IN title="Hindi" width={24} /> }
+    { title: 'सॉफ़्टवेयर डेवलपर', flag: <IN title="Hindi" width={24} /> },
   ];
 
   const techStackIcons = [
-    { src: ReactIcon, alt: 'React', link: 'https://reactjs.org/', width: 48, height: 48, textColor: 'hover:text-cyan-500' },
-    { src: NextIcon, alt: 'NextJS', link: 'https://nextjs.org/', width: 64, height: 48, textColor: 'hover:text-black dark:text-white' },
-    { src: NestIcon, alt: 'NestJS', link: 'https://nestjs.com/', width: 48, height: 48, textColor: 'hover:text-red-400' },
-    { src: SupabaseIcon, alt: 'Supabase', link: 'https://supabase.com/', width: 48, height: 48, textColor: 'hover:text-emerald-500' },
-    { src: VercelIcon, alt: 'Vercel', link: 'https://vercel.com/', width: 40, height: 48, textColor: 'hover:text-black dark:text-white' },
-    { src: PrismaIcon, alt: 'Prisma', link: 'https://www.prisma.io/', width: 48, height: 48, textColor: 'hover:text-gray-400' },
-    { src: GraphQLIcon, alt: 'GraphQL', link: 'https://graphql.org/', width: 48, height: 48, textColor: 'hover:text-pink-500' },
-    { src: TailwindIcon, alt: 'TailwindCSS', link: 'https://tailwindcss.com/', width: 56, height: 48, textColor: 'hover:text-sky-400' },
-    { src: ShadcnIcon, alt: 'Shadcn/ui', link: 'https://ui.shadcn.com/', width: 48, height: 48, textColor: 'hover:text-gray-500' },
-    { src: PostgresIcon, alt: 'PostgreSQL', link: 'https://www.postgresql.org/', width: 48, height: 48, textColor: 'hover:text-blue-300' }
+    {
+      src: ReactIcon,
+      alt: 'React',
+      link: 'https://reactjs.org/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-cyan-500',
+    },
+    {
+      src: NextIcon,
+      alt: 'NextJS',
+      link: 'https://nextjs.org/',
+      width: 64,
+      height: 48,
+      textColor: 'hover:text-black dark:text-white',
+    },
+    {
+      src: NestIcon,
+      alt: 'NestJS',
+      link: 'https://nestjs.com/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-red-400',
+    },
+    {
+      src: SupabaseIcon,
+      alt: 'Supabase',
+      link: 'https://supabase.com/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-emerald-500',
+    },
+    {
+      src: VercelIcon,
+      alt: 'Vercel',
+      link: 'https://vercel.com/',
+      width: 40,
+      height: 48,
+      textColor: 'hover:text-black dark:text-white',
+    },
+    {
+      src: PrismaIcon,
+      alt: 'Prisma',
+      link: 'https://www.prisma.io/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-gray-400',
+    },
+    {
+      src: GraphQLIcon,
+      alt: 'GraphQL',
+      link: 'https://graphql.org/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-pink-500',
+    },
+    {
+      src: TailwindIcon,
+      alt: 'TailwindCSS',
+      link: 'https://tailwindcss.com/',
+      width: 56,
+      height: 48,
+      textColor: 'hover:text-sky-400',
+    },
+    {
+      src: ShadcnIcon,
+      alt: 'Shadcn/ui',
+      link: 'https://ui.shadcn.com/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-gray-500',
+    },
+    {
+      src: PostgresIcon,
+      alt: 'PostgreSQL',
+      link: 'https://www.postgresql.org/',
+      width: 48,
+      height: 48,
+      textColor: 'hover:text-blue-300',
+    },
   ];
   // const [terminalLineData, setTerminalLineData] = useState<React.ReactElement[]>(
   //   [<TerminalOutput key={0}>Hola Developer Bienvenido :)</TerminalOutput>],
@@ -123,7 +175,6 @@ export default function Page() {
   const size = useWindowSize();
   const section1Ref = useRef<HTMLDivElement>(null);
   const [headerWidth, setHeaderWidth] = useState(0);
-
 
   const scrollToSection = (offset = 0) => {
     if (section1Ref.current) {
@@ -182,13 +233,11 @@ export default function Page() {
           <div className="w-8 h-8 border-4 border-slate-400 border-t-transparent rounded-full animate-spin"></div>
         </div>
       </>
-    )
+    );
   }
-
 
   return (
     <Layout navigation={navigation}>
-
       {/* <h1 className="text-4xl font-bold text-gray-400 mb-6">
           <span className="inline-flex items-center transition-transform duration-500 ease-in-out -translate-y-10 hover:translate-y-0">
             <BO title="Bolivia" width={30} className='rounded-sm' />
@@ -234,11 +283,13 @@ export default function Page() {
         </div> */}
       <div
         className="min-h-screen w-full relative bg-black section-container"
-        style={size?.height ? { height: `${size.height}px` } : undefined}>
+        style={size?.height ? { height: `${size.height}px` } : undefined}
+      >
         <div
           className="absolute inset-0 z-0"
           style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, 0.25), transparent 70%), #000000",
+            background:
+              'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(99, 102, 241, 0.25), transparent 70%), #000000',
           }}
         />
         <div className="flex flex-col w-full min-h-screen items-center justify-center gap-10 relative">
@@ -254,25 +305,20 @@ export default function Page() {
                 <span className="hidden sm:block">
                   Hi, I’m Oscar Cortez — a Software Engineer with a degree in Computer Science.
                 </span>
-                <span className="block sm:hidden text-3xl">
-                  Hi, I’m Oscar Cortez, Software Engineer
-                </span>
+                <span className="block sm:hidden text-3xl">Hi, I’m Oscar Cortez, Software Engineer</span>
               </p>
               <p className="mx-auto max-w-4xl text-lg md:text-2xl text-justify font-medium bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent leading-relaxed">
                 <span className="hidden sm:block">
-                  I’ve worked as a Database Administrator (DBA), ETL Developer, and now I specialize in full-stack software development — from backend logic to user-facing interfaces
+                  I’ve worked as a Database Administrator (DBA), ETL Developer, and now I specialize in full-stack
+                  software development — from backend logic to user-facing interfaces
                 </span>
                 <span className="block sm:hidden">
                   I’ve worked as a DBA, ETL Developer, and now I specialize in full-stack software development.
                 </span>
               </p>
               <p className="text-base md:text-lg font-medium text-gray-600 dark:text-gray-400">
-                <span className="hidden sm:block">
-                  Thanks for stopping by — welcome to my professional site. 💙
-                </span>
-                <span className="block sm:hidden">
-                  Thanks for visiting 💙
-                </span>
+                <span className="hidden sm:block">Thanks for stopping by — welcome to my professional site. 💙</span>
+                <span className="block sm:hidden">Thanks for visiting 💙</span>
               </p>
             </h1>
           </div>
@@ -317,7 +363,6 @@ export default function Page() {
               >
                 Payments
               </Link>
-
             </div>
             {/* <span className='hidden sm:block'>Not enough? Keep scrolling to discover more cool stuff. 🚀</span> */}
 
@@ -386,12 +431,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg text-slate-800 dark:text-slate-400">Email</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  oscarkortez@gmail.com
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">oscarkortez@gmail.com</span>
               </div>
               <div className="flex items-center">
-                <Image src={GmailIcon} alt="Gmail Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={GmailIcon}
+                  alt="Gmail Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
             <a
@@ -402,12 +451,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg mb-2 text-slate-800 dark:text-slate-400">LinkedIn</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  linkedin.com/in/oscarkortez
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">linkedin.com/in/oscarkortez</span>
               </div>
               <div className="flex items-center ml-6">
-                <Image src={LinkedinIcon} alt="LinkedIn Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={LinkedinIcon}
+                  alt="LinkedIn Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
             <a
@@ -418,12 +471,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg mb-2 text-slate-800 dark:text-slate-400">YouTube</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  @OSCARCORTEZVILLCA
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">@OSCARCORTEZVILLCA</span>
               </div>
               <div className="flex items-center ml-6">
-                <Image src={YoutubeIcon} alt="YouTube Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={YoutubeIcon}
+                  alt="YouTube Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
             <a
@@ -434,12 +491,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg mb-2 text-slate-800 dark:text-slate-400">GitHub</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  github.com/oscarkortez
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">github.com/oscarkortez</span>
               </div>
               <div className="flex items-center ml-6">
-                <Image src={GithubIcon} alt="Github Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={GithubIcon}
+                  alt="Github Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
             <a
@@ -450,12 +511,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg mb-2 text-slate-800 dark:text-slate-400">Whatsapp</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  +591 77703364
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">+591 77703364</span>
               </div>
               <div className="flex items-center ml-6">
-                <Image src={WhatsappIcon} alt="Whatsapp Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={WhatsappIcon}
+                  alt="Whatsapp Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
             <a
@@ -466,12 +531,16 @@ export default function Page() {
             >
               <div>
                 <h3 className="font-semibold text-lg mb-2 text-slate-800 dark:text-slate-400">Resume</h3>
-                <span className="text-slate-300 group-hover:underline break-all">
-                  resume_oscarcortez.pdf
-                </span>
+                <span className="text-slate-300 group-hover:underline break-all">resume_oscarcortez.pdf</span>
               </div>
               <div className="flex items-center ml-6">
-                <Image src={LetterIcon} alt="Resume Icon" width={32} height={32} className="transition-transform duration-200 group-hover:scale-120" />
+                <Image
+                  src={LetterIcon}
+                  alt="Resume Icon"
+                  width={32}
+                  height={32}
+                  className="transition-transform duration-200 group-hover:scale-120"
+                />
               </div>
             </a>
           </div>
@@ -515,31 +584,36 @@ export default function Page() {
               Get to know my{' '}
               <span className="text-gray-300 hover:text-blue-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 professional
-              </span>
-              {' '} world ... and the {' '}
+              </span>{' '}
+              world ... and the{' '}
               <span className="text-gray-300 hover:text-pink-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 personal
-              </span> {' '} side that drives it.
+              </span>{' '}
+              side that drives it.
             </p>
             <p>
               No fluff. Just free, real-world{' '}
               <span className="text-gray-300 hover:text-blue-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 tech tips
-              </span>.
+              </span>
+              .
             </p>
             <p>
               Behind the code: true dev{' '}
               <span className="text-gray-300 hover:text-pink-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 stories
-              </span>.
+              </span>
+              .
             </p>
             <p>
               <span className="text-gray-300 hover:text-pink-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 Developers
-              </span> and{' '}
+              </span>{' '}
+              and{' '}
               <span className="text-gray-300 hover:text-blue-400 font-semibold hover:underline cursor-pointer transition duration-200 ease-in-out">
                 mentors
-              </span> who inspire my work.
+              </span>{' '}
+              who inspire my work.
             </p>
           </div>
 
@@ -549,7 +623,12 @@ export default function Page() {
               <span className="font-medium text-gray-800 dark:text-gray-300">
                 {techStackIcons.map((tech, index) => (
                   <span key={index}>
-                    <Link href={tech.link} target="_blank" rel="noopener noreferrer" className={`hover:underline ${tech.textColor} transition duration-200 ease-in-out`}>
+                    <Link
+                      href={tech.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`hover:underline ${tech.textColor} transition duration-200 ease-in-out`}
+                    >
                       {tech.alt}
                     </Link>
                     {index < techStackIcons.length - 1 ? ', ' : ' '}
@@ -560,10 +639,20 @@ export default function Page() {
             </p>
             <p className="dark:text-gray-400 leading-loose">
               Curious about the code? Check out the{' '}
-              <Link href={"/"} target="_blank" rel="noopener noreferrer"
-                className={`hover:underline transition duration-200 ease-in-out dark:text-gray-300`}>
+              <Link
+                href={'/'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`hover:underline transition duration-200 ease-in-out dark:text-gray-300`}
+              >
                 Github repo
-                <Image src={GithubIcon} alt="Github Icon" width={24} height={24} className="inline ml-1 transition-transform duration-200 hover:scale-110" />
+                <Image
+                  src={GithubIcon}
+                  alt="Github Icon"
+                  width={24}
+                  height={24}
+                  className="inline ml-1 transition-transform duration-200 hover:scale-110"
+                />
               </Link>
             </p>
             <div className="flex flex-wrap justify-center gap-4 mt-6">
@@ -571,18 +660,22 @@ export default function Page() {
                 <Tooltip key={tech.alt}>
                   <TooltipTrigger asChild>
                     <Link href={tech.link} target="_blank" rel="noopener noreferrer" className="flex items-center">
-                      <Image src={tech.src} alt={tech.alt} width={tech.width} height={tech.height} className="transition-transform duration-200 hover:scale-110" />
+                      <Image
+                        src={tech.src}
+                        alt={tech.alt}
+                        width={tech.width}
+                        height={tech.height}
+                        className="transition-transform duration-200 hover:scale-110"
+                      />
                     </Link>
                   </TooltipTrigger>
-                  <TooltipContent>
-                    {tech.alt}
-                  </TooltipContent>
+                  <TooltipContent>{tech.alt}</TooltipContent>
                 </Tooltip>
               ))}
             </div>
           </div>
         </div>
       </div>
-    </Layout >
-  )
+    </Layout>
+  );
 }

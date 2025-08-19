@@ -1,0 +1,72 @@
+.hero-section {
+  background: linear-gradient(45deg, #1a1333 0%, #2a1a4d 29%, #2e2e5e 66%, #1a1a40 100%);
+  background-size: 400% 400%;
+  animation: Gradient 15s ease infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: space-evenly;
+  overflow: hidden;
+  position: relative;
+  color: #e5e5e5; /* texto claro */
+}
+
+.hero-section::before,
+.hero-section::after {
+  content: '';
+  width: 70vmax;
+  height: 70vmax;
+  position: absolute;
+  /* blobs púrpura/azul tenue */
+  background: rgba(120, 80, 255, 0.08);
+  left: -20vmin;
+  top: -20vmin;
+  animation:
+    morph 15s linear infinite alternate,
+    spin 20s linear infinite;
+  z-index: 1;
+  will-change: border-radius, transform;
+  transform-origin: 55% 55%;
+  pointer-events: none;
+}
+
+.hero-section::after {
+  width: 70vmin;
+  height: 70vmin;
+  left: auto;
+  right: -10vmin;
+  top: auto;
+  bottom: 0;
+  animation:
+    morph 10s linear infinite alternate,
+    spin 26s linear infinite reverse;
+  transform-origin: 20% 20%;
+}
+
+/* Animaciones */
+@keyframes Gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes morph {
+  0% {
+    border-radius: 40% 60% 60% 40% / 70% 30% 70% 30%;
+  }
+  100% {
+    border-radius: 40% 60%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}

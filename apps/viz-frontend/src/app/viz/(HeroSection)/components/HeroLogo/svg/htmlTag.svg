@@ -1,0 +1,27 @@
+<svg
+  viewBox="0 0 88 65"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <!-- Fondo degradado azul-verde -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="88" y2="70" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#43e6c2"/>
+      <stop offset="1" stop-color="#4f8dfd"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="88" height="65" rx="14" fill="url(#bg)" />
+  <!-- Código -->
+  <text
+    x="44"
+    y="50%"
+    text-anchor="middle"
+    font-size="38"
+    font-family="monospace"
+    font-weight="bold"
+    fill="#fff"
+    dominant-baseline="middle"
+    alignment-baseline="middle"
+    letter-spacing="2"
+  >&lt;/&gt;</text>
+</svg>
