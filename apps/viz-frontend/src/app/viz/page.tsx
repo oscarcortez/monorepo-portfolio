@@ -1,7 +1,5 @@
 'use client';
 
-import { useWindowSize, useWindowScroll } from '@uidotdev/usehooks';
-
 import Layout from '@/components/Layout';
 
 import HeroSection from './(HeroSection)/HeroSection';

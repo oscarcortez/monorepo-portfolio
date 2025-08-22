@@ -65,6 +65,9 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
+      use-s-react:
+        specifier: ^2.1.0
+        version: 2.1.0(react@19.1.0)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.1
@@ -1512,6 +1515,9 @@ packages:
   fs.realpath@1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
 
+  full-copy@2.0.0:
+    resolution: {integrity: sha512-GaSqR/7o+mbp5d6bGh9uW50CX3UK94CCYSd8NJ33rtU0Dtmj2VaHd0AbgY7hEvDAFEIuClKQSyZgGd1fMF4zlg==}
+
   function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
 
@@ -2385,6 +2391,11 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
+
+  use-s-react@2.1.0:
+    resolution: {integrity: sha512-oxgs5LpAr2/MY4/8fKz9Umwz+176KoEoPPJzPRjxVwysRcqrsRke5O4hwVlr6Vq/XMDY+qyDkv8eL2peMzJhBA==}
+    peerDependencies:
+      react: '>=18.0.0'
 
   use-sidecar@1.1.3:
     resolution: {integrity: sha512-Fedw0aZvkhynoPYlA5WXrMCAMm+nSWdZt6lzJQ7Ok8S6Q+VsHmHpRWndVRJ8Be0ZbkfPc5LRYH+5XrzXcEeLRQ==}
@@ -3959,6 +3970,8 @@ snapshots:
 
   fs.realpath@1.0.0: {}
 
+  full-copy@2.0.0: {}
+
   function-bind@1.1.2: {}
 
   function.prototype.name@1.1.8:
@@ -4909,6 +4922,11 @@ snapshots:
       tslib: 2.8.1
     optionalDependencies:
       '@types/react': 19.1.9
+
+  use-s-react@2.1.0(react@19.1.0):
+    dependencies:
+      full-copy: 2.0.0
+      react: 19.1.0
 
   use-sidecar@1.1.3(@types/react@19.1.9)(react@19.1.0):
     dependencies:
