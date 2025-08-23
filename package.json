@@ -13,7 +13,7 @@
     "format": "pnpm -r format",
     "viz-frontend:dev": "pnpm --filter ./apps/viz-frontend dev",
     "viz-frontend:build": "pnpm --filter ./apps/viz-frontend build",
-    "viz-backend:dev": "pnpm --filter ./apps/viz-backend dev",
+    "viz-backend:dev": "pnpm --filter ./apps/viz-backend start:dev",
     "viz-backend:build": "pnpm --filter ./apps/viz-backend build",
     "admin-frontend:dev": "pnpm --filter ./apps/admin-frontend dev",
     "admin-frontend:build": "pnpm --filter ./apps/admin-frontend build",
