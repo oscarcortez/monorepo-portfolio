@@ -1,18 +1,17 @@
+'use client';
+
 import { useWindowSize } from '@uidotdev/usehooks';
 import { useEffect } from 'react';
-
-import { useHeroData } from '../hooks/useHeroData';
+import dynamic from 'next/dynamic';
 
 import HeroLogo from './components/HeroLogo';
-import HeroGreeting from './components/HeroGreeting';
+// import HeroGreeting from './components/HeroGreeting';
 import { HeroSectionProps } from './types';
-import { config } from './components/HeroGreeting/constants';
 
-type HeroData = {
-  title: string;
-  subtitle: string;
-  footer: string;
-};
+const HeroGreeting = dynamic(() => import('./components/HeroGreeting'), {
+  ssr: false,
+  loading: () => <div className="mx-20 p-4 bg-slate-900 rounded-xl shadow-lg h-32 animate-pulse" />,
+});
 
 export default function HeroSection({ theme }: HeroSectionProps) {
   const size = useWindowSize();

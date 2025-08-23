@@ -1,8 +1,8 @@
 'use client';
 
-import Layout from '@/components/Layout';
+import Layout from '@/src/app/_components/Layout';
 
-import HeroSection from './(HeroSection)/HeroSection';
+import HeroSection from './(HeroSection)';
 
 export default function Page() {
   return (
