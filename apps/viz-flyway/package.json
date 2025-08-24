@@ -1,0 +1,9 @@
+{
+  "name": "flyway",
+  "private": true,
+  "scripts": {
+    "migrate": "flyway migrate -configFiles=flyway.conf",
+    "info": "flyway info -configFiles=flyway.conf",
+    "clean": "flyway clean -configFiles=flyway.conf"
+  }
+}
