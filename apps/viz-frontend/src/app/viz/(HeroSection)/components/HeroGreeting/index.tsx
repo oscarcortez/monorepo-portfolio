@@ -13,7 +13,7 @@ export default function HeroGreeting(): JSX.Element {
           {heroData.title}
         </p>
         <p className="mx-auto max-w-4xl text-lg md:text-2xl text-justify font-medium bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 bg-clip-text text-transparent leading-relaxed">
-          {heroData.subtitle}
+          {heroData.content}
         </p>
         <p className="text-base font-medium text-gray-600 dark:text-gray-400">{heroData.footer}</p>
       </h1>

@@ -28,26 +28,38 @@ model HeroGreeting {
   heroGreetingId Int          @id @default(autoincrement()) @map("hero_greeting_id")
   userId         Int          @map("user_id")
   title          String
-  subtitle       String
+  content        String
   footer         String
   language       LanguageEnum @default(en)
-  users          Users        @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_hero_greeting_user")
+  device         DeviceEnum   @default(desktop)
+  deletedAt      DateTime?    @map("deleted_at") @db.Timestamp(6)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt      DateTime     @default(now()) @map("updated_at") @db.Timestamptz(6)
+  user           User         @relation(fields: [userId], references: [userId], onDelete: NoAction, onUpdate: NoAction, map: "fk_hero_greeting_user")
 
-  @@map("hero_greeting")
+  @@map("hero_greetings")
 }
 
-model Users {
-  userId       Int            @id @default(autoincrement()) @map("user_id")
-  uuid         String         @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email        String         @unique @db.VarChar(100)
-  name         String         @db.VarChar(100)
-  passwordHash String         @map("password_hash")
-  deletedAt    DateTime?      @map("deleted_at") @db.Timestamp(6)
-  createdAt    DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
-  updatedAt    DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
-  heroGreeting HeroGreeting[]
+model User {
+  userId        Int            @id @default(autoincrement()) @map("user_id")
+  uuid          String         @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String         @unique @db.VarChar(100)
+  name          String         @db.VarChar(100)
+  passwordHash  String         @map("password_hash")
+  deletedAt     DateTime?      @map("deleted_at") @db.Timestamp(6)
+  createdAt     DateTime       @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt     DateTime       @default(now()) @map("updated_at") @db.Timestamptz(6)
+  heroGreetings HeroGreeting[]
 
   @@map("users")
+}
+
+enum DeviceEnum {
+  mobile
+  tablet
+  desktop
+
+  @@map("device_enum")
 }
 
 enum LanguageEnum {
