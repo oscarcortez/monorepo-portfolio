@@ -25,5 +25,5 @@ CREATE TABLE
     subtitle TEXT NOT NULL,
     footer TEXT NOT NULL,
     language language_enum NOT NULL DEFAULT 'en',
-    CONSTRAINT fk_hero_greeting_user FOREIGN KEY (user_id) REFERENCES users (user_id)
+    CONSTRAINT fk_hero_greeting_user FOREIGN KEY (user_id) REFERENCES user(user_id)
   );
