@@ -1,7 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import { users } from 'src/drizzle/schema';
-import { eq } from 'drizzle-orm';
+import { eq, getTableColumns } from 'drizzle-orm';
+
+const getUserPublicColumns = () => {
+  const { passwordHash, ...publicColumns } = getTableColumns(users);
+  void passwordHash;
+  return publicColumns;
+};
 
 @Injectable()
 export class UserService {
@@ -10,16 +16,7 @@ export class UserService {
   async findOne(uuid: string) {
     try {
       const result = await this.db
-        .select({
-          userId: users.userId,
-          uuid: users.uuid,
-          email: users.email,
-          name: users.name,
-          deletedAt: users.deletedAt,
-          createdAt: users.createdAt,
-          updatedAt: users.updatedAt,
-          passwordHash: users.passwordHash,
-        })
+        .select(getUserPublicColumns())
         .from(users)
         .where(eq(users.uuid, uuid))
         .limit(1);

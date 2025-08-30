@@ -1,9 +1,30 @@
 {
-  "name": "flyway",
-  "private": true,
+  "name": "flyway-migration-generator",
+  "version": "1.0.0",
+  "description": "Flyway migration file generator",
+  "main": "generate-migration.js",
+  "bin": {
+    "generate-migration": "./generate-migration.js"
+  },
   "scripts": {
-    "migrate": "flyway migrate -configFiles=flyway.conf",
-    "info": "flyway info -configFiles=flyway.conf",
-    "clean": "flyway clean -configFiles=flyway.conf"
+    "build": "tsc generate-migration.ts --outDir dist",
+    "generate:migration": "tsx generate-migration.ts",
+    "generate:versioned": "tsx generate-migration.ts file --versioned",
+    "generate:repeatable": "tsx generate-migration.ts file --repeatable",
+    "flyway:migrate": "docker-compose run --rm flyway",
+    "flyway:clean": "docker-compose run --rm flyway clean",
+    "flyway:info": "docker-compose run --rm flyway info",
+    "flyway:validate": "docker-compose run --rm flyway validate",
+    "flyway:baseline": "docker-compose run --rm flyway baseline",
+    "flyway:repair": "docker-compose run --rm flyway repair",
+    "flyway:undo": "docker-compose run --rm flyway undo"
+  },
+  "dependencies": {
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.11",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
   }
 }

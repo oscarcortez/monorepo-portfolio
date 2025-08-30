@@ -1,24 +1,21 @@
 import { ObjectType, Field, ID } from '@nestjs/graphql';
-import * as schema from 'src/drizzle/schema';
-
-type UserSelect = typeof schema.users.$inferSelect;
 
 @ObjectType()
-export class User implements UserSelect {
+export class User {
   @Field(() => ID)
   userId: number;
 
-  @Field()
+  @Field(() => String)
   uuid: string;
 
-  @Field()
+  @Field(() => String)
   email: string;
 
-  @Field()
+  @Field(() => String)
   name: string;
 
-  @Field()
-  passwordHash: string; // omitido completamente del esquema GraphQL
+  // @Field()
+  // passwordHash: string; // omitido completamente del esquema GraphQL
 
   @Field(() => String, { nullable: true })
   deletedAt: string | null;

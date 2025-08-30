@@ -10,8 +10,4 @@ select
   hg.footer as greeting_footer
 from
   users u
-  join hero_greetings hg on u.user_id = hg.user_id
-where
-  u."uuid" = 'c8988785-25db-4a86-add3-9b6873ff131b'
-  and u.deleted_at is null
-  and hg."language" = 'en';
+  join hero_greetings hg on u.user_id = hg.user_id;

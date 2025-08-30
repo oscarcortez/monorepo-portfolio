@@ -12,7 +12,6 @@ type User {
   deletedAt: String
   email: String!
   name: String!
-  passwordHash: String!
   updatedAt: String!
   userId: ID!
   uuid: String!
