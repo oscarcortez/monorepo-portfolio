@@ -1,5 +1,7 @@
 # PolyForm Noncommercial License 1.0.0
 
+**Languages**: [English](LICENSE.md) | [Español](LICENSE.es.md)
+
 **Official Link**: https://polyformproject.org/licenses/noncommercial/1.0.0/
 
 Copyright (c) 2025 Luco
@@ -54,4 +56,5 @@ legal claim.***
 ---
 
 For commercial licensing inquiries, please contact:
-👉 [oscarkortez@gmail.com]
+- 💌 Email: [oscarkortez@gmail.com](mailto:oscarkortez@gmail.com)
+- 💬 WhatsApp: [+591 77703364](https://wa.me/59177703364?text=Hi,%20I%20have%20a%20question%20about%20commercial%20licensing)
