@@ -9,6 +9,7 @@ import { DrizzleModule } from './drizzle/drizzle.module';
 
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { UserModule } from './user/user.module';
+import { HeroUserModule } from './hero-user/hero-user.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UserModule } from './user/user.module';
     DrizzleModule,
     HelloWorldModule,
     UserModule,
+    HeroUserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
