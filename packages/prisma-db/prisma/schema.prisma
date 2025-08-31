@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model contact_types {
+  contact_type_id Int        @id @default(autoincrement())
+  uuid            String     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code            String     @unique @db.VarChar(50)
+  name            String     @db.VarChar(100)
+  description     String?
+  icon_class      String?    @db.VarChar(100)
+  icon_path       String?    @db.VarChar(255)
+  color           String?    @db.VarChar(7)
+  bg_color        String?    @db.VarChar(7)
+  sort_order      Int?       @default(0)
+  deleted_at      DateTime?  @db.Timestamptz(6)
+  created_at      DateTime   @default(now()) @db.Timestamptz(6)
+  contacts        contacts[]
+
+  @@index([code], map: "idx_contact_types_code")
+  @@index([deleted_at], map: "idx_contact_types_deleted_at")
+  @@index([sort_order], map: "idx_contact_types_sort")
+  @@index([uuid], map: "idx_contact_types_uuid")
+}
+
+model contacts {
+  contact_id      Int           @id @default(autoincrement())
+  user_id         Int
+  uuid            String        @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  link            String        @db.VarChar(500)
+  contact_type_id Int
+  title           String        @db.VarChar(100)
+  icon_path       String?       @db.VarChar(255)
+  display_text    String?       @db.VarChar(255)
+  sort_order      Int           @default(0)
+  deleted_at      DateTime?     @db.Timestamptz(6)
+  created_at      DateTime      @default(now()) @db.Timestamptz(6)
+  contact_types   contact_types @relation(fields: [contact_type_id], references: [contact_type_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_contacts_contact_type")
+  users           users         @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_contacts_user")
+
+  @@index([contact_type_id], map: "idx_contacts_contact_type_id")
+  @@index([deleted_at], map: "idx_contacts_deleted_at")
+  @@index([sort_order], map: "idx_contacts_sort_order")
+  @@index([user_id], map: "idx_contacts_user_id")
+  @@index([uuid], map: "idx_contacts_uuid")
+}
+
+model devices {
+  device_id      Int              @id @default(autoincrement())
+  uuid           String           @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code           String           @unique @db.VarChar(20)
+  name           String           @db.VarChar(100)
+  description    String?
+  icon_class     String?          @db.VarChar(100)
+  icon_path      String?          @db.VarChar(255)
+  min_width      Int?
+  max_width      Int?
+  breakpoint     String?          @db.VarChar(50)
+  is_active      Boolean?         @default(true)
+  sort_order     Int?             @default(0)
+  deleted_at     DateTime?        @db.Timestamptz(6)
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  hero_greetings hero_greetings[]
+}
+
+model flyway_schema_history {
+  installed_rank Int      @id(map: "flyway_schema_history_pk")
+  version        String?  @db.VarChar(50)
+  description    String   @db.VarChar(200)
+  type           String   @db.VarChar(20)
+  script         String   @db.VarChar(1000)
+  checksum       Int?
+  installed_by   String   @db.VarChar(100)
+  installed_on   DateTime @default(now()) @db.Timestamp(6)
+  execution_time Int
+  success        Boolean
+
+  @@index([success], map: "flyway_schema_history_s_idx")
+}
+
+model hero_greetings {
+  hero_greeting_id Int       @id @default(autoincrement())
+  uuid             String    @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          Int
+  title            String
+  content          String
+  footer           String
+  language_id      Int
+  device_id        Int
+  deleted_at       DateTime? @db.Timestamp(6)
+  created_at       DateTime  @default(now()) @db.Timestamptz(6)
+  devices          devices   @relation(fields: [device_id], references: [device_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_hero_greeting_device")
+  languages        languages @relation(fields: [language_id], references: [language_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_hero_greeting_language")
+  users            users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_hero_greeting_user")
+}
+
+model languages {
+  language_id    Int              @id @default(autoincrement())
+  uuid           String           @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code           String           @unique @db.VarChar(5)
+  name           String           @db.VarChar(100)
+  native_name    String           @db.VarChar(100)
+  iso_639_1      String           @db.VarChar(2)
+  flag_emoji     String?          @db.VarChar(10)
+  flag_icon_path String?          @db.VarChar(255)
+  is_active      Boolean?         @default(true)
+  is_default     Boolean?         @default(false)
+  sort_order     Int?             @default(0)
+  deleted_at     DateTime?        @db.Timestamptz(6)
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  hero_greetings hero_greetings[]
+}
+
+model nav_links {
+  nav_link_id Int       @id @default(autoincrement())
+  user_id     Int
+  uuid        String    @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  content     String    @db.VarChar(255)
+  class_name  String?   @db.VarChar(255)
+  url         String    @default("#") @db.VarChar(70)
+  sort_order  Int       @default(0)
+  deleted_at  DateTime? @db.Timestamptz(6)
+  created_at  DateTime  @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime  @default(now()) @db.Timestamptz(6)
+  users       users     @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_nav_links_user")
+
+  @@index([created_at], map: "idx_nav_links_created_at")
+  @@index([deleted_at], map: "idx_nav_links_deleted_at")
+  @@index([sort_order], map: "idx_nav_links_sort_order")
+  @@index([uuid], map: "idx_nav_links_uuid")
+}
+
+model users {
+  user_id        Int              @id @default(autoincrement())
+  uuid           String           @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email          String           @unique @db.VarChar(100)
+  name           String           @db.VarChar(100)
+  password_hash  String
+  deleted_at     DateTime?        @db.Timestamp(6)
+  created_at     DateTime         @default(now()) @db.Timestamptz(6)
+  updated_at     DateTime         @default(now()) @db.Timestamptz(6)
+  contacts       contacts[]
+  hero_greetings hero_greetings[]
+  nav_links      nav_links[]
+}
