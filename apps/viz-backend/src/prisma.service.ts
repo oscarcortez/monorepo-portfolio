@@ -16,3 +16,5 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     return prisma;
   }
 }
+
+export { prisma };
