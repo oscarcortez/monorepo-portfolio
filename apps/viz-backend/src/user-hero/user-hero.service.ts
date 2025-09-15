@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-// import { User } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
-import { UserHeroResult } from './entities/user-hero.entity';
+import { UserPublicEntity } from '../models/user-public.entity';
 
 @Injectable()
 export class UserHeroService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(userId: number): Promise<UserHeroResult | null> {
+  async findOne(userId: number): Promise<UserPublicEntity | null> {
     return await this.prisma.user.findUnique({
       select: {
         uuid: true,
@@ -15,34 +14,45 @@ export class UserHeroService {
         email: true,
         navLinks: {
           select: {
-            navLinkId: true,
+            uuid: true,
             content: true,
+            language: true,
+            className: true,
+            url: true,
           },
+          orderBy: { sortOrder: 'asc' },
           where: {
             language: 'EN',
           },
         },
         heroGreetings: {
           select: {
-            heroGreetingId: true,
+            uuid: true,
             title: true,
             content: true,
             footer: true,
+            device: true,
           },
           where: {
             language: 'EN',
+            device: 'DESKTOP',
+            deletedAt: null,
           },
         },
         contacts: {
           select: {
-            contactId: true,
-            title: true,
+            uuid: true,
             link: true,
             type: true,
+            title: true,
+            iconPath: true,
+            displayText: true,
           },
+          orderBy: { sortOrder: 'asc' },
+          where: { deletedAt: null },
         },
       },
-      where: { userId },
+      where: { userId, deletedAt: null },
     });
   }
 }

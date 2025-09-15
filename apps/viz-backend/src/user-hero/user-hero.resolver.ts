@@ -1,16 +1,15 @@
 import { Resolver, Query, Args, Int } from '@nestjs/graphql';
 import { UserHeroService } from './user-hero.service';
-// import { GraphQLJSON } from 'graphql-type-json';
-import { UserHeroResult } from './entities/user-hero.entity';
+import { UserPublicEntity } from '../models/user-public.entity';
 
-@Resolver(() => UserHeroResult)
+@Resolver(() => UserPublicEntity)
 export class UserHeroResolver {
   constructor(private readonly userHeroService: UserHeroService) {}
 
-  @Query(() => UserHeroResult, { name: 'userHero' })
+  @Query(() => UserPublicEntity, { name: 'userHero' })
   findOne(
     @Args('userId', { type: () => Int }) userId: number,
-  ): Promise<UserHeroResult | null> {
+  ): Promise<UserPublicEntity | null> {
     return this.userHeroService.findOne(userId);
   }
 }
