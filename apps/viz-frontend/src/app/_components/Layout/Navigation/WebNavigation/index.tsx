@@ -2,24 +2,23 @@
 
 import { JSX } from 'react';
 
-import { useNavLinks, NavLink } from '@/src/app/viz/hooks/useHeroData';
+import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 
 import NavigationLink from './NavigationLink';
 
-// import { navLinks } from './constants';
-
 export default function WebNavigation(): JSX.Element {
-  // const [heroData] = useHeroData<HeroData>();
-  const [navLinks] = useNavLinks<NavLink[]>();
+  // const [navLinks] = useNavLinks<NavLink[]>();
+  const { user, loading, error } = useUserPublicData('088145ab-9f14-47ac-a3d4-0893afa92b4d');
 
+  console.log('User in WebNavigation:', user?.navLinks, loading, error);
   return (
     <div
       className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl z-10 
             bg-slate-900/10 backdrop-blur-md rounded-b-xl
               items-center justify-center gap-6 px-4 shadow-lg text-center text-balance hidden md:flex"
     >
-      {navLinks.map((link, idx) => (
-        <NavigationLink key={link.content + idx} onClick={link.onClick} className={link.className}>
+      {user?.navLinks.map((link, idx) => (
+        <NavigationLink key={link.content + idx} onClick={() => console.log('hola')} className={link.className || ''}>
           {link.content}
         </NavigationLink>
       ))}

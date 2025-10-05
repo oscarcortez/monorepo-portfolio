@@ -6,7 +6,7 @@ import { UserPublicEntity } from '../models/user-public.entity';
 export class UserHeroService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(userId: number): Promise<UserPublicEntity | null> {
+  async findOne(uuid: string): Promise<UserPublicEntity | null> {
     return await this.prisma.user.findUnique({
       select: {
         uuid: true,
@@ -52,7 +52,7 @@ export class UserHeroService {
           where: { deletedAt: null },
         },
       },
-      where: { userId, deletedAt: null },
+      where: { uuid, deletedAt: null },
     });
   }
 }

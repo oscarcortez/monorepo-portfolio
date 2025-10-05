@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Args } from '@nestjs/graphql';
 import { UserHeroService } from './user-hero.service';
 import { UserPublicEntity } from '../models/user-public.entity';
 
@@ -8,8 +8,8 @@ export class UserHeroResolver {
 
   @Query(() => UserPublicEntity, { name: 'userHero' })
   findOne(
-    @Args('userId', { type: () => Int }) userId: number,
+    @Args('userUuid', { type: () => String }) userUuid: string,
   ): Promise<UserPublicEntity | null> {
-    return this.userHeroService.findOne(userId);
+    return this.userHeroService.findOne(userUuid);
   }
 }
