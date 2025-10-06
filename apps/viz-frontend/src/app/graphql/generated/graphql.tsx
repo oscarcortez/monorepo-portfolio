@@ -20,6 +20,7 @@ export type Scalars = {
 
 export type ContactPublic = {
   __typename?: 'ContactPublic';
+  className?: Maybe<Scalars['String']['output']>;
   displayText?: Maybe<Scalars['String']['output']>;
   iconPath?: Maybe<Scalars['String']['output']>;
   link: Scalars['String']['output'];
@@ -99,7 +100,7 @@ export type UserHeroQueryVariables = Exact<{
 }>;
 
 
-export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'UserPublic', uuid: string, name: string, email: string, contacts: Array<{ __typename?: 'ContactPublic', displayText?: string | null, iconPath?: string | null, link: string, title: string, type: ContactType, uuid: string }>, heroGreetings: Array<{ __typename?: 'HeroGreetingPublic', content: string, device: DeviceType, footer: string, title: string, uuid: string }>, navLinks: Array<{ __typename?: 'NavLinkPublic', className?: string | null, content: string, language: LanguageCode, url: string, uuid: string }> } };
+export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'UserPublic', uuid: string, name: string, email: string, contacts: Array<{ __typename?: 'ContactPublic', displayText?: string | null, iconPath?: string | null, link: string, title: string, className?: string | null, type: ContactType, uuid: string }>, heroGreetings: Array<{ __typename?: 'HeroGreetingPublic', content: string, device: DeviceType, footer: string, title: string, uuid: string }>, navLinks: Array<{ __typename?: 'NavLinkPublic', className?: string | null, content: string, language: LanguageCode, url: string, uuid: string }> } };
 
 
 export const UserHeroDocument = gql`
@@ -113,6 +114,7 @@ export const UserHeroDocument = gql`
       iconPath
       link
       title
+      className
       type
       uuid
     }

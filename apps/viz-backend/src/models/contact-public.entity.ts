@@ -20,4 +20,7 @@ export class ContactPublicEntity {
 
   @Field(() => String, { nullable: true })
   displayText?: string | null;
+
+  @Field(() => String, { nullable: true })
+  className?: string | null;
 }

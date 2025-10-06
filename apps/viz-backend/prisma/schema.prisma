@@ -53,6 +53,7 @@ model Contact {
   title       String      @db.VarChar(100)
   iconPath    String?     @map("icon_path") @db.VarChar(255)
   displayText String?     @map("display_text") @db.VarChar(255)
+  className   String?     @map("class_name") @db.VarChar(255)
   sortOrder   Int         @default(0) @map("sort_order")
   deletedAt   DateTime?   @map("deleted_at") @db.Timestamptz(6)
   createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)

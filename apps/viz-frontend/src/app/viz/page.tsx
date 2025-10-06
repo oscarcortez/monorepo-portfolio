@@ -7,6 +7,7 @@ import Layout from '@/src/app/_components/Layout';
 // import { useUserHeroQuery, UserPublic } from '@/src/app/graphql/generated/graphql';
 
 import HeroSection from './(HeroSection)';
+import ContactsSection from './(ContactsSection)';
 // import UserHeroQuery
 
 export default function Page() {
@@ -17,6 +18,7 @@ export default function Page() {
   return (
     <Layout>
       <HeroSection theme="blue" />
+      <ContactsSection />
       <div className="text-center mt-10">
         <h1 className="font-bold text-4xl">Welcome to the Viz Page 123</h1>
       </div>

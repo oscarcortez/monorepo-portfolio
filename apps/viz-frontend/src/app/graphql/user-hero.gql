@@ -8,6 +8,7 @@ query UserHero($userUuid: String!) {
       iconPath
       link
       title
+      className
       type
       uuid
     }

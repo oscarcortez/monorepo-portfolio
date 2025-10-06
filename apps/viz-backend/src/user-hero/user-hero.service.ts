@@ -47,6 +47,7 @@ export class UserHeroService {
             title: true,
             iconPath: true,
             displayText: true,
+            className: true,
           },
           orderBy: { sortOrder: 'asc' },
           where: { deletedAt: null },
