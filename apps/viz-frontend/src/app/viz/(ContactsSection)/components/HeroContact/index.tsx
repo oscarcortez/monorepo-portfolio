@@ -4,6 +4,9 @@ import { useCopyToClipboard } from '@uidotdev/usehooks';
 import { useState } from 'react';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { toast } from 'sonner';
+
+import './index.css';
 
 // import GmailIcon from '@/src/svg/gmailIcon.svg';
 
@@ -23,6 +26,7 @@ export default function HeroContact(props: HeroContactProps) {
     if (props.copyValue) {
       copyToClipboard(props.copyValue);
       setIsCopied(true);
+      toast(`${props.title}: ${props.copyValue} copied`);
       setTimeout(() => setIsCopied(false), 1000);
     }
   };
@@ -30,8 +34,8 @@ export default function HeroContact(props: HeroContactProps) {
   return (
     <div
       className={clsx(
-        'relative bg-slate-800 rounded-xl shadow flex items-center justify-between group transition py-3 px-5',
-        props.className
+        'hover:ring-2 relative bg-slate-800 rounded-xl shadow flex items-center justify-between group transition py-3 px-5',
+        props.className // Las clases de la BD se aplicarán después
       )}
     >
       <div>
@@ -43,7 +47,7 @@ export default function HeroContact(props: HeroContactProps) {
             rel="noopener noreferrer"
             className="text-slate-300 group-hover:underline break-all"
           >
-            {props.displayText} kjk
+            {props.displayText}
           </a>
         ) : (
           <span className="text-slate-300 break-all">{props.displayText}</span>
@@ -61,10 +65,10 @@ export default function HeroContact(props: HeroContactProps) {
       {/* <button className="pi pi-check"></button> */}
       <button
         className={clsx(
-          'pi pi-clipboard text-slate-500 absolute bottom-2 right-2 hover:text-slate-400 active:text-slate-300 cursor-pointer transition-colors duration-200',
+          'text-slate-500 absolute bottom-2 right-2 hover:text-slate-400 active:text-slate-300 cursor-pointer transition-colors duration-200',
           {
-            'pi-check': isCopied,
-            'pi-clipboard': !isCopied,
+            'pi pi-check': isCopied,
+            'pi pi-clipboard': !isCopied,
           }
         )}
         // className="pi pi-clipboard text-slate-500 absolute bottom-2 right-2 hover:text-slate-400 active:text-slate-300 cursor-pointer transition-colors duration-200 z-20"

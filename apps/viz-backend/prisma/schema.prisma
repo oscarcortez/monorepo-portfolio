@@ -30,6 +30,12 @@ enum ContactType {
   GITHUB
   TWITTER
   INSTAGRAM
+  RESUME
+  WEBSITE
+  DISCORD
+  FACEBOOK
+  TIKTOK
+  YOUTUBE
 
   @@map("contact_type")
 }

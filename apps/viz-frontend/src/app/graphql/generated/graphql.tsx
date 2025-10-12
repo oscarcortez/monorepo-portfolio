@@ -31,12 +31,18 @@ export type ContactPublic = {
 
 /** Contact type enumeration */
 export enum ContactType {
+  Discord = 'DISCORD',
   Email = 'EMAIL',
+  Facebook = 'FACEBOOK',
   Github = 'GITHUB',
   Instagram = 'INSTAGRAM',
   Linkedin = 'LINKEDIN',
   Phone = 'PHONE',
-  Twitter = 'TWITTER'
+  Resume = 'RESUME',
+  Tiktok = 'TIKTOK',
+  Twitter = 'TWITTER',
+  Website = 'WEBSITE',
+  Youtube = 'YOUTUBE'
 }
 
 /** Device type for hero greetings */
