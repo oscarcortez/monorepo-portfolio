@@ -73,6 +73,60 @@ model Contact {
   @@map("contacts")
 }
 
+enum PaymentSourceType {
+  BANK
+  CRYPTO
+  PSP // payment service provider (MercadoPago, etc.)
+  WALLET
+  OTHER
+
+  @@map("payment_source_type")
+}
+
+model PaymentSource {
+  paymentSourceId Int               @id @default(autoincrement()) @map("payment_source_id")
+  uuid            String            @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String            @db.VarChar(100)
+  type            PaymentSourceType @default(OTHER)
+  code            String?           @db.VarChar(50)
+  logoPath        String?           @map("logo_path") @db.VarChar(255)
+  website         String?           @db.VarChar(255)
+  countryCode     String?           @map("country_code") @db.VarChar(100)
+  metadata        Json?             @map("metadata")
+  deletedAt       DateTime?         @map("deleted_at") @db.Timestamptz(6)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime?         @map("updated_at") @db.Timestamptz(6)
+  Payment         Payment[]
+
+  @@index([type], map: "idx_payment_sources_type")
+  @@index([deletedAt], map: "idx_payment_sources_deleted_at")
+  @@map("payment_sources")
+}
+
+model Payment {
+  paymentId       Int       @id @default(autoincrement()) @map("payment_id")
+  userId          Int       @map("user_id")
+  paymentSourceId Int       @map("payment_source_id")
+  uuid            String    @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  link            String?   @db.VarChar(500)
+  title           String    @db.VarChar(100)
+  displayText     String?   @map("display_text") @db.VarChar(255)
+  className       String?   @map("class_name") @db.VarChar(255)
+  isFavorite      Boolean   @default(false) @map("is_favorite")
+  sortOrder       Int       @default(0) @map("sort_order")
+  deletedAt       DateTime? @map("deleted_at") @db.Timestamptz(6)
+  createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user          User           @relation(fields: [userId], references: [userId], map: "fk_payments_user")
+  paymentSource PaymentSource? @relation(fields: [paymentSourceId], references: [paymentSourceId], map: "fk_payments_payment_source")
+
+  @@index([deletedAt], map: "idx_payments_deleted_at")
+  @@index([sortOrder], map: "idx_payments_sort_order")
+  @@index([userId], map: "idx_payments_user_id")
+  @@index([uuid], map: "idx_payments_uuid")
+  @@map("payments")
+}
+
 model HeroGreeting {
   heroGreetingId Int          @id @default(autoincrement()) @map("hero_greeting_id")
   uuid           String       @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
@@ -121,6 +175,7 @@ model User {
   contacts      Contact[]
   heroGreetings HeroGreeting[]
   navLinks      NavLink[]
+  payments      Payment[]      @relation(map: "fk_payments_user")
 
   @@map("users")
 }

@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
+import { Contact } from '@/src/app/graphql/generated/graphql';
 
 import HeroContact from './components/HeroContact';
 
@@ -25,7 +26,7 @@ export default function HeroSection() {
             Reach out for collaboration, questions, or just to say hello!
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {contacts.map((contact) => (
+            {contacts.map((contact: Contact) => (
               <HeroContact
                 key={contact.uuid}
                 title={contact.title}

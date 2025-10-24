@@ -1,15 +1,15 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { UserHeroService } from './user-hero.service';
-import { UserPublicEntity } from '../models/user-public.entity';
+import { User } from '../prisma-generate/user/user.model';
 
-@Resolver(() => UserPublicEntity)
+@Resolver(() => User)
 export class UserHeroResolver {
   constructor(private readonly userHeroService: UserHeroService) {}
 
-  @Query(() => UserPublicEntity, { name: 'userHero' })
+  @Query(() => User, { name: 'userHero' })
   findOne(
     @Args('userUuid', { type: () => String }) userUuid: string,
-  ): Promise<UserPublicEntity | null> {
+  ): Promise<User | null> {
     return this.userHeroService.findOne(userUuid);
   }
 }

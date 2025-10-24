@@ -1,23 +1,30 @@
 'use client';
 
 import { useWindowSize } from '@uidotdev/usehooks';
+// import { unstable_Activity, Activity } from 'react';
 
 import Layout from '@/src/app/_components/Layout';
-import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
+
+// import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 
 import HeroSection from '../(HeroSection)';
 import ContactsSection from '../(ContactsSection)';
+import PaymentsSection from '../(PaymentsSection)';
 
 export default function Page() {
   const size = useWindowSize();
-  const { loading } = useUserPublicData('088145ab-9f14-47ac-a3d4-0893afa92b4d');
+  // const { loading } = useUserPublicData('088145ab-9f14-47ac-a3d4-0893afa92b4d');
+
+  if (size === undefined) {
+    return <div className="bg-slate-800 h-screen w-full flex items-center justify-center">Loading...</div>;
+  }
 
   return (
-    size?.height &&
-    loading && (
+    size?.height && (
       <Layout>
         <HeroSection theme="blue" />
         <ContactsSection />
+        <PaymentsSection />
         <div className="text-center mt-10">
           <h1 className="font-bold text-4xl">Welcome to the Viz Page 345</h1>
         </div>

@@ -8,9 +8,9 @@ query UserHero($userUuid: String!) {
       iconPath
       link
       title
-      className
       type
       uuid
+      className
     }
     heroGreetings {
       content
@@ -25,6 +25,17 @@ query UserHero($userUuid: String!) {
       language
       url
       uuid
+    }
+    payments {
+      displayText
+      isFavorite
+      link
+      title
+      paymentSource {
+        logoPath
+        website
+        name
+      }
     }
   }
 }

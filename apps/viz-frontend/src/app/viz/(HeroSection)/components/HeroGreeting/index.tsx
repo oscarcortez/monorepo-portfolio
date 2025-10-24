@@ -4,14 +4,14 @@ import { JSX } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
+import { HeroGreeting as Greeting } from '@/src/app/graphql/generated/graphql';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HeroGreeting(): JSX.Element {
   const searchParams = useSearchParams();
   const userUuid = searchParams.get('userUuid') || '088145ab-9f14-47ac-a3d4-0893afa92b4d';
   const { user, loading } = useUserPublicData(userUuid);
-  const [heroGreeting] = user?.heroGreetings ?? [];
-
+  const [heroGreeting] = (user?.heroGreetings ?? []) as Greeting[];
   return (
     <div className="mx-20 p-4 bg-slate-900 rounded-xl shadow-lg">
       <h1 className="text-gray-800 dark:text-gray-400 mb-5 space-y-6">

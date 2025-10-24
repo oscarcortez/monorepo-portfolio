@@ -1,38 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { UserPublicEntity } from '../models/user-public.entity';
+import { User } from '../prisma-generate/user/user.model';
 
 @Injectable()
 export class UserHeroService {
   constructor(private prisma: PrismaService) {}
 
-  async findOne(uuid: string): Promise<UserPublicEntity | null> {
+  async findOne(uuid: string): Promise<User | null> {
     return await this.prisma.user.findUnique({
-      select: {
-        uuid: true,
-        name: true,
-        email: true,
+      where: { uuid, deletedAt: null },
+      include: {
         navLinks: {
-          select: {
-            uuid: true,
-            content: true,
-            language: true,
-            className: true,
-            url: true,
-          },
+          where: { language: 'EN' },
           orderBy: { sortOrder: 'asc' },
-          where: {
-            language: 'EN',
-          },
         },
         heroGreetings: {
-          select: {
-            uuid: true,
-            title: true,
-            content: true,
-            footer: true,
-            device: true,
-          },
           where: {
             language: 'EN',
             device: 'DESKTOP',
@@ -40,20 +22,19 @@ export class UserHeroService {
           },
         },
         contacts: {
-          select: {
-            uuid: true,
-            link: true,
-            type: true,
-            title: true,
-            iconPath: true,
-            displayText: true,
-            className: true,
-          },
-          orderBy: { sortOrder: 'asc' },
           where: { deletedAt: null },
+          orderBy: { sortOrder: 'asc' },
+        },
+        payments: {
+          where: { deletedAt: null },
+          orderBy: { sortOrder: 'asc' },
+          include: {
+            paymentSource: {
+              where: { deletedAt: null },
+            },
+          },
         },
       },
-      where: { uuid, deletedAt: null },
     });
   }
 }

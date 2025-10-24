@@ -1,5 +1,10 @@
 import { registerEnumType } from '@nestjs/graphql';
-import { ContactType, DeviceType, LanguageCode } from '@prisma/client';
+import {
+  ContactType,
+  DeviceType,
+  LanguageCode,
+  PaymentSourceType,
+} from '@prisma/client';
 
 registerEnumType(DeviceType, {
   name: 'DeviceType',
@@ -16,5 +21,9 @@ registerEnumType(LanguageCode, {
   description: 'Language code enumeration',
 });
 
+registerEnumType(PaymentSourceType, {
+  name: 'PaymentSourceType',
+  description: 'Payment source type enumeration',
+});
 // Export the enums for use in other files
-export { DeviceType, ContactType, LanguageCode };
+export { DeviceType, ContactType, LanguageCode, PaymentSourceType };

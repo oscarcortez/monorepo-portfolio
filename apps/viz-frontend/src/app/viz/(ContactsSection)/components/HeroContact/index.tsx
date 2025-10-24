@@ -8,8 +8,6 @@ import { toast } from 'sonner';
 
 import './index.css';
 
-// import GmailIcon from '@/src/svg/gmailIcon.svg';
-
 type HeroContactProps = {
   title: string;
   displayText: string;
@@ -34,7 +32,7 @@ export default function HeroContact(props: HeroContactProps) {
   return (
     <div
       className={clsx(
-        'hover:ring-2 relative bg-slate-800 rounded-xl shadow flex items-center justify-between group transition py-3 px-5',
+        'relative bg-slate-800 rounded-xl shadow flex items-center justify-between group transition py-3 px-5',
         props.className // Las clases de la BD se aplicarán después
       )}
     >

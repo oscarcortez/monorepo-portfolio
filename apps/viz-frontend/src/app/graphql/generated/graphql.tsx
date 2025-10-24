@@ -16,20 +16,27 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  DateTime: { input: any; output: any; }
+  JSON: { input: any; output: any; }
 };
 
-export type ContactPublic = {
-  __typename?: 'ContactPublic';
+export type Contact = {
+  __typename?: 'Contact';
   className?: Maybe<Scalars['String']['output']>;
+  contactId: Scalars['ID']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
   displayText?: Maybe<Scalars['String']['output']>;
   iconPath?: Maybe<Scalars['String']['output']>;
   link: Scalars['String']['output'];
+  sortOrder: Scalars['Int']['output'];
   title: Scalars['String']['output'];
   type: ContactType;
+  user: User;
+  userId: Scalars['Int']['output'];
   uuid: Scalars['String']['output'];
 };
 
-/** Contact type enumeration */
 export enum ContactType {
   Discord = 'DISCORD',
   Email = 'EMAIL',
@@ -45,7 +52,6 @@ export enum ContactType {
   Youtube = 'YOUTUBE'
 }
 
-/** Device type for hero greetings */
 export enum DeviceType {
   Desktop = 'DESKTOP',
   Mobile = 'MOBILE',
@@ -54,16 +60,21 @@ export enum DeviceType {
   Tv = 'TV'
 }
 
-export type HeroGreetingPublic = {
-  __typename?: 'HeroGreetingPublic';
+export type HeroGreeting = {
+  __typename?: 'HeroGreeting';
   content: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
   device: DeviceType;
   footer: Scalars['String']['output'];
+  heroGreetingId: Scalars['ID']['output'];
+  language: LanguageCode;
   title: Scalars['String']['output'];
+  user: User;
+  userId: Scalars['Int']['output'];
   uuid: Scalars['String']['output'];
 };
 
-/** Language code enumeration */
 export enum LanguageCode {
   En = 'EN',
   Es = 'ES',
@@ -71,19 +82,75 @@ export enum LanguageCode {
   Pt = 'PT'
 }
 
-export type NavLinkPublic = {
-  __typename?: 'NavLinkPublic';
+export type NavLink = {
+  __typename?: 'NavLink';
   className?: Maybe<Scalars['String']['output']>;
   content: Scalars['String']['output'];
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
   language: LanguageCode;
+  navLinkId: Scalars['ID']['output'];
+  sortOrder: Scalars['Int']['output'];
+  updatedAt: Scalars['DateTime']['output'];
   url: Scalars['String']['output'];
+  user: User;
+  userId: Scalars['Int']['output'];
   uuid: Scalars['String']['output'];
 };
+
+export type Payment = {
+  __typename?: 'Payment';
+  className?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  displayText?: Maybe<Scalars['String']['output']>;
+  isFavorite: Scalars['Boolean']['output'];
+  link?: Maybe<Scalars['String']['output']>;
+  paymentId: Scalars['ID']['output'];
+  paymentSource?: Maybe<PaymentSource>;
+  paymentSourceId: Scalars['Int']['output'];
+  sortOrder: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+  user: User;
+  userId: Scalars['Int']['output'];
+  uuid: Scalars['String']['output'];
+};
+
+export type PaymentSource = {
+  __typename?: 'PaymentSource';
+  Payment?: Maybe<Array<Payment>>;
+  _count: PaymentSourceCount;
+  code?: Maybe<Scalars['String']['output']>;
+  countryCode?: Maybe<Scalars['String']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
+  logoPath?: Maybe<Scalars['String']['output']>;
+  metadata?: Maybe<Scalars['JSON']['output']>;
+  name: Scalars['String']['output'];
+  paymentSourceId: Scalars['ID']['output'];
+  type: PaymentSourceType;
+  updatedAt?: Maybe<Scalars['DateTime']['output']>;
+  uuid: Scalars['String']['output'];
+  website?: Maybe<Scalars['String']['output']>;
+};
+
+export type PaymentSourceCount = {
+  __typename?: 'PaymentSourceCount';
+  Payment: Scalars['Int']['output'];
+};
+
+export enum PaymentSourceType {
+  Bank = 'BANK',
+  Crypto = 'CRYPTO',
+  Other = 'OTHER',
+  Psp = 'PSP',
+  Wallet = 'WALLET'
+}
 
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String']['output'];
-  userHero: UserPublic;
+  userHero: User;
 };
 
 
@@ -91,14 +158,29 @@ export type QueryUserHeroArgs = {
   userUuid: Scalars['String']['input'];
 };
 
-export type UserPublic = {
-  __typename?: 'UserPublic';
-  contacts: Array<ContactPublic>;
+export type User = {
+  __typename?: 'User';
+  _count: UserCount;
+  contacts?: Maybe<Array<Contact>>;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt?: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
-  heroGreetings: Array<HeroGreetingPublic>;
+  heroGreetings?: Maybe<Array<HeroGreeting>>;
   name: Scalars['String']['output'];
-  navLinks: Array<NavLinkPublic>;
+  navLinks?: Maybe<Array<NavLink>>;
+  passwordHash: Scalars['String']['output'];
+  payments?: Maybe<Array<Payment>>;
+  updatedAt: Scalars['DateTime']['output'];
+  userId: Scalars['ID']['output'];
   uuid: Scalars['String']['output'];
+};
+
+export type UserCount = {
+  __typename?: 'UserCount';
+  contacts: Scalars['Int']['output'];
+  heroGreetings: Scalars['Int']['output'];
+  navLinks: Scalars['Int']['output'];
+  payments: Scalars['Int']['output'];
 };
 
 export type UserHeroQueryVariables = Exact<{
@@ -106,7 +188,7 @@ export type UserHeroQueryVariables = Exact<{
 }>;
 
 
-export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'UserPublic', uuid: string, name: string, email: string, contacts: Array<{ __typename?: 'ContactPublic', displayText?: string | null, iconPath?: string | null, link: string, title: string, className?: string | null, type: ContactType, uuid: string }>, heroGreetings: Array<{ __typename?: 'HeroGreetingPublic', content: string, device: DeviceType, footer: string, title: string, uuid: string }>, navLinks: Array<{ __typename?: 'NavLinkPublic', className?: string | null, content: string, language: LanguageCode, url: string, uuid: string }> } };
+export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, name: string, email: string, contacts?: Array<{ __typename?: 'Contact', displayText?: string | null, iconPath?: string | null, link: string, title: string, type: ContactType, uuid: string, className?: string | null }> | null, heroGreetings?: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks?: Array<{ __typename?: 'NavLink', className?: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments?: Array<{ __typename?: 'Payment', displayText?: string | null, isFavorite: boolean, link?: string | null, title: string, paymentSource?: { __typename?: 'PaymentSource', logoPath?: string | null, website?: string | null, name: string } | null }> | null } };
 
 
 export const UserHeroDocument = gql`
@@ -120,9 +202,9 @@ export const UserHeroDocument = gql`
       iconPath
       link
       title
-      className
       type
       uuid
+      className
     }
     heroGreetings {
       content
@@ -137,6 +219,17 @@ export const UserHeroDocument = gql`
       language
       url
       uuid
+    }
+    payments {
+      displayText
+      isFavorite
+      link
+      title
+      paymentSource {
+        logoPath
+        website
+        name
+      }
     }
   }
 }
