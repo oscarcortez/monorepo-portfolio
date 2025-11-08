@@ -63,4 +63,7 @@ export default [
       'prettier/prettier': ['error', { endOfLine: 'auto' }],
     },
   },
+  {
+    ignores: ['src/app/graphql/generated/**'],
+  },
 ];

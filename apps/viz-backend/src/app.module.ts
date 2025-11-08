@@ -5,10 +5,9 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
-import { DrizzleModule } from './drizzle/drizzle.module';
 
 import { HelloWorldModule } from './hello-world/hello-world.module';
-import { UserModule } from './user/user.module';
+import { UserHeroModule } from './user-hero/user-hero.module';
 
 @Module({
   imports: [
@@ -19,9 +18,8 @@ import { UserModule } from './user/user.module';
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
     }),
-    DrizzleModule,
     HelloWorldModule,
-    UserModule,
+    UserHeroModule,
   ],
   controllers: [AppController],
   providers: [AppService],

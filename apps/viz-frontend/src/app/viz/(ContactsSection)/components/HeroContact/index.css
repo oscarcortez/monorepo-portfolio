@@ -1,0 +1,29 @@
+.google-gradient-border {
+  position: relative;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.google-gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  background: linear-gradient(90deg, #ff6f61, #ffe082, #7ee587, #7ab8ff); /* colores tenues */
+  border-radius: 8px;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.google-gradient-border:hover::before {
+  opacity: 1;
+}
