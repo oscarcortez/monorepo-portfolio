@@ -10,6 +10,7 @@ import Layout from '@/src/app/_components/Layout';
 import HeroSection from '../(HeroSection)';
 import ContactsSection from '../(ContactsSection)';
 import PaymentsSection from '../(PaymentsSection)';
+import SkillsSection from '../(SkillsSection)';
 
 export default function Page() {
   const size = useWindowSize();
@@ -25,8 +26,9 @@ export default function Page() {
         <HeroSection theme="blue" />
         <ContactsSection />
         <PaymentsSection />
+        <SkillsSection />
         <div className="text-center mt-10">
-          <h1 className="font-bold text-4xl">Welcome to the Viz Page 345</h1>
+          <h1 className="font-bold text-4xl">Welcome to the Viz Page 347</h1>
         </div>
       </Layout>
     )
