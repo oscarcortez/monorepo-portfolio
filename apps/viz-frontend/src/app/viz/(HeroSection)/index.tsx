@@ -5,12 +5,11 @@ import { useEffect } from 'react';
 import dynamic from 'next/dynamic';
 
 import HeroLogo from './components/HeroLogo';
-// import HeroGreeting from './components/HeroGreeting';
 import { HeroSectionProps } from './types';
 
 const HeroGreeting = dynamic(() => import('./components/HeroGreeting'), {
   ssr: false,
-  loading: () => <div className="mx-20 p-4 bg-slate-900 rounded-xl shadow-lg h-32 animate-pulse" />,
+  loading: () => <div className="mx-20 p-4 bg-slate-900 rounded-xl shadow-lg h-64 animate-pulse" />,
 });
 
 export default function HeroSection({ theme }: HeroSectionProps) {

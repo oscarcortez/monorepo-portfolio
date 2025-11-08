@@ -1,0 +1,21 @@
+import type { CodegenConfig } from '@graphql-codegen/cli';
+
+const config: CodegenConfig = {
+  overwrite: true,
+  schema: 'http://localhost:3001/graphql', // 👈 tu endpoint GraphQL del backend NestJS
+  documents: ['src/app/graphql/**/*.gql', 'src/app/graphql/**/*.graphql'],
+  generates: {
+    'src/app/graphql/generated/graphql.tsx': {
+      plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+      config: {
+        withHooks: true, // genera useQuery / useLazyQuery
+        withHOC: false, // no genera HOCs
+        withComponent: false, // no genera components
+        reactApolloVersion: 3, // 👈 necesario para Apollo Client 4
+        apolloReactHooksImportFrom: '@apollo/client',
+      },
+    },
+  },
+};
+
+export default config;
