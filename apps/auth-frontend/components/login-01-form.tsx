@@ -1,5 +1,6 @@
 'use client';
 
+import { gql } from '@apollo/client';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,6 +10,15 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { useMutation } from '@apollo/client/react';
+
+const SIGNIN_MUTATION = gql`
+  mutation signIn($email: String!, $password: String!) {
+    signIn(email: $email, password: $password) {
+      access_token
+    }
+  }
+`;
 
 const loginSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
@@ -23,12 +33,25 @@ export function LoginForm({
   description,
   ...props
 }: React.ComponentProps<'div'> & { title: string; description: string }) {
+  const [signIn] = useMutation(SIGNIN_MUTATION);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (values: LoginFormValues) => {
-    console.log(values);
+  const onSubmit = async (values: LoginFormValues) => {
+    console.log({ values });
+    try {
+      const result = await signIn({
+        variables: {
+          email: values.email,
+          password: values.password,
+        },
+      });
+
+      console.log('Access token:', result.data);
+    } catch (err) {
+      console.error('Error signing in:', err);
+    }
   };
 
   return (
