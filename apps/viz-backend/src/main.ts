@@ -1,13 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // ✅ Register cookie-parser FIRST, before any other middleware
+  app.use(cookieParser());
+
+  // Then CORS
   app.enableCors({
     origin: '*',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   });
-  await app.listen(process.env.PORT ?? 3001);
+
+  const port = process.env.PORT ?? 3001;
+  await app.listen(port);
+  console.log(`✅ Server running on http://localhost:${port}`);
 }
-void bootstrap();
+
+bootstrap().catch((err) => {
+  console.error('❌ Bootstrap error:', err);
+  process.exit(1);
+});

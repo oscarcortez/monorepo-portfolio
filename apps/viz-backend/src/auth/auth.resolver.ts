@@ -13,6 +13,7 @@ import { UseGuards } from '@nestjs/common';
 // import { User } from '../generated/prisma-graphql/user/user.model';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Public } from './public.decorator';
+import type { Response } from 'express';
 
 type JwtPayload = {
   sub?: number;
@@ -35,8 +36,18 @@ export class AuthResolver {
   async signIn(
     @Args('email') email: string,
     @Args('password') password: string,
+    @Context() context: { res: Response },
   ): Promise<AuthResponse> {
-    return await this.authService.signIn(email, password);
+    const result = await this.authService.signIn(email, password);
+
+    context.res.cookie('auth_token', result.access_token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    return { access_token: result.access_token };
   }
 
   @UseGuards(AuthGuard)

@@ -9,6 +9,9 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@apollo/client/react';
 import { SubmitHandler } from 'react-hook-form';
 import { FieldMeta } from '@/types/field-meta';
+// SignInMutation
+import type { SignInMutation } from '../graphql/generated/graphql-types';
+import { useRouter } from 'next/navigation';
 
 const loginSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
@@ -23,12 +26,13 @@ const formFields: FieldMeta<LoginFormValues>[] = [
 ];
 
 const actions = {
-  submitLabel: 'Login33',
+  submitLabel: 'Login',
   googleLabel: 'Login with Google',
 };
 
 export default function Page() {
-  const [signIn] = useMutation(SIGNIN_MUTATION);
+  const router = useRouter();
+  const [signIn, { loading, error, data }] = useMutation<SignInMutation>(SIGNIN_MUTATION);
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
@@ -43,7 +47,15 @@ export default function Page() {
         },
       });
 
-      console.log('Access token:', result.data);
+      console.log('Access token:', result.data?.signIn.access_token);
+      if (result.data?.signIn.access_token) {
+        // Store token in localStorage
+        localStorage.setItem('auth_token', result.data.signIn.access_token);
+        localStorage.setItem('user_email', values.email);
+        // Redirect to dashboard
+        // window.location.href = 'http://localhost:3020/dashboard';
+        router.push('http://localhost:3020/dashboard');
+      }
     } catch (err) {
       console.error('Error signing in:', err);
     }
@@ -60,6 +72,7 @@ export default function Page() {
           formFields={formFields}
           submitLabel={actions.submitLabel}
           googleLabel={actions.googleLabel}
+          isLoading={loading}
         />
       </div>
     </div>
