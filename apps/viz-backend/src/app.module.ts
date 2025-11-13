@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
@@ -10,17 +10,20 @@ import { UserHeroModule } from './user-hero/user-hero.module';
 
 @Module({
   imports: [
+    forwardRef(() => AuthModule),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
-      context: ({ req }: { req: Request }) => ({ req }),
+      context: ({ req, res }: { req: Request; res: Response }) => ({
+        req,
+        res,
+      }),
     }),
     HelloWorldModule,
     UserHeroModule,
-    AuthModule,
   ],
   controllers: [],
   providers: [],
