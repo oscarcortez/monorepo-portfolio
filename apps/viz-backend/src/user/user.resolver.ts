@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 // import { UserWhereInput } from '../prisma-generate/user/user-where.input';
 import { User } from '../prisma-generate/user/user.model';
 import { UserCreateInput } from '../prisma-generate/user/user-create.input';
+import { Public } from '../auth/public.decorator';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -33,6 +34,7 @@ export class UserResolver {
   //   });
   // }
 
+  @Public()
   @Mutation(() => User)
   async createUser(
     @Args('data', { type: () => UserCreateInput }) data: UserCreateInput,

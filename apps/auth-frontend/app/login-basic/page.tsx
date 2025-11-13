@@ -4,18 +4,11 @@ import { LoginBasicForm } from '@/components/login-basic-form';
 import { SIGNIN_MUTATION } from './graphql';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Path, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 // import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { useMutation } from '@apollo/client/react';
 import { SubmitHandler } from 'react-hook-form';
-
-type FieldMeta<T> = {
-  name: Path<T>;
-  label: string;
-  placeholder?: string;
-  type?: string;
-  description?: string;
-};
+import { FieldMeta } from '@/types/field-meta';
 
 const loginSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
