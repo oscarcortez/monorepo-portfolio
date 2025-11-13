@@ -3,3 +3,10 @@ mutation signIn($email: String!, $password: String!) {
     access_token
   }
 }
+
+mutation createUser($data: UserCreateInput!) {
+  createUser(data: $data) {
+    uuid
+    createdAt
+  }
+}

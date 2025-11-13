@@ -892,3 +892,10 @@ export type SignInMutationVariables = Exact<{
 
 
 export type SignInMutation = { __typename?: 'Mutation', signIn: { __typename?: 'AuthResponse', access_token: string } };
+
+export type CreateUserMutationVariables = Exact<{
+  data: UserCreateInput;
+}>;
+
+
+export type CreateUserMutation = { __typename?: 'Mutation', createUser: { __typename?: 'User', uuid: string, createdAt: any } };
