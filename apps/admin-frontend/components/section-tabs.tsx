@@ -8,13 +8,19 @@ import { ButtonGroup } from '@/components/ui/button-group';
 export interface NavButtonConfig {
   label: string;
   href: string;
-  icon: LucideIcon;
+  icon?: LucideIcon;
 }
 
 interface SectionTabsProps {
   backHref: string;
   buttons: NavButtonConfig[];
 }
+
+const defaultIcons: Record<string, LucideIcon> = {
+  new: PlusIcon,
+  preview: ScanEyeIcon,
+  list: TableOfContentsIcon,
+};
 
 export function SectionTabs({ backHref, buttons }: SectionTabsProps) {
   return (
@@ -29,7 +35,7 @@ export function SectionTabs({ backHref, buttons }: SectionTabsProps) {
 
       <ButtonGroup>
         {buttons.map((button) => {
-          const Icon = button.icon;
+          const Icon = button.icon || defaultIcons[button.label.toLowerCase()] || PlusIcon;
           return (
             <Button key={button.label.toLowerCase()} variant="outline" asChild>
               <Link href={button.href}>
