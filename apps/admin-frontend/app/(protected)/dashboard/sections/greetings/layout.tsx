@@ -1,30 +1,25 @@
 'use client';
 
 import type { BreadcrumbItem } from '@/stores/breadcrumb-store';
-import { ArrowLeftIcon, PlusIcon, ScanEyeIcon, TableOfContentsIcon } from 'lucide-react';
+import { PlusIcon, ScanEyeIcon, TableOfContentsIcon } from 'lucide-react';
 
-import Link from 'next/link';
 import { useBreadcrumb } from '@/hooks/use-breadcrumb';
-import { Button } from '@/components/ui/button';
-import { ButtonGroup } from '@/components/ui/button-group';
 import { SectionTabs, NavButtonConfig } from '@/components/section-tabs';
 
 export default function GreetingsLayout({ children }: { children: React.ReactNode }) {
-  useBreadcrumb([
-    { label: 'Dashboard', href: '/dashboard' },
-    { label: 'Sections', href: '/dashboard/sections' },
-    { label: 'Greetings' },
-  ] as BreadcrumbItem[]);
-
+  // useBreadcrumb([
+  //   { label: 'Dashboard2', href: '/dashboard' },
+  //   { label: 'Sections2', href: '/dashboard/sections' },
+  //   { label: 'Greetings2', href: '/dashboard/sections/greetings' },
+  // ] as BreadcrumbItem[]);
   const backHref = '/dashboard/sections/greetings';
   const tabs: NavButtonConfig[] = [
     {
       label: 'List',
-      href: '/dashboard/sections/greetings/list',
-      icon: TableOfContentsIcon,
+      href: `${backHref}/list`,
     },
-    { label: 'New', href: '/dashboard/sections/greetings/new', icon: PlusIcon },
-    { label: 'Preview', href: '/dashboard/sections/greetings/preview', icon: ScanEyeIcon },
+    { label: 'New', href: `${backHref}/new` },
+    { label: 'Preview', href: `${backHref}/preview` },
   ];
 
   return (
