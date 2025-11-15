@@ -1,9 +1,9 @@
 schema: 'http://localhost:3001/graphql'
 documents:
-  - 'src/app/graphql/**/*.gql'
-  - 'src/app/graphql/**/*.graphql'
+  - 'app/graphql/**/*.gql'
+  - 'app/graphql/**/*.graphql'
 generates:
-  src/app/graphql/generated/graphql-types.ts:
+  app/graphql/generated/graphql-types.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'

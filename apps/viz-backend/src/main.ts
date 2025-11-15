@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import cookieParser from 'cookie-parser';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  const logger = new Logger('NestApplication');
   // ✅ Register cookie-parser FIRST, before any other middleware
   app.use(cookieParser());
 
@@ -18,7 +19,7 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3001;
   await app.listen(port);
-  console.log(`✅ Server running on http://localhost:${port}`);
+  logger.log(`Server running on http://localhost:${port}`);
 }
 
 bootstrap().catch((err) => {
