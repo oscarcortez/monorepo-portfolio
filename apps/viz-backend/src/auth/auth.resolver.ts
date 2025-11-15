@@ -27,6 +27,15 @@ export class AuthResponse {
   access_token!: string;
 }
 
+@ObjectType()
+export class LogoutResponse {
+  @Field()
+  success!: boolean;
+
+  @Field()
+  message!: string;
+}
+
 @Resolver()
 export class AuthResolver {
   constructor(private authService: AuthService) {}
@@ -40,6 +49,7 @@ export class AuthResolver {
   ): Promise<AuthResponse> {
     const result = await this.authService.signIn(email, password);
 
+    console.log(result.access_token);
     context.res.cookie('auth_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
@@ -48,6 +58,27 @@ export class AuthResolver {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return { access_token: result.access_token };
+  }
+
+  @Mutation(() => LogoutResponse, { name: 'logout' })
+  logout(@Context() context: { res: Response }): LogoutResponse {
+    // Limpia la cookie HTTP-only
+    context.res.clearCookie('auth_token', {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'lax',
+    });
+
+    // TODO: Opcional — invalida el token en base de datos
+    // this.authService.invalidateToken(user.id);
+
+    // Logging para auditoría
+    console.log('🔓 User logged out at', new Date().toISOString());
+
+    return {
+      success: true,
+      message: 'Logged out successfully',
+    };
   }
 
   @UseGuards(AuthGuard)

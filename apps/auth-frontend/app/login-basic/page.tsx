@@ -54,7 +54,7 @@ export default function Page() {
         localStorage.setItem('user_email', values.email);
         // Redirect to dashboard
         // window.location.href = 'http://localhost:3020/dashboard';
-        router.push('http://localhost:3020/dashboard');
+        router.push(`http://localhost:3020/auth/callback?auth_token=${result.data.signIn.access_token}`);
       }
     } catch (err) {
       console.error('Error signing in:', err);
