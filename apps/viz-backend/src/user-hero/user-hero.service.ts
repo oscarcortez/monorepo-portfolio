@@ -29,9 +29,7 @@ export class UserHeroService {
           where: { deletedAt: null },
           orderBy: { sortOrder: 'asc' },
           include: {
-            paymentSource: {
-              where: { deletedAt: null },
-            },
+            paymentSource: true,
           },
         },
       },
