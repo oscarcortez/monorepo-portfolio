@@ -10,6 +10,7 @@ import { UserHeroModule } from './user-hero/user-hero.module';
 import { TemplateModule } from './template/template.module';
 import { DeeplModule } from './deepl/deepl.module';
 import { ConfigModule } from '@nestjs/config';
+import { WasenderModule } from './wasender/wasender.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ConfigModule } from '@nestjs/config';
     UserHeroModule,
     TemplateModule,
     DeeplModule,
+    WasenderModule,
   ],
   controllers: [],
   providers: [],
