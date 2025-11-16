@@ -8,9 +8,12 @@ import { join } from 'path';
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { UserHeroModule } from './user-hero/user-hero.module';
 import { TemplateModule } from './template/template.module';
+import { DeeplModule } from './deepl/deepl.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     forwardRef(() => AuthModule),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -26,6 +29,7 @@ import { TemplateModule } from './template/template.module';
     HelloWorldModule,
     UserHeroModule,
     TemplateModule,
+    DeeplModule,
   ],
   controllers: [],
   providers: [],
