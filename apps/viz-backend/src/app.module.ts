@@ -7,6 +7,7 @@ import { join } from 'path';
 
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { UserHeroModule } from './user-hero/user-hero.module';
+import { TemplateModule } from './template/template.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { UserHeroModule } from './user-hero/user-hero.module';
     }),
     HelloWorldModule,
     UserHeroModule,
+    TemplateModule,
   ],
   controllers: [],
   providers: [],

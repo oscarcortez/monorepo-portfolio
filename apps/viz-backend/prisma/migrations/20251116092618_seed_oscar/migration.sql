@@ -1,3 +1,51 @@
+INSERT INTO
+  "public"."payment_sources" (
+    "name",
+    "type",
+    "code",
+    "logo_path",
+    "website",
+    "country_code",
+    "metadata"
+  )
+VALUES
+  (
+    'Banco Económico',
+    'BANK',
+    'BE',
+    '/svg/banco-economico.svg',
+    'https://www.bancoeconomico.com.bo',
+    'BO',
+    '{"swift":"BECBBOB0"}'
+  ),
+  (
+    'BNB',
+    'CRYPTO',
+    'BNB',
+    '/svg/bnb.svg',
+    'https://www.bnb.com.bo/',
+    'BO',
+    '{"network":"bnb","example_address":"bnb1..."}'
+  ),
+  (
+    'Binance',
+    'CRYPTO',
+    'BINANCE',
+    '/svg/binance.svg',
+    'https://www.binance.com',
+    NULL,
+    '{"exchange": true, "supports_deposits": true}'
+  ),
+  (
+    'Meru PSP',
+    'PSP',
+    'MERU',
+    '/svg/meru.svg',
+    'https://www.meru.com',
+    'BO',
+    '{"provider":"Meru","notes":"local PSP"}'
+  );
+
 WITH
   user_insert AS (
     INSERT INTO
@@ -365,3 +413,46 @@ WITH
   )
 SELECT
   1 as migration_complete;
+
+INSERT INTO
+  "public"."payments" (
+    user_id,
+    title,
+    display_text,
+    link,
+    class_name,
+    is_favorite,
+    sort_order,
+    payment_source_id
+  )
+VALUES
+  (
+    1,
+    'BNB',
+    'Pagos Varios',
+    'https://www.bnb.com.bo/',
+    'bg-slate-700',
+    FALSE,
+    2,
+    1
+  ),
+  (
+    1,
+    'Banco Economico',
+    'Pagos Varios',
+    'https://www.bcp.com.bo/',
+    'bg-slate-800',
+    TRUE,
+    1,
+    2
+  ),
+  (
+    1,
+    'Binance',
+    'Pagos Varios',
+    'https://www.binance.com/',
+    'bg-slate-800',
+    FALSE,
+    3,
+    3
+  );

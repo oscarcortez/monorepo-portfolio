@@ -49,13 +49,97 @@ enum LanguageCode {
   @@map("language_code")
 }
 
+enum HeroGreetingStatus {
+  DRAFT
+  PREVIEW
+  PUBLISHED
+  ARCHIVED
+
+  @@map("hero_greeting_status")
+}
+
+enum TemplateType {
+  BASIC
+  PROFESSIONAL
+  CREATIVE
+  MODERN
+  MINIMALIST
+
+  @@map("template_type")
+}
+
+enum Status {
+  DRAFT
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+  PREVIEW
+  PUBLISHED
+
+  @@map("status")
+}
+
+enum Section {
+  HERO_GREETING
+  ABOUT
+  CONTACTS
+  PORTFOLIO
+  TESTIMONIALS
+  BLOG
+  SERVICES
+  PRICING
+  FAQ
+  FOOTER
+  PAYMENTS
+
+  @@map("sections")
+}
+
 // ========================= MODELS =========================
+
+model Template {
+  templateId   Int          @id @default(autoincrement()) @map("template_id")
+  userId       Int          @map("user_id")
+  uuid         String       @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name         String       @db.VarChar(100)
+  type         TemplateType @map("type")
+  previewImage String?      @map("preview_image") @db.VarChar(255)
+  description  String?      @db.VarChar(500)
+  status       Status       @map("status")
+  themeColor   String?      @map("theme_color") @db.VarChar(30)
+  deletedAt    DateTime?    @map("deleted_at") @db.Timestamptz(6)
+  createdAt    DateTime     @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user             User              @relation(fields: [userId], references: [userId], map: "fk_templates_user")
+  templateSections TemplateSection[]
+
+  @@index([type], map: "idx_templates_type")
+  @@index([deletedAt], map: "idx_templates_deleted_at")
+  @@map("templates")
+}
+
+model TemplateSection {
+  templateSectionId Int      @id @default(autoincrement()) @map("template_section_id")
+  templateId        Int      @map("template_id")
+  uuid              String   @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  section           Section  @map("section")
+  content           Json?    @db.JsonB
+  sortOrder         Int      @default(0) @map("sort_order")
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  status            Status?  @map("status")
+
+  template Template @relation(fields: [templateId], references: [templateId], map: "fk_template_sections_template")
+
+  @@index([templateId], map: "idx_template_sections_template_id")
+  @@map("template_sections")
+}
+
 model Contact {
   contactId   Int         @id @default(autoincrement()) @map("contact_id")
   userId      Int         @map("user_id")
   uuid        String      @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   link        String      @db.VarChar(500)
-  type        ContactType @map("type") // reemplazo de contactTypeId FK
+  type        ContactType @map("type")
   title       String      @db.VarChar(100)
   iconPath    String?     @map("icon_path") @db.VarChar(255)
   displayText String?     @map("display_text") @db.VarChar(255)
@@ -117,8 +201,8 @@ model Payment {
   deletedAt       DateTime? @map("deleted_at") @db.Timestamptz(6)
   createdAt       DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
 
-  user          User           @relation(fields: [userId], references: [userId], map: "fk_payments_user")
-  paymentSource PaymentSource? @relation(fields: [paymentSourceId], references: [paymentSourceId], map: "fk_payments_payment_source")
+  user          User          @relation(fields: [userId], references: [userId], map: "fk_payments_user")
+  paymentSource PaymentSource @relation(fields: [paymentSourceId], references: [paymentSourceId], map: "fk_payments_payment_source")
 
   @@index([deletedAt], map: "idx_payments_deleted_at")
   @@index([sortOrder], map: "idx_payments_sort_order")
@@ -176,6 +260,7 @@ model User {
   heroGreetings HeroGreeting[]
   navLinks      NavLink[]
   payments      Payment[]      @relation(map: "fk_payments_user")
+  templates     Template[]
 
   @@map("users")
 }
