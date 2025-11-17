@@ -1,4 +1,4 @@
-import { Resolver, Mutation, Query, Args, Int, Float } from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Int, Float } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { AiGroqService, GenerateTextResponse } from './ai-groq.service';
 import { Field, ObjectType, InputType } from '@nestjs/graphql';

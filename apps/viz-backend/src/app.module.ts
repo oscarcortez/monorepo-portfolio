@@ -12,6 +12,7 @@ import { DeeplModule } from './deepl/deepl.module';
 import { ConfigModule } from '@nestjs/config';
 import { WasenderModule } from './wasender/wasender.module';
 import { AiGroqModule } from './ai-groq/ai-groq.module';
+import { EmailResendModule } from './email-resend/email-resend.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { AiGroqModule } from './ai-groq/ai-groq.module';
     DeeplModule,
     WasenderModule,
     AiGroqModule,
+    EmailResendModule,
   ],
   controllers: [],
   providers: [],
