@@ -14,7 +14,7 @@ import SkillsSection from '../(SkillsSection)';
 
 export default function Page() {
   const size = useWindowSize();
-  // const { loading } = useUserPublicData('088145ab-9f14-47ac-a3d4-0893afa92b4d');
+  // const { loading } = useUserPublicData('fddbaaae-b84c-4aad-ba3d-8875c59d155c');
 
   if (size === undefined) {
     return <div className="bg-slate-800 h-screen w-full flex items-center justify-center">Loading...</div>;

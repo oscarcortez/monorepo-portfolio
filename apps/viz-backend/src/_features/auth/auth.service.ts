@@ -3,10 +3,9 @@ import {
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UserService } from '../user/user.service';
+import { UserService } from 'src/_models/user/user.service';
 import { JwtService } from '@nestjs/jwt';
-// import bcrypt from 'bcrypt';
-import { comparePassword } from '../utils/password';
+import { comparePassword } from 'src/utils/password';
 
 @Injectable()
 export class AuthService {

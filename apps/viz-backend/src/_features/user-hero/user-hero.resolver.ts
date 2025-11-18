@@ -1,7 +1,7 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { UserHeroService } from './user-hero.service';
-import { User } from '../prisma-generate/user/user.model';
-import { Public } from '../auth/public.decorator';
+import { User } from '../../prisma-generate/user/user.model';
+import { Public } from 'src/_features/auth/public.decorator';
 
 @Resolver(() => User)
 export class UserHeroResolver {

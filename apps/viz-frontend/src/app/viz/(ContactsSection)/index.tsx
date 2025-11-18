@@ -3,17 +3,18 @@
 import { useSearchParams } from 'next/navigation';
 
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
-import { Contact } from '@/src/app/graphql/generated/graphql';
 
 import VizSection from '../_components/viz-section';
 
 import HeroContact from './components/HeroContact';
 
+import { Contact } from '@/src/app/graphql/generated/graphql';
+
 import './index.css';
 
 export default function HeroSection() {
   const searchParams = useSearchParams();
-  const userUuid = searchParams.get('userUuid') || '088145ab-9f14-47ac-a3d4-0893afa92b4d';
+  const userUuid = searchParams.get('userUuid') || 'fddbaaae-b84c-4aad-ba3d-8875c59d155c';
 
   const { user } = useUserPublicData(userUuid);
 
