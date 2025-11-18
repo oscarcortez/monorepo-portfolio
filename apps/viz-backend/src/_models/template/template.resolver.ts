@@ -1,6 +1,6 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
 import { TemplateService } from './template.service';
-import { Template } from '../prisma-generate/template/template.model';
+import { Template } from '../../prisma-generate/template/template.model';
 
 @Resolver(() => Template)
 export class TemplateResolver {

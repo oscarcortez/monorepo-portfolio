@@ -1,18 +1,18 @@
 import { Module, forwardRef } from '@nestjs/common';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './_features/auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { join } from 'path';
 
 import { HelloWorldModule } from './hello-world/hello-world.module';
-import { UserHeroModule } from './user-hero/user-hero.module';
-import { TemplateModule } from './template/template.module';
-import { DeeplModule } from './deepl/deepl.module';
+import { UserHeroModule } from './_features/user-hero/user-hero.module';
+import { TemplateModule } from './_models/template/template.module';
+import { DeeplModule } from './_integrations/deepl/deepl.module';
 import { ConfigModule } from '@nestjs/config';
-import { WasenderModule } from './wasender/wasender.module';
-import { AiGroqModule } from './ai-groq/ai-groq.module';
-import { EmailResendModule } from './email-resend/email-resend.module';
+import { WasenderModule } from './_integrations/wasender/wasender.module';
+import { AiGroqModule } from './_integrations/ai-groq/ai-groq.module';
+import { EmailResendModule } from './_integrations/email-resend/email-resend.module';
 
 @Module({
   imports: [

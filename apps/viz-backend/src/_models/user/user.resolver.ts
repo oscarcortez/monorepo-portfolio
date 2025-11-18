@@ -3,9 +3,9 @@ import { UserService } from './user.service';
 // import { UserOrderByWithRelationInput } from '../prisma-generate/user/user-order-by-with-relation.input';
 // import { UserWhereUniqueInput } from '../prisma-generate/user/user-where-unique.input';
 // import { UserWhereInput } from '../prisma-generate/user/user-where.input';
-import { User } from '../prisma-generate/user/user.model';
-import { UserCreateInput } from '../prisma-generate/user/user-create.input';
-import { Public } from '../auth/public.decorator';
+import { User } from '../../prisma-generate/user/user.model';
+import { UserCreateInput } from '../../prisma-generate/user/user-create.input';
+import { Public } from 'src/_features/auth/public.decorator';
 
 @Resolver(() => User)
 export class UserResolver {

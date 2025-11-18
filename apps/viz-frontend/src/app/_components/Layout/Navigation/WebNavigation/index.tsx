@@ -9,7 +9,7 @@ import NavigationLink from './NavigationLink';
 
 export default function WebNavigation(): JSX.Element {
   // const [navLinks] = useNavLinks<NavLink[]>();
-  const { user, loading, error } = useUserPublicData('088145ab-9f14-47ac-a3d4-0893afa92b4d');
+  const { user, loading, error } = useUserPublicData('fddbaaae-b84c-4aad-ba3d-8875c59d155c');
 
   // console.log('User in WebNavigation:', user?.navLinks, loading, error);
   return (

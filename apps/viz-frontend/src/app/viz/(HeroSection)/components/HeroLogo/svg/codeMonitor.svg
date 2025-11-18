@@ -1,0 +1,141 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <!-- Monitor Stand -->
+  <rect x="350" y="480" width="100" height="80" fill="#6b7280" rx="5"/>
+  <rect x="300" y="560" width="200" height="20" fill="#4b5563" rx="10"/>
+  
+  <!-- Monitor Frame -->
+  <rect x="100" y="80" width="600" height="400" fill="#4b5563" rx="20"/>
+  <rect x="115" y="95" width="570" height="355" fill="#d1d5db" rx="10"/>
+  
+  <!-- VS Code Title Bar -->
+  <rect x="115" y="95" width="570" height="35" fill="#9ca3af" rx="10 10 0 0"/>
+  
+  <!-- Traffic Lights (macOS style) -->
+  <circle cx="135" cy="112" r="6" fill="#ff5f57"/>
+  <circle cx="155" cy="112" r="6" fill="#ffbd2e"/>
+  <circle cx="175" cy="112" r="6" fill="#28ca42"/>
+  
+  <!-- VS Code Logo in Title Bar -->
+  <g transform="translate(340, 102)">
+    <path d="M0,0 L12,4 L12,16 L0,20 L-8,16 L-8,4 Z" fill="#007acc" opacity="0.9"/>
+    <path d="M0,6 L6,10 L6,14 L0,18" fill="#fff" opacity="0.4"/>
+  </g>
+  
+  <!-- File Explorer Sidebar -->
+  <rect x="115" y="130" width="100" height="305" fill="#c9cdd4"/>
+  
+  <!-- Sidebar Icons -->
+  <rect x="125" y="145" width="80" height="25" fill="#b0b5be" rx="3"/>
+  <text x="135" y="162" font-family="monospace" font-size="12" fill="#1f2937">📁 src</text>
+  
+  <rect x="125" y="180" width="80" height="20" fill="#bcc1ca" rx="3"/>
+  <text x="140" y="195" font-family="monospace" font-size="11" fill="#374151">app.tsx</text>
+  
+  <rect x="125" y="205" width="80" height="20" fill="#bcc1ca" rx="3"/>
+  <text x="140" y="220" font-family="monospace" font-size="11" fill="#374151">index.ts</text>
+  
+  <rect x="125" y="230" width="80" height="20" fill="#bcc1ca" rx="3"/>
+  <text x="140" y="245" font-family="monospace" font-size="11" fill="#374151">styles.css</text>
+  
+  <!-- Main Editor Area -->
+  <rect x="215" y="130" width="470" height="305" fill="#e5e7eb"/>
+  
+  <!-- Tab Bar -->
+  <rect x="215" y="130" width="120" height="30" fill="#9ca3af" rx="5 5 0 0"/>
+  <text x="230" y="150" font-family="monospace" font-size="12" fill="#1e40af">● app.tsx</text>
+  
+  <!-- Line Numbers -->
+  <text x="225" y="180" font-family="monospace" font-size="13" fill="#6b7280">1</text>
+  <text x="225" y="200" font-family="monospace" font-size="13" fill="#6b7280">2</text>
+  <text x="225" y="220" font-family="monospace" font-size="13" fill="#6b7280">3</text>
+  <text x="225" y="240" font-family="monospace" font-size="13" fill="#6b7280">4</text>
+  <text x="225" y="260" font-family="monospace" font-size="13" fill="#6b7280">5</text>
+  <text x="225" y="280" font-family="monospace" font-size="13" fill="#6b7280">6</text>
+  <text x="225" y="300" font-family="monospace" font-size="13" fill="#6b7280">7</text>
+  <text x="225" y="320" font-family="monospace" font-size="13" fill="#6b7280">8</text>
+  <text x="225" y="340" font-family="monospace" font-size="13" fill="#6b7280">9</text>
+  <text x="220" y="360" font-family="monospace" font-size="13" fill="#6b7280">10</text>
+  <text x="220" y="380" font-family="monospace" font-size="13" fill="#6b7280">11</text>
+  
+  <!-- Code Content with Syntax Highlighting -->
+  <text x="250" y="180" font-family="monospace" font-size="13" fill="#7c3aed">import</text>
+  <text x="300" y="180" font-family="monospace" font-size="13" fill="#1d4ed8">React</text>
+  <text x="345" y="180" font-family="monospace" font-size="13" fill="#7c3aed">from</text>
+  <text x="385" y="180" font-family="monospace" font-size="13" fill="#991b1b">'react'</text>
+  
+  <text x="250" y="200" font-family="monospace" font-size="13" fill="#7c3aed">import</text>
+  <text x="300" y="200" font-family="monospace" font-size="13" fill="#0e7490">{ useState }</text>
+  <text x="405" y="200" font-family="monospace" font-size="13" fill="#7c3aed">from</text>
+  <text x="445" y="200" font-family="monospace" font-size="13" fill="#991b1b">'react'</text>
+  
+  <text x="250" y="240" font-family="monospace" font-size="13" fill="#4338ca">const</text>
+  <text x="295" y="240" font-family="monospace" font-size="13" fill="#92400e">App</text>
+  <text x="330" y="240" font-family="monospace" font-size="13" fill="#1f2937">= () => {</text>
+  
+  <text x="265" y="260" font-family="monospace" font-size="13" fill="#4338ca">const</text>
+  <text x="310" y="260" font-family="monospace" font-size="13" fill="#1f2937">[</text>
+  <text x="318" y="260" font-family="monospace" font-size="13" fill="#1e40af">count</text>
+  <text x="365" y="260" font-family="monospace" font-size="13" fill="#1f2937">,</text>
+  <text x="375" y="260" font-family="monospace" font-size="13" fill="#1e40af">setCount</text>
+  <text x="445" y="260" font-family="monospace" font-size="13" fill="#1f2937">] =</text>
+  
+  <text x="280" y="280" font-family="monospace" font-size="13" fill="#92400e">useState</text>
+  <text x="345" y="280" font-family="monospace" font-size="13" fill="#1f2937">(</text>
+  <text x="353" y="280" font-family="monospace" font-size="13" fill="#065f46">0</text>
+  <text x="361" y="280" font-family="monospace" font-size="13" fill="#1f2937">)</text>
+  
+  <text x="265" y="320" font-family="monospace" font-size="13" fill="#7c3aed">return</text>
+  <text x="315" y="320" font-family="monospace" font-size="13" fill="#1f2937">(</text>
+  
+  <text x="280" y="340" font-family="monospace" font-size="13" fill="#7f1d1d">&lt;</text>
+  <text x="288" y="340" font-family="monospace" font-size="13" fill="#7f1d1d">div</text>
+  <text x="313" y="340" font-family="monospace" font-size="13" fill="#1d4ed8">className</text>
+  <text x="395" y="340" font-family="monospace" font-size="13" fill="#1f2937">=</text>
+  <text x="403" y="340" font-family="monospace" font-size="13" fill="#991b1b">"app"</text>
+  <text x="443" y="340" font-family="monospace" font-size="13" fill="#7f1d1d">&gt;</text>
+  
+  <text x="295" y="360" font-family="monospace" font-size="13" fill="#7f1d1d">&lt;</text>
+  <text x="303" y="360" font-family="monospace" font-size="13" fill="#7f1d1d">h1</text>
+  <text x="323" y="360" font-family="monospace" font-size="13" fill="#7f1d1d">&gt;</text>
+  <text x="331" y="360" font-family="monospace" font-size="13" fill="#1f2937">Oscar: Welcome my friend :)</text>
+  
+  <text x="295" y="380" font-family="monospace" font-size="13" fill="#7f1d1d">&lt;/</text>
+  <text x="311" y="380" font-family="monospace" font-size="13" fill="#7f1d1d">h1</text>
+  <text x="331" y="380" font-family="monospace" font-size="13" fill="#7f1d1d">&gt;</text>
+  
+  <!-- Status Bar (DENTRO del frame) -->
+  <rect x="115" y="435" width="570" height="15" fill="#0284c7"/>
+  <circle cx="125" cy="442" r="3" fill="#22c55e"/>
+  <text x="135" y="446" font-family="monospace" font-size="10" fill="#f0f9ff">●  UTF-8  ●  TypeScript React  ●  Ln 8, Col 12</text>
+  
+  <!-- Cursor Blink -->
+  <rect x="398" y="325" width="2" height="15" fill="#1f2937">
+    <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+  </rect>
+  
+  <!-- Subtle Shadow for depth -->
+  <defs>
+    <filter id="shadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Subtle Screen Glow -->
+  <rect x="110" y="90" width="580" height="365" fill="none" stroke="#6b7280" stroke-width="1" opacity="0.4" rx="10" filter="url(#glow)"/>
+</svg>

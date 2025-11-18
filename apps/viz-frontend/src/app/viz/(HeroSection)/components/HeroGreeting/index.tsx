@@ -9,7 +9,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function HeroGreeting(): JSX.Element {
   const searchParams = useSearchParams();
-  const userUuid = searchParams.get('userUuid') || '088145ab-9f14-47ac-a3d4-0893afa92b4d';
+  const userUuid = searchParams.get('userUuid') || 'fddbaaae-b84c-4aad-ba3d-8875c59d155c';
   const { user, loading } = useUserPublicData(userUuid);
   const [heroGreeting] = (user?.heroGreetings ?? []) as Greeting[];
   return (
