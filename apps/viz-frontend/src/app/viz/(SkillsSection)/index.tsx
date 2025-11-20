@@ -8,6 +8,7 @@ import Image from 'next/image';
 import VizSection from '../_components/viz-section';
 
 // import HeroPayment from './components/HeroPayment';
+import { SkillsSection } from './components/skills-section';
 
 interface Skill {
   technology: string;
@@ -68,14 +69,16 @@ const skills: Skill[] = [
   },
 ];
 
-export default function SkillsSection() {
+export default function SkillSection() {
   return (
-    <VizSection title="SKILLS" description="Manage your skills and expertise.">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        {skills.map((skill, i) => (
-          <SkillCard key={i} skill={skill} />
-        ))}
-      </div>
-    </VizSection>
+    // <VizSection title="SKILLS" description="Manage your skills and expertise.">
+    //   <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+    //     {skills.map((skill, i) => (
+    //       <SkillCard key={i} skill={skill} />
+    //     ))}
+    //   </div>
+    // </VizSection>
+
+    <SkillsSection />
   );
 }

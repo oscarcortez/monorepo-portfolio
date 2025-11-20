@@ -12,9 +12,9 @@ const WebNavigation = dynamic(() => import('./Navigation/WebNavigation'), {
 
 export default function Layout({ children }: PropsWithChildren): JSX.Element {
   return (
-    <>
+    <div className="bg-background dark">
       <WebNavigation />
       {children}
-    </>
+    </div>
   );
 }

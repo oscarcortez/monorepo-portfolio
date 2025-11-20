@@ -2,23 +2,10 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { groq } from '@ai-sdk/groq';
 import { generateText } from 'ai';
-
-export interface GenerateTextOptions {
-  prompt: string;
-  model?: string;
-  temperature?: number;
-  maxOutputTokens?: number;
-}
-
-export interface GenerateTextResponse {
-  success: boolean;
-  text?: string;
-  error?: string;
-  usage?: {
-    inputTokens: number;
-    outputTokens: number;
-  };
-}
+import {
+  GenerateTextOptions,
+  GenerateTextResponse,
+} from './types/generate-text.type';
 
 @Injectable()
 export class AiGroqService implements OnModuleInit {
