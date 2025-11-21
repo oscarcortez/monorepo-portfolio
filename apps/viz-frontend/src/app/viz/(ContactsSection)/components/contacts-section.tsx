@@ -115,7 +115,7 @@ export function ContactsSection() {
   };
 
   return (
-    <section className="min-h-screen py-20 px-4 md:px-8 flex flex-col items-center justify-center w-full dark bg-primary/5">
+    <section className="min-h-screen py-20 px-4 md:px-8 flex flex-col items-center justify-center w-full dark">
       <div className="mb-12 text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-3">Contact Me</h2>
         <p className="text-muted-foreground text-lg">Get in touch through any of these channels</p>

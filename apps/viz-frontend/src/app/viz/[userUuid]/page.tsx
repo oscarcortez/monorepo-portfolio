@@ -1,6 +1,6 @@
 'use client';
 
-import { useWindowSize } from '@uidotdev/usehooks';
+import { ReactNode } from 'react';
 // import { unstable_Activity, Activity } from 'react';
 
 import Layout from '@/src/app/_components/Layout';
@@ -14,32 +14,36 @@ import SkillsSection from '../(SkillsSection)';
 import FooterSection from '../(FooterSection)';
 import ResumeSection from '../(ResumeSection)';
 import AiBuilderSection from '../(AiBuilderSection)';
+import { DividerSection } from '../_components/divider-section';
 
-function SectionDivider() {
-  return <div className="relative h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-50" />;
+interface Section {
+  id: string;
+  component: ReactNode;
+  showDividerAfter?: boolean; // Controlar divider por sección
+  order?: number; // Ordenar dinámicamente
 }
 
 export default function Page() {
-  // const size = useWindowSize();
-  // const { loading } = useUserPublicData('fddbaaae-b84c-4aad-ba3d-8875c59d155c');
-
-  // if (size === undefined) {
-  //   return <div className="bg-read-800 h-screen w-full flex items-center justify-center">Loading...</div>;
-  // }
+  const sections: Section[] = [
+    { id: 'hero', component: <HeroSection theme="blue" />, showDividerAfter: true },
+    { id: 'ai-builder', component: <AiBuilderSection />, showDividerAfter: true },
+    { id: 'contacts', component: <ContactsSection />, showDividerAfter: true },
+    { id: 'payments', component: <PaymentsSection />, showDividerAfter: true },
+    { id: 'skills', component: <SkillsSection />, showDividerAfter: true },
+    { id: 'resume', component: <ResumeSection />, showDividerAfter: false },
+    { id: 'footer', component: <FooterSection />, showDividerAfter: false },
+  ];
 
   return (
     <Layout>
-      <HeroSection theme="blue" />
-      <AiBuilderSection />
-      <SectionDivider />
-      <ContactsSection />
-      <SectionDivider />
-      <PaymentsSection />
-      <SectionDivider />
-      <SkillsSection />
-      <SectionDivider />
-      <ResumeSection />
-      <FooterSection />
+      {sections.map((section, index) => (
+        <div key={section.id} id={section.id}>
+          {' '}
+          {/* ← Agregar ID aquí */}
+          {section.component}
+          {index < sections.length - 1 && <DividerSection />}
+        </div>
+      ))}
     </Layout>
   );
 }

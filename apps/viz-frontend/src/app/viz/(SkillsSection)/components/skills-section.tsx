@@ -56,7 +56,7 @@ export function SkillsSection() {
   const icon = activeTab === 'tech' ? Code2 : Users;
 
   return (
-    <section className="min-h-screen py-20 px-4 md:px-8 dark flex flex-col items-center justify-center bg-gradient-to-r from-primary/10 via-transparent to-accent/10">
+    <section className="min-h-screen py-20 px-4 md:px-8 dark flex flex-col items-center justify-center">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div

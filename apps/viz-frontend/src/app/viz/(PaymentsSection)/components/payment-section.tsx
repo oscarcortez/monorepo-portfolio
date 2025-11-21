@@ -95,7 +95,7 @@ export function PaymentSection() {
 
   return (
     <>
-      <div className="min-h-screen px-4 py-12 sm:px-6 lg:px-8 dark flex flex-col items-center bg-gradient-to-r from-primary/10 via-transparent to-accent/10 justify-center">
+      <div className="min-h-screen px-4 py-12 sm:px-6 lg:px-8 dark flex flex-col items-center justify-center">
         <div className="mx-auto max-w-7xl">
           <div className="mb-16 text-center">
             <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl text-pretty text-foreground">

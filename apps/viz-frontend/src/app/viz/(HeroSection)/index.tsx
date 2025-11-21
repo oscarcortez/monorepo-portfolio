@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import HeroLogo from './components/HeroLogo';
 import HeroGreeting from './components/HeroGreeting';
 import { HeroSectionProps } from './types';
-import heroBg from './images/bg-tech2.webp';
-import FunnyCursor from './components/funny-cursor';
+import { AIBuilderButton } from './components/ai-builder-button';
 
 export default function HeroSection({ theme }: HeroSectionProps) {
+  const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
     if (theme) {
       import(`./css/${theme}-bg.css`);
@@ -17,7 +17,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
   }, [theme]);
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center dark cursor-default">
+    <section className="min-h-screen flex flex-col items-center justify-between dark relative overflow-hidden">
       {/* <FunnyCursor /> */}
       {/* Background Image */}
       <Image
@@ -35,9 +35,14 @@ export default function HeroSection({ theme }: HeroSectionProps) {
       <div className="absolute inset-0 backdrop-blur-none bg-gradient-to-b from-black/80 via-black/40 to-black/80 " />
 
       {/* Content */}
-      <div className="relative z-0">
-        {/* <HeroLogo className="mx-auto mb-4" /> */}
-        <HeroGreeting />
+      <div className="relative z-0 flex-1 flex items-center justify-center">
+        <div className="text-center">
+          {/* <HeroLogo className="mx-auto mb-4" /> */}
+          <HeroGreeting />
+        </div>
+      </div>
+      <div className="relative z-10 mb-4 w-full flex justify-center">
+        <AIBuilderButton onClick={() => setIsExpanded(true)} />
       </div>
     </section>
   );

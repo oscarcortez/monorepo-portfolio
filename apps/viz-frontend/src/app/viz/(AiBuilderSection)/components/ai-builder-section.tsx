@@ -1,110 +1,199 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { ArrowRight, Zap } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Zap, Youtube, MessageCircle, Sparkles, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+
+import { useAIBuilderStore } from '@/src/app/viz/stores/ai-builder.store';
 
 export function AIBuilderSection() {
+  const { isExpanded, setIsExpanded } = useAIBuilderStore();
+
   return (
-    <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden dark">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-primary/5" />
+    <section className="relative  px-4 sm:px-6 lg:px-8 overflow-hidden dark">
+      <div className="absolute inset-0" />
+      <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full blur-3xl -z-10" />
 
       <div className="relative max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left side - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 w-fit">
-                <Zap className="w-4 h-4 text-primary" />
-                <span className="text-sm font-medium text-primary">Powered by AI</span>
+        {/* Expandable Content */}
+        <AnimatePresence>
+          {isExpanded && (
+            <motion.div
+              className="py-24"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              {/* Header Section */}
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-center mb-16"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 mb-6">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">Powered by AI</span>
+                </div>
+
+                <h2 className="text-5xl sm:text-6xl font-bold leading-tight text-balance mb-6">
+                  Build Your Dream Site in
+                  <span className="block bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
+                    Seconds
+                  </span>
+                </h2>
+
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  Describe your vision in plain English and let our AI do the heavy lifting. No coding required. Just a
+                  simple prompt, and boom—your complete website is ready to go.
+                </p>
+
+                {/* Close Button */}
+                <motion.button
+                  onClick={() => setIsExpanded(false)}
+                  className="mt-8 text-sm text-muted-foreground hover:text-foreground transition-colors flex items-center justify-center gap-2 mx-auto"
+                >
+                  <ChevronDown className="w-4 h-4 rotate-180" />
+                  Hide details
+                </motion.button>
+              </motion.div>
+
+              {/* Main Content Grid */}
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  className="lg:col-span-1 flex flex-col justify-between"
+                >
+                  <div className="space-y-6">
+                    <div className="space-y-4">
+                      <h3 className="text-2xl font-bold">Ready to create?</h3>
+                      <p className="text-muted-foreground">
+                        Start building your perfect website in seconds with AI-powered generation.
+                      </p>
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => window.open('https://v0.app', '_blank')}
+                      className="group w-full px-6 py-4 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-primary/30 transition-all"
+                    >
+                      Start Creating Now
+                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
+
+                    <div className="space-y-3 pt-4">
+                      {['No coding required', '100% customizable', 'Deploy instantly'].map((benefit) => (
+                        <div key={benefit} className="flex items-center gap-3 text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                          <span className="text-foreground">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.a
+                  href="https://youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.3 }}
+                  whileHover={{ scale: 1.02 }}
+                  className="lg:col-span-1 group p-8 rounded-2xl border border-muted/30 bg-gradient-to-br from-muted/40 to-muted/20 backdrop-blur-sm hover:border-primary/50 hover:shadow-xl hover:shadow-primary/10 transition-all cursor-pointer"
+                >
+                  <div className="space-y-4">
+                    <div className="inline-flex p-3 rounded-lg bg-red-500/10 group-hover:bg-red-500/20 transition-colors">
+                      <Youtube className="w-6 h-6 text-red-500" />
+                    </div>
+
+                    <div className="space-y-2">
+                      <h3 className="font-semibold text-lg text-foreground">Watch Tutorial</h3>
+                      <p className="text-sm text-muted-foreground">
+                        See how to create a professional page in just a few clicks using AI
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-primary group-hover:gap-3 transition-all pt-2">
+                      <span className="text-sm font-medium">View Steps</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </motion.a>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="lg:col-span-1 p-8 rounded-2xl border border-muted/30 bg-gradient-to-br from-muted/40 to-muted/20 backdrop-blur-sm"
+                >
+                  <div className="space-y-4">
+                    <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium">Created by</p>
+
+                    <a
+                      href="#contact"
+                      className="block text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent hover:opacity-80 transition-opacity"
+                    >
+                      Oscar Cortez
+                    </a>
+
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      Crafting beautiful digital experiences powered by artificial intelligence.
+                    </p>
+
+                    <div className="pt-4 border-t border-muted/20">
+                      <p className="text-xs text-muted-foreground mb-3">Get in touch</p>
+                      <div className="flex gap-2">
+                        <motion.a
+                          href="https://discord.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="p-2.5 rounded-lg bg-muted/40 hover:bg-blue-500/20 transition-colors"
+                        >
+                          <MessageCircle className="w-4 h-4 text-blue-500" />
+                        </motion.a>
+                        <motion.a
+                          href="https://twitter.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.1 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="p-2.5 rounded-lg bg-muted/40 hover:bg-sky-500/20 transition-colors"
+                        >
+                          <Zap className="w-4 h-4 text-sky-500" />
+                        </motion.a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
               </div>
 
-              <h2 className="text-4xl sm:text-5xl font-bold leading-tight text-balance">
-                Build Your Dream Site in
-                <span className="bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent">
-                  {' '}
-                  Seconds
-                </span>
-              </h2>
-
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Describe your vision in plain English and let our AI do the heavy lifting. No coding required. Just a
-                simple prompt, and boom—your complete website is ready to go.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => window.open('https://v0.app', '_blank')}
-                className="group px-8 py-4 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/20 transition-all"
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="grid grid-cols-3 gap-4 pt-8 border-t border-muted/20"
               >
-                Start Creating Now
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </motion.button>
-
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 border border-primary/30 text-primary font-semibold rounded-xl hover:bg-primary/5 transition-all"
-              >
-                Learn More
-              </motion.button>
-            </div>
-
-            <div className="pt-8 border-t border-muted/30 space-y-4">
-              <p className="text-sm text-muted-foreground font-medium">Trusted by developers worldwide</p>
-              <div className="flex gap-4 flex-wrap">
-                {['Fast', 'Creative', 'Modern', 'Free'].map((item) => (
-                  <div key={item} className="px-3 py-1 rounded-full bg-muted/40 text-sm text-foreground">
-                    ✓ {item}
+                {[
+                  { label: 'Sites Created', value: '10K+' },
+                  { label: 'Average Build Time', value: '2 min' },
+                  { label: 'Satisfaction Rate', value: '98%' },
+                ].map((stat) => (
+                  <div key={stat.label} className="text-center py-4">
+                    <p className="text-2xl font-bold text-foreground mb-1">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
                   </div>
                 ))}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right side - Video embed */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="relative h-full min-h-[500px]"
-          >
-            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-muted/30 bg-muted/10 shadow-2xl shadow-primary/10">
-              {/* YouTube Video Embed */}
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1"
-                title="AI Website Builder Demo"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="absolute inset-0 w-full h-full"
-              />
-
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 pointer-events-none bg-gradient-to-t from-background/20 to-transparent" />
-            </div>
-
-            {/* Floating badge */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="absolute -bottom-6 -right-6 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white font-bold rounded-full shadow-xl"
-            >
-              Fully Automated ⚡
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </div>
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
