@@ -18,7 +18,7 @@ export default function ResumeSection() {
   };
 
   return (
-    <section className="w-full py-20 px-4 md:px-8 relative overflow-hidden bg-gradient-to-r from-primary/10 via-transparent to-accent/10 dark">
+    <section className="w-full py-20 px-4 md:px-8 relative overflow-hidden dark">
       {/* Fondo decorativo */}
       {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 pointer-events-none" /> */}
 

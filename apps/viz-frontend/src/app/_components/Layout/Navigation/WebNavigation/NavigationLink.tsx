@@ -11,7 +11,7 @@ export default function NavigationLink({
     <button
       onClick={props.onClick}
       className={clsx(
-        'text-sm px-6 py-3 border-b-2 border-transparent transition-all duration-300 hover:drop-shadow-xl bg-transparent hover:cursor-pointer',
+        'text-sm px-6 py-3 border-b-2 border-transparent transition-all duration-300 hover:drop-shadow-xl bg-transparent hover:cursor-pointer text-cyan-400 hover:text-cyan-400 hover:border-cyan-400 font-medium',
         props.className
       )}
     >

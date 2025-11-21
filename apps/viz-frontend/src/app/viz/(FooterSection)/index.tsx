@@ -36,7 +36,7 @@ export default function Footer() {
           />
 
           <p className="text-xs text-muted-foreground/60">
-            © {new Date().getFullYear()} • Diseño moderno y minimalista
+            © {new Date().getFullYear()} • Created with passion and Next.js
           </p>
         </motion.div>
       </div>
