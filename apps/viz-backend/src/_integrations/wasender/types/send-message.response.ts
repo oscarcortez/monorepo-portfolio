@@ -1,17 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { TokenUsage } from './token-usage.type';
 
 @ObjectType()
-export class GenerateTextResponse {
+export class SendMessageResponse {
   @Field()
   success!: boolean;
 
   @Field({ nullable: true })
-  text?: string;
+  message?: string;
 
   @Field({ nullable: true })
   error?: string;
-
-  @Field(() => TokenUsage, { nullable: true })
-  usage?: TokenUsage;
 }

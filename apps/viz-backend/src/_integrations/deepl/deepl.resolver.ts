@@ -11,7 +11,7 @@ import { Field, ObjectType, InputType } from '@nestjs/graphql';
 @ObjectType()
 class TranslationResult {
   @Field()
-  translatedText: string;
+  translatedText!: string;
 
   @Field({ nullable: true })
   detectedSourceLanguage?: string;
@@ -20,10 +20,10 @@ class TranslationResult {
 @ObjectType()
 class LanguageInfo {
   @Field()
-  code: string;
+  code!: string;
 
   @Field()
-  name: string;
+  name!: string;
 
   @Field({ nullable: true })
   supportsFormality?: boolean;
@@ -32,7 +32,7 @@ class LanguageInfo {
 @ObjectType()
 class UsageInfo {
   @Field()
-  characterCount: number;
+  characterCount!: number;
 
   @Field({ nullable: true })
   characterLimit?: number;
@@ -53,10 +53,10 @@ class UsageInfo {
 @InputType()
 class TranslateTextInput {
   @Field()
-  text: string;
+  text!: string;
 
   @Field()
-  targetLang: string;
+  targetLang!: string;
 
   @Field({ nullable: true })
   sourceLang?: string;
@@ -71,10 +71,10 @@ class TranslateTextInput {
 @InputType()
 class TranslateTextsInput {
   @Field(() => [String])
-  texts: string[];
+  texts!: string[];
 
   @Field()
-  targetLang: string;
+  targetLang!: string;
 
   @Field({ nullable: true })
   sourceLang?: string;

@@ -3,7 +3,7 @@ import { InputType, Field, Float, Int } from '@nestjs/graphql';
 @InputType()
 export class GenerateTextInput {
   @Field()
-  prompt: string;
+  prompt!: string;
 
   @Field({ nullable: true })
   model?: string;

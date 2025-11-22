@@ -2,21 +2,18 @@
 
 import { motion } from 'framer-motion';
 import { Sparkles, ChevronDown } from 'lucide-react';
-import { useRef } from 'react';
 
 import { useAIBuilderStore } from '@/src/app/viz/stores/ai-builder.store';
 
 export function AIBuilderButton() {
   const { setIsExpanded } = useAIBuilderStore();
-  // const pendingSectionId = useRef<string | null>(null);
 
   const handleNavigate = async (sectionId: string) => {
     const success = await setIsExpanded(true);
     if (!success) {
-      // Si no se pudo expandir, guardar el ID de la sección pendiente
       return;
     }
-    // console.log('Navigating to section:', sectionId);
+
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({

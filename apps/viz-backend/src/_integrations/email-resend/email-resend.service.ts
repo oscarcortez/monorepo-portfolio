@@ -20,8 +20,8 @@ export interface SendEmailResponse {
 @Injectable()
 export class EmailResendService implements OnModuleInit {
   private readonly logger = new Logger(EmailResendService.name);
-  private resendClient: Resend;
-  private defaultFromEmail: string;
+  private resendClient!: Resend;
+  private defaultFromEmail!: string;
 
   constructor(private configService: ConfigService) {}
 

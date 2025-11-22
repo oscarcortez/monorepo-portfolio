@@ -42,7 +42,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
         </div>
       </div>
       <div className="relative z-10 mb-4 w-full flex justify-center">
-        <AIBuilderButton onClick={() => setIsExpanded(true)} />
+        <AIBuilderButton />
       </div>
     </section>
   );
