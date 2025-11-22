@@ -3,12 +3,10 @@ import { Logger } from '@nestjs/common';
 import { EmailResendService, SendEmailResponse } from './email-resend.service';
 import { Field, ObjectType, InputType } from '@nestjs/graphql';
 
-// ============= GraphQL Types =============
-
 @ObjectType()
 class SendEmailResponseType {
   @Field()
-  success: boolean;
+  success!: boolean;
 
   @Field({ nullable: true })
   messageId?: string;
@@ -20,16 +18,16 @@ class SendEmailResponseType {
 @InputType()
 class SendEmailInput {
   @Field()
-  from: string;
+  from!: string;
 
   @Field()
-  to: string;
+  to!: string;
 
   @Field()
-  subject: string;
+  subject!: string;
 
   @Field()
-  html: string;
+  html!: string;
 
   @Field({ nullable: true })
   text?: string;
@@ -37,8 +35,6 @@ class SendEmailInput {
   @Field({ nullable: true })
   replyTo?: string;
 }
-
-// ============= Resolver =============
 
 @Resolver()
 export class EmailResendResolver {

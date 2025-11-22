@@ -5,7 +5,7 @@ import * as deepl from 'deepl-node';
 @Injectable()
 export class DeeplService implements OnModuleInit {
   private readonly logger = new Logger(DeeplService.name);
-  private translator: deepl.Translator;
+  private translator!: deepl.Translator;
 
   constructor(private configService: ConfigService) {}
 

@@ -21,7 +21,7 @@ import {
 export class WasenderService implements OnModuleInit {
   private readonly logger = new Logger(WasenderService.name);
   private wasenderClient!: Wasender; // Type from wasenderapi
-  private defaultSessionId: string;
+  // private defaultSessionId!: string;
 
   constructor(private configService: ConfigService) {}
 

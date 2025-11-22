@@ -1,56 +1,11 @@
 import { Resolver, Mutation, Query, Args } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { WasenderService } from './wasender.service';
-import { Field, ObjectType, InputType } from '@nestjs/graphql';
-
-// ============= GraphQL Types =============
-
-@ObjectType()
-class ContactPhone {
-  @Field({ nullable: true })
-  id?: string;
-
-  @Field({ nullable: true })
-  name?: string;
-
-  @Field({ nullable: true })
-  phone?: string;
-}
-
-@ObjectType()
-class ContactsListResponse {
-  @Field()
-  success: boolean;
-
-  @Field(() => [ContactPhone])
-  data: ContactPhone[];
-
-  @Field({ nullable: true })
-  error?: string;
-}
-
-@ObjectType()
-class SendMessageResponse {
-  @Field()
-  success: boolean;
-
-  @Field({ nullable: true })
-  message?: string;
-
-  @Field({ nullable: true })
-  error?: string;
-}
-
-@InputType()
-class SendMessageInput {
-  @Field()
-  to: string;
-
-  @Field()
-  text: string;
-}
-
-// ============= Resolver =============
+import {
+  SendMessageInput,
+  SendMessageResponse,
+  ContactsListResponse,
+} from './types';
 
 @Resolver()
 export class WasenderResolver {

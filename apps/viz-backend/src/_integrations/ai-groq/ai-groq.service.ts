@@ -11,7 +11,7 @@ import {
 export class AiGroqService implements OnModuleInit {
   private readonly logger = new Logger(AiGroqService.name);
   // private groqApiKey: string | undefined;
-  private defaultModel: string;
+  private defaultModel!: string;
 
   constructor(private configService: ConfigService) {}
   onModuleInit() {
