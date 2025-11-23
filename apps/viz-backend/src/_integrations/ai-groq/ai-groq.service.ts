@@ -14,6 +14,7 @@ export class AiGroqService implements OnModuleInit {
   private defaultModel!: string;
 
   constructor(private configService: ConfigService) {}
+
   onModuleInit() {
     const groqApiKey = this.configService.get<string>('GROQ_API_KEY');
     this.defaultModel =
