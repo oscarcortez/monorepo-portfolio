@@ -13,6 +13,9 @@ import { ConfigModule } from '@nestjs/config';
 import { WasenderModule } from './_integrations/wasender/wasender.module';
 import { AiGroqModule } from './_integrations/ai-groq/ai-groq.module';
 import { EmailResendModule } from './_integrations/email-resend/email-resend.module';
+// import { BinanceModule } from './_integrations/binance/binance.module';
+import { QrCodeModule } from './_integrations/qr-code/qr-code.module';
+import { SupabaseStorageModule } from './_integrations/supabase-storage/supabase-storage.module';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { EmailResendModule } from './_integrations/email-resend/email-resend.mod
     WasenderModule,
     AiGroqModule,
     EmailResendModule,
+    // BinanceModule,
+    QrCodeModule,
+    SupabaseStorageModule,
   ],
   controllers: [],
   providers: [],
