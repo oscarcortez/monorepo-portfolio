@@ -2,10 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { hashPassword } from '../../utils/password';
+import { SupabaseStorageService } from '../../_integrations/supabase-storage/supabase-storage.service';
+import { QrCodeService } from 'src/_integrations/qr-code/qr-code.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private supabaseStorageService: SupabaseStorageService,
+    private qrCodeService: QrCodeService,
+    private configService: ConfigService,
+  ) {}
+
+  private getAppUrl(): string {
+    return this.configService.get<string>('app.url') || 'http://localhost:3000';
+  }
 
   async users(params: {
     skip?: number;
@@ -34,9 +46,18 @@ export class UserService {
       if (data.passwordHash) {
         data.passwordHash = await hashPassword(data.passwordHash);
       }
-      return await this.prisma.user.create({
+      const user = await this.prisma.user.create({
         data,
       });
+      const qrBuffer = await this.qrCodeService.toBuffer(
+        `${this.getAppUrl()}/viz/${user.uuid}`,
+      );
+      await this.supabaseStorageService.uploadFromBuffer(
+        qrBuffer,
+        `hero/qr/uuid/${user.uuid}.png`,
+        { contentType: 'image/png', upsert: true },
+      );
+      return user;
     } catch (error) {
       console.error('Error creating user:', error);
       throw new Error('Failed to create user');

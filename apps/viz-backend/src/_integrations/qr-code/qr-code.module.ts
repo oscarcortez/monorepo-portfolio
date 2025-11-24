@@ -4,5 +4,6 @@ import { QrCodeResolver } from './qr-code.resolver';
 
 @Module({
   providers: [QrCodeResolver, QrCodeService],
+  exports: [QrCodeService],
 })
 export class QrCodeModule {}
