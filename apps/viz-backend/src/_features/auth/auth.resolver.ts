@@ -10,7 +10,6 @@ import {
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { UseGuards } from '@nestjs/common';
-// import { User } from '../generated/prisma-graphql/user/user.model';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Public } from './public.decorator';
 import type { Response } from 'express';
@@ -72,7 +71,6 @@ export class AuthResolver {
     // TODO: Opcional — invalida el token en base de datos
     // this.authService.invalidateToken(user.id);
 
-    // Logging para auditoría
     console.log('🔓 User logged out at', new Date().toISOString());
 
     return {

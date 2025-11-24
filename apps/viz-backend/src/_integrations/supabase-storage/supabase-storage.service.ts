@@ -80,6 +80,33 @@ export class SupabaseStorageService implements OnModuleInit {
     }
   }
 
+  async uploadFromBuffer(
+    buffer: Buffer,
+    storagePath: string,
+    options?: UploadOptions,
+  ): Promise<string> {
+    const contentType = options?.contentType ?? 'application/octet-stream';
+
+    const { data, error } = await this.supabase.storage
+      .from(this.bucket)
+      .upload(storagePath, buffer, {
+        contentType,
+        upsert: options?.upsert ?? false,
+        cacheControl: options?.cacheControl ?? '3600',
+      });
+
+    if (error) {
+      throw new Error(`Upload failed: ${error.message}`);
+    }
+
+    if (!data?.path) {
+      throw new Error('Upload succeeded but no path returned');
+    }
+
+    this.logger.log(`Buffer uploaded successfully to ${data.path}`);
+    return this.getPublicUrl(data.path);
+  }
+
   getPublicUrl(path: string): string {
     try {
       const { data } = this.supabase.storage
