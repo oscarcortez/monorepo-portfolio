@@ -70,30 +70,32 @@ export default function WebNavigation(): JSX.Element {
         ))}
       </div>
 
-      <div className="flex items-center gap-6">
+      <div className="flex items-center gap-1">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setShowQR(!showQR)}
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-muted/80 hover:text-foreground transition-colors text-sm"
+          className="flex items-center gap-2 px-3 py-2 rounded-md hover:text-cyan-400 transition-colors text-sm cursor-pointer"
           title="Show QR Code"
         >
           <QrCode size={16} />
         </motion.button>
+        |
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={handleComment}
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-muted/80 hover:text-foreground transition-colors text-sm"
+          className="flex items-center gap-2 px-3 py-2 rounded-md hover:text-cyan-400 transition-colors text-sm cursor-pointer"
           title="View comments"
         >
           <MessageCircle size={16} />
         </motion.button>
+        |
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => console.log('Login clicked')} // Reemplaza con tu lógica de login
-          className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-muted/80 hover:text-foreground transition-colors text-sm"
+          className="flex items-center gap-2 px-3 py-2 rounded-md hover:text-cyan-400 transition-colors text-sm cursor-pointer"
           title="Login"
         >
           <User size={16} />
