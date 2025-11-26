@@ -1,7 +1,7 @@
 'use client';
 
 import { JSX, useState } from 'react';
-import { QrCode, Copy, Save, MessageCircle, Check, User } from 'lucide-react';
+import { QrCode, MessageCircle, User, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { QRCodeSVG } from 'qrcode.react';
 
@@ -9,8 +9,31 @@ import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 import { Skeleton } from '@/components/ui/skeleton';
 import { NavLink } from '@/src/app/graphql/generated/graphql-types';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from '@/components/ui/drawer';
 
 import NavigationLink from './NavigationLink';
+
+interface Comment {
+  id: string;
+  author: string;
+  text: string;
+  timestamp: string;
+  avatar?: string;
+}
+
+const comments: Comment[] = [
+  { id: '1', author: 'John Doe', text: 'Great site! Love the design.', timestamp: '2 hours ago', avatar: 'JD' },
+  { id: '2', author: 'Jane Smith', text: 'Amazing work, very clean UI.', timestamp: '4 hours ago', avatar: 'JS' },
+  {
+    id: '3',
+    author: 'Alex Johnson',
+    text: 'Impressed with the functionality.',
+    timestamp: '1 day ago',
+    avatar: 'AJ',
+  },
+  { id: '4', author: 'Maria Garcia', text: 'Professional and modern design.', timestamp: '2 days ago', avatar: 'MG' },
+  { id: '5', author: 'Chris Wilson', text: 'Excellent portfolio showcase!', timestamp: '3 days ago', avatar: 'CW' },
+];
 
 export default function WebNavigation(): JSX.Element {
   const [showQR, setShowQR] = useState(false);
@@ -18,6 +41,8 @@ export default function WebNavigation(): JSX.Element {
   // console.log(user.navLinks);]
   const siteUrl = `https://localhost:3000/viz/${user?.uuid}`;
   const [copiedAction, setCopiedAction] = useState<string | null>(null);
+  const [showComments, setShowComments] = useState(false);
+  const [newComment, setNewComment] = useState('');
   const handleCopy = (text: string, action: string) => {
     navigator.clipboard.writeText(text);
     setCopiedAction(action);
@@ -51,10 +76,17 @@ export default function WebNavigation(): JSX.Element {
   }
 
   const handleComment = () => {
-    // Scroll to comments section or open modal
-    console.log('Opening comments...');
+    setShowComments(true);
   };
 
+  const handleSubmitComment = () => {
+    if (newComment.trim()) {
+      console.log('Comment submitted:', newComment);
+      setNewComment('');
+    }
+  };
+
+  const lastComments = comments.slice(0, 5);
   return (
     <div
       className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl z-10 
@@ -121,6 +153,70 @@ export default function WebNavigation(): JSX.Element {
             </div>
           </DialogContent>
         </Dialog>
+        <Drawer open={showComments} onOpenChange={setShowComments} direction="right">
+          <DrawerContent className="bg-background border-l">
+            <DrawerHeader className="border-b">
+              <div className="flex items-center justify-between">
+                <DrawerTitle className="text-lg font-semibold">Comments ({lastComments.length})</DrawerTitle>
+                <DrawerClose asChild>
+                  <button className="p-2 bg-cyan-700 rounded-md transition-colors">
+                    <X size={16} />
+                  </button>
+                </DrawerClose>
+              </div>
+            </DrawerHeader>
+
+            <div className="flex-1 overflow-y-auto p-4">
+              {lastComments.length > 0 ? (
+                <div className="space-y-4">
+                  {lastComments.map((comment) => (
+                    <motion.div
+                      key={comment.id}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="p-3 rounded-lg bg-muted/30 border border-border"
+                    >
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-xs font-semibold text-primary flex-shrink-0">
+                          {comment.avatar}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="font-medium text-sm text-foreground">{comment.author}</p>
+                            <span className="text-xs text-muted-foreground whitespace-nowrap">{comment.timestamp}</span>
+                          </div>
+                          <p className="text-sm text-foreground/70 mt-1 break-words">{comment.text}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-32 text-muted-foreground text-sm">
+                  No comments yet
+                </div>
+              )}
+            </div>
+            <div className="border-t p-4 bg-muted/10 space-y-3">
+              <textarea
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+                placeholder="Add your comment here..."
+                className="w-full p-3 rounded-lg bg-background border border-cyan-800 text-foreground placeholder-muted-foreground text-sm focus:outline-none focus:border-cyan-600 resize-none"
+                rows={3}
+              />
+              <motion.button
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleSubmitComment}
+                disabled={!newComment.trim()}
+                className="w-full px-4 py-2 rounded-lg bg-primary dark text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium text-sm"
+              >
+                Send Comment
+              </motion.button>
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
     </div>
   );
