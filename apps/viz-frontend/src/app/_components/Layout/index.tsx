@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic';
 import React, { JSX, PropsWithChildren } from 'react';
 
+import RightDrawer from './right-drawer/RightDrawer';
+
 const WebNavigation = dynamic(() => import('./Navigation/WebNavigation'), {
   ssr: false,
   loading: () => (
@@ -14,6 +16,7 @@ export default function Layout({ children }: PropsWithChildren): JSX.Element {
   return (
     <div className="dark:bg-primary/5 ">
       <WebNavigation />
+      <RightDrawer />
       {children}
     </div>
   );
