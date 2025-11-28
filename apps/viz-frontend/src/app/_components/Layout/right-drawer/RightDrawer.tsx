@@ -26,12 +26,21 @@ export default function RightDrawer(): JSX.Element {
     login: Login,
     qr: Qr,
   };
+
+  const drawerTitles = {
+    comment: 'Comments',
+    lang: 'Language',
+    login: 'Login',
+    qr: 'QR Code',
+  };
   return (
     <Drawer open={isOpen} onOpenChange={closeDrawer} direction="right">
       <DrawerContent className="bg-background border-l">
         <DrawerHeader className="border-b">
           <div className="flex items-center justify-between">
-            <DrawerTitle className="text-lg font-semibold">Comments (0)</DrawerTitle>
+            <DrawerTitle className="text-lg font-semibold">
+              {drawerType && drawerTitles[drawerType] ? drawerTitles[drawerType] : 'Menu'}
+            </DrawerTitle>
             <DrawerClose asChild>
               <button className="p-2 bg-cyan-700 rounded-md transition-colors">
                 <X size={16} />

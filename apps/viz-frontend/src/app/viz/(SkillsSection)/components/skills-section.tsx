@@ -66,10 +66,10 @@ export function SkillsSection() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl font-bold text-foreground mb-4 text-balance">
-            Mi Stack de <span className="text-primary">Habilidades</span>
+            My <span className="text-primary">Skill</span> Stack
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Combino habilidades técnicas con competencias blandas para entregar soluciones innovadoras
+            A mix of code, problem-solving, and teamwork — everything you need to move your project forward.
           </p>
         </motion.div>
 

@@ -34,34 +34,34 @@ export default function ResumeSection() {
           >
             <div>
               <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-                ¿Buscas un
+                Are you looking for a
                 <span className="block bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   Software Developer?
                 </span>
               </h2>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                Tengo mi CV listo con toda mi experiencia, proyectos y habilidades técnicas. Descárgalo para conocer más
-                detalles sobre mi trayectoria profesional y cómo puedo contribuir a tu equipo.
+                I have my résumé ready with all my experience, projects, and technical skills. Download it to learn more
+                about my professional background and how I can contribute to your team.
               </p>
             </div>
 
-            {/* Estadísticas rápidas */}
+            {/* Quick Stats */}
             <div className="grid grid-cols-3 gap-4 py-8">
               <motion.div whileHover={{ y: -5 }} className="bg-card border border-border rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-primary">5+</div>
-                <div className="text-sm text-muted-foreground">Años Exp.</div>
+                <div className="text-sm text-muted-foreground">Years Exp.</div>
               </motion.div>
               <motion.div whileHover={{ y: -5 }} className="bg-card border border-border rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-accent">20+</div>
-                <div className="text-sm text-muted-foreground">Proyectos</div>
+                <div className="text-sm text-muted-foreground">Projects</div>
               </motion.div>
               <motion.div whileHover={{ y: -5 }} className="bg-card border border-border rounded-lg p-4 text-center">
                 <div className="text-2xl font-bold text-primary">15+</div>
-                <div className="text-sm text-muted-foreground">Tecnologías</div>
+                <div className="text-sm text-muted-foreground">Technologies</div>
               </motion.div>
             </div>
 
-            {/* Botones de acción */}
+            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <motion.a
                 href="https://cubxbmyavmlsyaabsupa.supabase.co/storage/v1/object/sign/monorepo-portfolio/hero/resume/resume-oct-2025.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NDM3YWM1Zi1mMGViLTQzOTAtYWYyMi0xY2JiOGIzMTdhYmIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtb25vcmVwby1wb3J0Zm9saW8vaGVyby9yZXN1bWUvcmVzdW1lLW9jdC0yMDI1LnBkZiIsImlhdCI6MTc2MzU0NDE2MywiZXhwIjoxNzk1MDgwMTYzfQ.b1GklLYhlLGGgUIxBtMR_dcFc_lcLz5DbaVSpiVe9LI"
@@ -71,7 +71,7 @@ export default function ResumeSection() {
                 className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white font-semibold rounded-lg transition-all "
               >
                 <Download size={20} />
-                Descargar CV
+                Download CV
               </motion.a>
 
               <motion.button
@@ -84,7 +84,7 @@ export default function ResumeSection() {
                     : 'bg-card text-foreground hover:border-primary hover:bg-card/80'
                 }`}
               >
-                {copied ? '✓ Link copiado' : '📋 Copiar enlace'}
+                {copied ? '✓ Link copied' : '📋 Copy link'}
               </motion.button>
             </div>
           </motion.div>

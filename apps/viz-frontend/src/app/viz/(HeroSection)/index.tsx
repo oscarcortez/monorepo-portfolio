@@ -41,7 +41,7 @@ export default function HeroSection({ theme }: HeroSectionProps) {
           <HeroGreeting />
         </div>
       </div>
-      <div className="relative z-10 mb-4 w-full flex justify-center">
+      <div className="relative z-1 mb-4 w-full flex justify-center">
         <AIBuilderButton />
       </div>
     </section>

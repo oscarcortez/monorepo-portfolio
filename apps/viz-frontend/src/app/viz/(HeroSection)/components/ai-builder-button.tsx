@@ -17,8 +17,8 @@ export function AIBuilderButton() {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({
-        behavior: 'smooth', // Scroll suave
-        block: 'start', // Alinear al inicio
+        behavior: 'smooth',
+        block: 'start',
       });
     }
   };
