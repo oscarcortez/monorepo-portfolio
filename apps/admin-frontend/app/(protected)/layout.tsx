@@ -24,13 +24,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased dark`}>
-        <ApolloWrapper>
-          <RootLayoutClient>{children}</RootLayoutClient>
-        </ApolloWrapper>
-      </body>
-    </html>
-  );
+  return <RootLayoutClient>{children}</RootLayoutClient>;
 }
