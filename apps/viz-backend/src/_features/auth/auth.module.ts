@@ -5,27 +5,35 @@ import { PrismaService } from 'src/prisma.service';
 import { UserModule } from 'src/_models/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants';
-import { AuthGuard } from './auth.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule } from '@nestjs/config';
+import { AuthController } from './auth.controller';
+import { GoogleStrategy } from './google.strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   providers: [
     {
       provide: APP_GUARD,
-      useClass: AuthGuard,
+      useClass: JwtAuthGuard,
     },
+    GoogleStrategy,
     AuthResolver,
     AuthService,
     PrismaService,
-    AuthGuard,
+    // JwtAuthGuard,
   ],
   imports: [
+    PassportModule,
+    ConfigModule,
     UserModule,
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '60m' },
     }),
   ],
-  exports: [AuthGuard],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

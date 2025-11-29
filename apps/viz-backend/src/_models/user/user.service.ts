@@ -5,6 +5,7 @@ import { hashPassword } from '../../utils/password';
 import { SupabaseStorageService } from '../../_integrations/supabase-storage/supabase-storage.service';
 import { QrCodeService } from 'src/_integrations/qr-code/qr-code.service';
 import { ConfigService } from '@nestjs/config';
+import { GoogleUser } from 'src/_features/auth/interfaces/google-profile.interface';
 
 @Injectable()
 export class UserService {
@@ -39,6 +40,28 @@ export class UserService {
       console.error('Error fetching users:', error);
       throw new Error('Failed to fetch users');
     }
+  }
+
+  async validateGoogleUser(googleUser: GoogleUser): Promise<User> {
+    const existingUser = await this.prisma.user.findUnique({
+      where: { email: googleUser.email },
+    });
+
+    if (existingUser) {
+      return existingUser;
+    }
+
+    return await this.prisma.user.create({
+      data: {
+        email: googleUser.email,
+        firstName: googleUser.firstName,
+        lastName: googleUser.lastName,
+        picture: googleUser.picture,
+        username: googleUser.email.split('@')[0].toLowerCase(),
+        provider: 'google',
+        passwordHash: '123',
+      },
+    });
   }
 
   async createUser(data: Prisma.UserCreateInput): Promise<User> {

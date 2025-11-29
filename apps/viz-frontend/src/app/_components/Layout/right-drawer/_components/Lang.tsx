@@ -29,6 +29,7 @@ export function Lang(): JSX.Element {
 
   const handleLanguageChange = (language: Language) => {
     setCurrentLang(language.code);
+    // eslint-disable-next-line no-console
     console.log('Language selected:', {
       code: language.code,
       name: language.name,
