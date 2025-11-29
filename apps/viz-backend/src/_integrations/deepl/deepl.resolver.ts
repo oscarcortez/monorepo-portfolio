@@ -2,83 +2,13 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { DeeplService } from './deepl.service';
 import * as deepl from 'deepl-node';
-
-// DTOs/Types para GraphQL
-import { Field, ObjectType, InputType } from '@nestjs/graphql';
-
-// ============= GraphQL Types =============
-
-@ObjectType()
-class TranslationResult {
-  @Field()
-  translatedText!: string;
-
-  @Field({ nullable: true })
-  detectedSourceLanguage?: string;
-}
-
-@ObjectType()
-class LanguageInfo {
-  @Field()
-  code!: string;
-
-  @Field()
-  name!: string;
-
-  @Field({ nullable: true })
-  supportsFormality?: boolean;
-}
-
-@ObjectType()
-class UsageInfo {
-  @Field()
-  characterCount!: number;
-
-  @Field({ nullable: true })
-  characterLimit?: number;
-
-  @Field({ nullable: true })
-  documentCount?: number;
-
-  @Field({ nullable: true })
-  documentLimit?: number;
-
-  @Field({ nullable: true })
-  teamDocumentCount?: number;
-
-  @Field({ nullable: true })
-  teamDocumentLimit?: number;
-}
-
-@InputType()
-class TranslateTextInput {
-  @Field()
-  text!: string;
-
-  @Field()
-  targetLang!: string;
-
-  @Field({ nullable: true })
-  sourceLang?: string;
-
-  @Field({ nullable: true })
-  preserveFormatting?: boolean;
-
-  @Field({ nullable: true })
-  formality?: string; // 'default' | 'more' | 'less' | 'prefer_more' | 'prefer_less'
-}
-
-@InputType()
-class TranslateTextsInput {
-  @Field(() => [String])
-  texts!: string[];
-
-  @Field()
-  targetLang!: string;
-
-  @Field({ nullable: true })
-  sourceLang?: string;
-}
+import {
+  TranslateTextInput,
+  TranslateTextsInput,
+  LanguageInfo,
+  TranslationResult,
+  UsageInfo,
+} from './types';
 
 @Resolver()
 export class DeeplResolver {
