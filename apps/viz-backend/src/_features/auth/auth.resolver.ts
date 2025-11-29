@@ -8,7 +8,7 @@ import {
   Query,
 } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { AuthGuard } from './auth.guard';
+import { JwtAuthGuard } from './jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Public } from './public.decorator';
@@ -79,7 +79,7 @@ export class AuthResolver {
     };
   }
 
-  @UseGuards(AuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Query(() => GraphQLJSONObject, { nullable: true })
   getUser(
     @Context() context: { req: Request & { user?: JwtPayload } },

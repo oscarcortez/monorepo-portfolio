@@ -4,8 +4,11 @@ export const USER_HERO_QUERY = gql`
   query UserHero($userUuid: String!) {
     userHero(userUuid: $userUuid) {
       uuid
-      name
       email
+      firstName
+      lastName
+      username
+      picture
       contacts {
         displayText
         iconPath

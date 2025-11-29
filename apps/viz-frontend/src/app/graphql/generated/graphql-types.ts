@@ -94,6 +94,13 @@ export type ContactListRelationFilter = {
   some: InputMaybe<ContactWhereInput>;
 };
 
+export type ContactPhone = {
+  __typename?: 'ContactPhone';
+  id: Maybe<Scalars['String']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  phone: Maybe<Scalars['String']['output']>;
+};
+
 export enum ContactType {
   Discord = 'DISCORD',
   Email = 'EMAIL',
@@ -145,6 +152,13 @@ export type ContactWhereUniqueInput = {
   user: InputMaybe<UserScalarRelationFilter>;
   userId: InputMaybe<IntFilter>;
   uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ContactsListResponse = {
+  __typename?: 'ContactsListResponse';
+  data: Array<ContactPhone>;
+  error: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
 };
 
 export type DateTimeFilter = {
@@ -203,6 +217,49 @@ export type EnumPaymentSourceTypeFilter = {
   in: InputMaybe<Array<PaymentSourceType>>;
   not: InputMaybe<NestedEnumPaymentSourceTypeFilter>;
   notIn: InputMaybe<Array<PaymentSourceType>>;
+};
+
+export type EnumSectionFilter = {
+  equals: InputMaybe<Section>;
+  in: InputMaybe<Array<Section>>;
+  not: InputMaybe<NestedEnumSectionFilter>;
+  notIn: InputMaybe<Array<Section>>;
+};
+
+export type EnumStatusFilter = {
+  equals: InputMaybe<Status>;
+  in: InputMaybe<Array<Status>>;
+  not: InputMaybe<NestedEnumStatusFilter>;
+  notIn: InputMaybe<Array<Status>>;
+};
+
+export type EnumStatusNullableFilter = {
+  equals: InputMaybe<Status>;
+  in: InputMaybe<Array<Status>>;
+  not: InputMaybe<NestedEnumStatusNullableFilter>;
+  notIn: InputMaybe<Array<Status>>;
+};
+
+export type EnumTemplateTypeFilter = {
+  equals: InputMaybe<TemplateType>;
+  in: InputMaybe<Array<TemplateType>>;
+  not: InputMaybe<NestedEnumTemplateTypeFilter>;
+  notIn: InputMaybe<Array<TemplateType>>;
+};
+
+export type GenerateTextInput = {
+  maxOutputTokens: InputMaybe<Scalars['Int']['input']>;
+  model: InputMaybe<Scalars['String']['input']>;
+  prompt: Scalars['String']['input'];
+  temperature: InputMaybe<Scalars['Float']['input']>;
+};
+
+export type GenerateTextResponse = {
+  __typename?: 'GenerateTextResponse';
+  error: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+  text: Maybe<Scalars['String']['output']>;
+  usage: Maybe<TokenUsage>;
 };
 
 export type HeroGreeting = {
@@ -335,10 +392,29 @@ export enum LanguageCode {
   Pt = 'PT'
 }
 
+export type LanguageInfo = {
+  __typename?: 'LanguageInfo';
+  code: Scalars['String']['output'];
+  name: Scalars['String']['output'];
+  supportsFormality: Maybe<Scalars['Boolean']['output']>;
+};
+
+export type LogoutResponse = {
+  __typename?: 'LogoutResponse';
+  message: Scalars['String']['output'];
+  success: Scalars['Boolean']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createUser: User;
+  generateText: GenerateTextResponse;
+  logout: LogoutResponse;
+  sendEmail: SendEmailResponseType;
+  sendWhatsAppText: SendMessageResponse;
   signIn: AuthResponse;
+  translateText: TranslationResult;
+  translateTexts: Array<Scalars['String']['output']>;
 };
 
 
@@ -347,9 +423,34 @@ export type MutationCreateUserArgs = {
 };
 
 
+export type MutationGenerateTextArgs = {
+  input: GenerateTextInput;
+};
+
+
+export type MutationSendEmailArgs = {
+  input: SendEmailInput;
+};
+
+
+export type MutationSendWhatsAppTextArgs = {
+  input: SendMessageInput;
+};
+
+
 export type MutationSignInArgs = {
   email: Scalars['String']['input'];
   password: Scalars['String']['input'];
+};
+
+
+export type MutationTranslateTextArgs = {
+  input: TranslateTextInput;
+};
+
+
+export type MutationTranslateTextsArgs = {
+  input: TranslateTextsInput;
 };
 
 export type NavLink = {
@@ -507,6 +608,34 @@ export type NestedEnumPaymentSourceTypeFilter = {
   notIn: InputMaybe<Array<PaymentSourceType>>;
 };
 
+export type NestedEnumSectionFilter = {
+  equals: InputMaybe<Section>;
+  in: InputMaybe<Array<Section>>;
+  not: InputMaybe<NestedEnumSectionFilter>;
+  notIn: InputMaybe<Array<Section>>;
+};
+
+export type NestedEnumStatusFilter = {
+  equals: InputMaybe<Status>;
+  in: InputMaybe<Array<Status>>;
+  not: InputMaybe<NestedEnumStatusFilter>;
+  notIn: InputMaybe<Array<Status>>;
+};
+
+export type NestedEnumStatusNullableFilter = {
+  equals: InputMaybe<Status>;
+  in: InputMaybe<Array<Status>>;
+  not: InputMaybe<NestedEnumStatusNullableFilter>;
+  notIn: InputMaybe<Array<Status>>;
+};
+
+export type NestedEnumTemplateTypeFilter = {
+  equals: InputMaybe<TemplateType>;
+  in: InputMaybe<Array<TemplateType>>;
+  not: InputMaybe<NestedEnumTemplateTypeFilter>;
+  notIn: InputMaybe<Array<TemplateType>>;
+};
+
 export type NestedIntFilter = {
   equals: InputMaybe<Scalars['Int']['input']>;
   gt: InputMaybe<Scalars['Int']['input']>;
@@ -566,7 +695,7 @@ export type Payment = {
   isFavorite: Scalars['Boolean']['output'];
   link: Maybe<Scalars['String']['output']>;
   paymentId: Scalars['ID']['output'];
-  paymentSource: Maybe<PaymentSource>;
+  paymentSource: PaymentSource;
   paymentSourceId: Scalars['Int']['output'];
   sortOrder: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -613,7 +742,7 @@ export type PaymentCreateWithoutUserInput = {
   displayText: InputMaybe<Scalars['String']['input']>;
   isFavorite: InputMaybe<Scalars['Boolean']['input']>;
   link: InputMaybe<Scalars['String']['input']>;
-  paymentSource: InputMaybe<PaymentSourceCreateNestedOneWithoutPaymentInput>;
+  paymentSource: PaymentSourceCreateNestedOneWithoutPaymentInput;
   sortOrder: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
   uuid: InputMaybe<Scalars['String']['input']>;
@@ -673,7 +802,7 @@ export type PaymentSourceCreateWithoutPaymentInput = {
   website: InputMaybe<Scalars['String']['input']>;
 };
 
-export type PaymentSourceNullableScalarRelationFilter = {
+export type PaymentSourceScalarRelationFilter = {
   is: InputMaybe<PaymentSourceWhereInput>;
   isNot: InputMaybe<PaymentSourceWhereInput>;
 };
@@ -735,7 +864,7 @@ export type PaymentWhereInput = {
   isFavorite: InputMaybe<BoolFilter>;
   link: InputMaybe<StringNullableFilter>;
   paymentId: InputMaybe<IntFilter>;
-  paymentSource: InputMaybe<PaymentSourceNullableScalarRelationFilter>;
+  paymentSource: InputMaybe<PaymentSourceScalarRelationFilter>;
   paymentSourceId: InputMaybe<IntFilter>;
   sortOrder: InputMaybe<IntFilter>;
   title: InputMaybe<StringFilter>;
@@ -755,7 +884,7 @@ export type PaymentWhereUniqueInput = {
   isFavorite: InputMaybe<BoolFilter>;
   link: InputMaybe<StringNullableFilter>;
   paymentId: InputMaybe<Scalars['Int']['input']>;
-  paymentSource: InputMaybe<PaymentSourceNullableScalarRelationFilter>;
+  paymentSource: InputMaybe<PaymentSourceScalarRelationFilter>;
   paymentSourceId: InputMaybe<IntFilter>;
   sortOrder: InputMaybe<IntFilter>;
   title: InputMaybe<StringFilter>;
@@ -766,9 +895,21 @@ export type PaymentWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  getDeeplUsage: UsageInfo;
+  getSourceLanguages: Array<LanguageInfo>;
+  getTargetLanguages: Array<LanguageInfo>;
   getUser: Maybe<Scalars['JSONObject']['output']>;
+  getWhatsAppContacts: ContactsListResponse;
   hello: Scalars['String']['output'];
+  isDeeplHealthy: Scalars['Boolean']['output'];
+  template: Maybe<Template>;
+  templates: Array<Template>;
   userHero: User;
+};
+
+
+export type QueryTemplateArgs = {
+  uuid: Scalars['String']['input'];
 };
 
 
@@ -779,6 +920,57 @@ export type QueryUserHeroArgs = {
 export enum QueryMode {
   Default = 'default',
   Insensitive = 'insensitive'
+}
+
+export enum Section {
+  About = 'ABOUT',
+  Blog = 'BLOG',
+  Contacts = 'CONTACTS',
+  Faq = 'FAQ',
+  Footer = 'FOOTER',
+  HeroGreeting = 'HERO_GREETING',
+  Payments = 'PAYMENTS',
+  Portfolio = 'PORTFOLIO',
+  Pricing = 'PRICING',
+  Services = 'SERVICES',
+  Testimonials = 'TESTIMONIALS'
+}
+
+export type SendEmailInput = {
+  from: Scalars['String']['input'];
+  html: Scalars['String']['input'];
+  replyTo: InputMaybe<Scalars['String']['input']>;
+  subject: Scalars['String']['input'];
+  text: InputMaybe<Scalars['String']['input']>;
+  to: Scalars['String']['input'];
+};
+
+export type SendEmailResponseType = {
+  __typename?: 'SendEmailResponseType';
+  error: Maybe<Scalars['String']['output']>;
+  messageId: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+};
+
+export type SendMessageInput = {
+  text: Scalars['String']['input'];
+  to: Scalars['String']['input'];
+};
+
+export type SendMessageResponse = {
+  __typename?: 'SendMessageResponse';
+  error: Maybe<Scalars['String']['output']>;
+  message: Maybe<Scalars['String']['output']>;
+  success: Scalars['Boolean']['output'];
+};
+
+export enum Status {
+  Active = 'ACTIVE',
+  Archived = 'ARCHIVED',
+  Draft = 'DRAFT',
+  Inactive = 'INACTIVE',
+  Preview = 'PREVIEW',
+  Published = 'PUBLISHED'
 }
 
 export type StringFilter = {
@@ -811,6 +1003,250 @@ export type StringNullableFilter = {
   startsWith: InputMaybe<Scalars['String']['input']>;
 };
 
+export type Template = {
+  __typename?: 'Template';
+  _count: TemplateCount;
+  createdAt: Scalars['DateTime']['output'];
+  deletedAt: Maybe<Scalars['DateTime']['output']>;
+  description: Maybe<Scalars['String']['output']>;
+  name: Scalars['String']['output'];
+  previewImage: Maybe<Scalars['String']['output']>;
+  status: Status;
+  templateId: Scalars['ID']['output'];
+  templateSections: Maybe<Array<TemplateSection>>;
+  themeColor: Maybe<Scalars['String']['output']>;
+  type: TemplateType;
+  user: User;
+  userId: Scalars['Int']['output'];
+  uuid: Scalars['String']['output'];
+};
+
+export type TemplateCount = {
+  __typename?: 'TemplateCount';
+  templateSections: Scalars['Int']['output'];
+};
+
+export type TemplateCreateManyUserInput = {
+  createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  deletedAt: InputMaybe<Scalars['DateTime']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  previewImage: InputMaybe<Scalars['String']['input']>;
+  status: Status;
+  templateId: InputMaybe<Scalars['Int']['input']>;
+  themeColor: InputMaybe<Scalars['String']['input']>;
+  type: TemplateType;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TemplateCreateManyUserInputEnvelope = {
+  data: Array<TemplateCreateManyUserInput>;
+  skipDuplicates: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type TemplateCreateNestedManyWithoutUserInput = {
+  connect: InputMaybe<Array<TemplateWhereUniqueInput>>;
+  connectOrCreate: InputMaybe<Array<TemplateCreateOrConnectWithoutUserInput>>;
+  create: InputMaybe<Array<TemplateCreateWithoutUserInput>>;
+  createMany: InputMaybe<TemplateCreateManyUserInputEnvelope>;
+};
+
+export type TemplateCreateOrConnectWithoutUserInput = {
+  create: TemplateCreateWithoutUserInput;
+  where: TemplateWhereUniqueInput;
+};
+
+export type TemplateCreateWithoutUserInput = {
+  createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  deletedAt: InputMaybe<Scalars['DateTime']['input']>;
+  description: InputMaybe<Scalars['String']['input']>;
+  name: Scalars['String']['input'];
+  previewImage: InputMaybe<Scalars['String']['input']>;
+  status: Status;
+  templateSections: InputMaybe<TemplateSectionCreateNestedManyWithoutTemplateInput>;
+  themeColor: InputMaybe<Scalars['String']['input']>;
+  type: TemplateType;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TemplateListRelationFilter = {
+  every: InputMaybe<TemplateWhereInput>;
+  none: InputMaybe<TemplateWhereInput>;
+  some: InputMaybe<TemplateWhereInput>;
+};
+
+export type TemplateScalarRelationFilter = {
+  is: InputMaybe<TemplateWhereInput>;
+  isNot: InputMaybe<TemplateWhereInput>;
+};
+
+export type TemplateSection = {
+  __typename?: 'TemplateSection';
+  content: Maybe<Scalars['JSON']['output']>;
+  createdAt: Scalars['DateTime']['output'];
+  section: Section;
+  sortOrder: Scalars['Int']['output'];
+  status: Maybe<Status>;
+  template: Template;
+  templateId: Scalars['Int']['output'];
+  templateSectionId: Scalars['ID']['output'];
+  uuid: Scalars['String']['output'];
+};
+
+export type TemplateSectionCreateManyTemplateInput = {
+  content: InputMaybe<Scalars['JSON']['input']>;
+  createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  section: Section;
+  sortOrder: InputMaybe<Scalars['Int']['input']>;
+  status: InputMaybe<Status>;
+  templateSectionId: InputMaybe<Scalars['Int']['input']>;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TemplateSectionCreateManyTemplateInputEnvelope = {
+  data: Array<TemplateSectionCreateManyTemplateInput>;
+  skipDuplicates: InputMaybe<Scalars['Boolean']['input']>;
+};
+
+export type TemplateSectionCreateNestedManyWithoutTemplateInput = {
+  connect: InputMaybe<Array<TemplateSectionWhereUniqueInput>>;
+  connectOrCreate: InputMaybe<Array<TemplateSectionCreateOrConnectWithoutTemplateInput>>;
+  create: InputMaybe<Array<TemplateSectionCreateWithoutTemplateInput>>;
+  createMany: InputMaybe<TemplateSectionCreateManyTemplateInputEnvelope>;
+};
+
+export type TemplateSectionCreateOrConnectWithoutTemplateInput = {
+  create: TemplateSectionCreateWithoutTemplateInput;
+  where: TemplateSectionWhereUniqueInput;
+};
+
+export type TemplateSectionCreateWithoutTemplateInput = {
+  content: InputMaybe<Scalars['JSON']['input']>;
+  createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  section: Section;
+  sortOrder: InputMaybe<Scalars['Int']['input']>;
+  status: InputMaybe<Status>;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TemplateSectionListRelationFilter = {
+  every: InputMaybe<TemplateSectionWhereInput>;
+  none: InputMaybe<TemplateSectionWhereInput>;
+  some: InputMaybe<TemplateSectionWhereInput>;
+};
+
+export type TemplateSectionWhereInput = {
+  AND: InputMaybe<Array<TemplateSectionWhereInput>>;
+  NOT: InputMaybe<Array<TemplateSectionWhereInput>>;
+  OR: InputMaybe<Array<TemplateSectionWhereInput>>;
+  content: InputMaybe<JsonNullableFilter>;
+  createdAt: InputMaybe<DateTimeFilter>;
+  section: InputMaybe<EnumSectionFilter>;
+  sortOrder: InputMaybe<IntFilter>;
+  status: InputMaybe<EnumStatusNullableFilter>;
+  template: InputMaybe<TemplateScalarRelationFilter>;
+  templateId: InputMaybe<IntFilter>;
+  templateSectionId: InputMaybe<IntFilter>;
+  uuid: InputMaybe<UuidFilter>;
+};
+
+export type TemplateSectionWhereUniqueInput = {
+  AND: InputMaybe<Array<TemplateSectionWhereInput>>;
+  NOT: InputMaybe<Array<TemplateSectionWhereInput>>;
+  OR: InputMaybe<Array<TemplateSectionWhereInput>>;
+  content: InputMaybe<JsonNullableFilter>;
+  createdAt: InputMaybe<DateTimeFilter>;
+  section: InputMaybe<EnumSectionFilter>;
+  sortOrder: InputMaybe<IntFilter>;
+  status: InputMaybe<EnumStatusNullableFilter>;
+  template: InputMaybe<TemplateScalarRelationFilter>;
+  templateId: InputMaybe<IntFilter>;
+  templateSectionId: InputMaybe<Scalars['Int']['input']>;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export enum TemplateType {
+  Basic = 'BASIC',
+  Creative = 'CREATIVE',
+  Minimalist = 'MINIMALIST',
+  Modern = 'MODERN',
+  Professional = 'PROFESSIONAL'
+}
+
+export type TemplateWhereInput = {
+  AND: InputMaybe<Array<TemplateWhereInput>>;
+  NOT: InputMaybe<Array<TemplateWhereInput>>;
+  OR: InputMaybe<Array<TemplateWhereInput>>;
+  createdAt: InputMaybe<DateTimeFilter>;
+  deletedAt: InputMaybe<DateTimeNullableFilter>;
+  description: InputMaybe<StringNullableFilter>;
+  name: InputMaybe<StringFilter>;
+  previewImage: InputMaybe<StringNullableFilter>;
+  status: InputMaybe<EnumStatusFilter>;
+  templateId: InputMaybe<IntFilter>;
+  templateSections: InputMaybe<TemplateSectionListRelationFilter>;
+  themeColor: InputMaybe<StringNullableFilter>;
+  type: InputMaybe<EnumTemplateTypeFilter>;
+  user: InputMaybe<UserScalarRelationFilter>;
+  userId: InputMaybe<IntFilter>;
+  uuid: InputMaybe<UuidFilter>;
+};
+
+export type TemplateWhereUniqueInput = {
+  AND: InputMaybe<Array<TemplateWhereInput>>;
+  NOT: InputMaybe<Array<TemplateWhereInput>>;
+  OR: InputMaybe<Array<TemplateWhereInput>>;
+  createdAt: InputMaybe<DateTimeFilter>;
+  deletedAt: InputMaybe<DateTimeNullableFilter>;
+  description: InputMaybe<StringNullableFilter>;
+  name: InputMaybe<StringFilter>;
+  previewImage: InputMaybe<StringNullableFilter>;
+  status: InputMaybe<EnumStatusFilter>;
+  templateId: InputMaybe<Scalars['Int']['input']>;
+  templateSections: InputMaybe<TemplateSectionListRelationFilter>;
+  themeColor: InputMaybe<StringNullableFilter>;
+  type: InputMaybe<EnumTemplateTypeFilter>;
+  user: InputMaybe<UserScalarRelationFilter>;
+  userId: InputMaybe<IntFilter>;
+  uuid: InputMaybe<Scalars['String']['input']>;
+};
+
+export type TokenUsage = {
+  __typename?: 'TokenUsage';
+  inputTokens: Scalars['Int']['output'];
+  outputTokens: Scalars['Int']['output'];
+};
+
+export type TranslateTextInput = {
+  formality: InputMaybe<Scalars['String']['input']>;
+  preserveFormatting: InputMaybe<Scalars['Boolean']['input']>;
+  sourceLang: InputMaybe<Scalars['String']['input']>;
+  targetLang: Scalars['String']['input'];
+  text: Scalars['String']['input'];
+};
+
+export type TranslateTextsInput = {
+  sourceLang: InputMaybe<Scalars['String']['input']>;
+  targetLang: Scalars['String']['input'];
+  texts: Array<Scalars['String']['input']>;
+};
+
+export type TranslationResult = {
+  __typename?: 'TranslationResult';
+  detectedSourceLanguage: Maybe<Scalars['String']['output']>;
+  translatedText: Scalars['String']['output'];
+};
+
+export type UsageInfo = {
+  __typename?: 'UsageInfo';
+  characterCount: Scalars['Float']['output'];
+  characterLimit: Maybe<Scalars['Float']['output']>;
+  documentCount: Maybe<Scalars['Float']['output']>;
+  documentLimit: Maybe<Scalars['Float']['output']>;
+  teamDocumentCount: Maybe<Scalars['Float']['output']>;
+  teamDocumentLimit: Maybe<Scalars['Float']['output']>;
+};
+
 export type User = {
   __typename?: 'User';
   _count: UserCount;
@@ -818,13 +1254,18 @@ export type User = {
   createdAt: Scalars['DateTime']['output'];
   deletedAt: Maybe<Scalars['DateTime']['output']>;
   email: Scalars['String']['output'];
+  firstName: Maybe<Scalars['String']['output']>;
   heroGreetings: Maybe<Array<HeroGreeting>>;
-  name: Scalars['String']['output'];
+  lastName: Maybe<Scalars['String']['output']>;
   navLinks: Maybe<Array<NavLink>>;
   passwordHash: Scalars['String']['output'];
   payments: Maybe<Array<Payment>>;
+  picture: Maybe<Scalars['String']['output']>;
+  provider: Scalars['String']['output'];
+  templates: Maybe<Array<Template>>;
   updatedAt: Scalars['DateTime']['output'];
   userId: Scalars['ID']['output'];
+  username: Maybe<Scalars['String']['output']>;
   uuid: Scalars['String']['output'];
 };
 
@@ -834,6 +1275,7 @@ export type UserCount = {
   heroGreetings: Scalars['Int']['output'];
   navLinks: Scalars['Int']['output'];
   payments: Scalars['Int']['output'];
+  templates: Scalars['Int']['output'];
 };
 
 export type UserCreateInput = {
@@ -841,12 +1283,17 @@ export type UserCreateInput = {
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
   deletedAt: InputMaybe<Scalars['DateTime']['input']>;
   email: Scalars['String']['input'];
+  firstName: InputMaybe<Scalars['String']['input']>;
   heroGreetings: InputMaybe<HeroGreetingCreateNestedManyWithoutUserInput>;
-  name: Scalars['String']['input'];
+  lastName: InputMaybe<Scalars['String']['input']>;
   navLinks: InputMaybe<NavLinkCreateNestedManyWithoutUserInput>;
   passwordHash: Scalars['String']['input'];
   payments: InputMaybe<PaymentCreateNestedManyWithoutUserInput>;
+  picture: InputMaybe<Scalars['String']['input']>;
+  provider: InputMaybe<Scalars['String']['input']>;
+  templates: InputMaybe<TemplateCreateNestedManyWithoutUserInput>;
   updatedAt: InputMaybe<Scalars['DateTime']['input']>;
+  username: InputMaybe<Scalars['String']['input']>;
   uuid: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -863,13 +1310,18 @@ export type UserWhereInput = {
   createdAt: InputMaybe<DateTimeFilter>;
   deletedAt: InputMaybe<DateTimeNullableFilter>;
   email: InputMaybe<StringFilter>;
+  firstName: InputMaybe<StringNullableFilter>;
   heroGreetings: InputMaybe<HeroGreetingListRelationFilter>;
-  name: InputMaybe<StringFilter>;
+  lastName: InputMaybe<StringNullableFilter>;
   navLinks: InputMaybe<NavLinkListRelationFilter>;
   passwordHash: InputMaybe<StringFilter>;
   payments: InputMaybe<PaymentListRelationFilter>;
+  picture: InputMaybe<StringNullableFilter>;
+  provider: InputMaybe<StringFilter>;
+  templates: InputMaybe<TemplateListRelationFilter>;
   updatedAt: InputMaybe<DateTimeFilter>;
   userId: InputMaybe<IntFilter>;
+  username: InputMaybe<StringNullableFilter>;
   uuid: InputMaybe<UuidFilter>;
 };
 
@@ -890,4 +1342,4 @@ export type UserHeroQueryVariables = Exact<{
 }>;
 
 
-export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, name: string, email: string, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconPath: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', displayText: string | null, isFavorite: boolean, link: string | null, title: string, paymentSource: { __typename?: 'PaymentSource', logoPath: string | null, website: string | null, name: string } | null }> | null } };
+export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, email: string, firstName: string | null, lastName: string | null, username: string | null, picture: string | null, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconPath: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', displayText: string | null, isFavorite: boolean, link: string | null, title: string, paymentSource: { __typename?: 'PaymentSource', logoPath: string | null, website: string | null, name: string } }> | null } };
