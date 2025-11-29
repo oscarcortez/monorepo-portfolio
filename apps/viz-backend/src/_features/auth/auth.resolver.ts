@@ -1,39 +1,12 @@
-import {
-  Resolver,
-  Mutation,
-  Args,
-  ObjectType,
-  Field,
-  Context,
-  Query,
-} from '@nestjs/graphql';
+import { Resolver, Mutation, Args, Context, Query } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { GraphQLJSONObject } from 'graphql-type-json';
 import { Public } from './public.decorator';
 import type { Response } from 'express';
-
-type JwtPayload = {
-  sub?: number;
-  email?: string;
-  [k: string]: any;
-};
-
-@ObjectType()
-export class AuthResponse {
-  @Field()
-  access_token!: string;
-}
-
-@ObjectType()
-export class LogoutResponse {
-  @Field()
-  success!: boolean;
-
-  @Field()
-  message!: string;
-}
+import { JwtPayload } from './types/jwt-payload.type';
+import { AuthResponse, LogoutResponse } from './types';
 
 @Resolver()
 export class AuthResolver {

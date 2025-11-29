@@ -1,40 +1,7 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { Logger } from '@nestjs/common';
 import { EmailResendService, SendEmailResponse } from './email-resend.service';
-import { Field, ObjectType, InputType } from '@nestjs/graphql';
-
-@ObjectType()
-class SendEmailResponseType {
-  @Field()
-  success!: boolean;
-
-  @Field({ nullable: true })
-  messageId?: string;
-
-  @Field({ nullable: true })
-  error?: string;
-}
-
-@InputType()
-class SendEmailInput {
-  @Field()
-  from!: string;
-
-  @Field()
-  to!: string;
-
-  @Field()
-  subject!: string;
-
-  @Field()
-  html!: string;
-
-  @Field({ nullable: true })
-  text?: string;
-
-  @Field({ nullable: true })
-  replyTo?: string;
-}
+import { SendEmailResponseType, SendEmailInput } from './types';
 
 @Resolver()
 export class EmailResendResolver {
