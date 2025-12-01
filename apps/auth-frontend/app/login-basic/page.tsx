@@ -49,12 +49,31 @@ export default function Page() {
 
       console.log('Access token:', result.data?.signIn.access_token);
       if (result.data?.signIn.access_token) {
-        // Store token in localStorage
         localStorage.setItem('auth_token', result.data.signIn.access_token);
         localStorage.setItem('user_email', values.email);
-        // Redirect to dashboard
-        // window.location.href = 'http://localhost:3020/dashboard';
-        router.push(`http://localhost:3020/auth/callback?auth_token=${result.data.signIn.access_token}`);
+
+        const syncAdmin = fetch('http://localhost:3020/api/auth/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ token: result.data.signIn.access_token }),
+        });
+
+        // 3. Sincronizar con viz-frontend (puerto 3000)
+        const syncViz = fetch('http://localhost:3000/api/auth/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ token: result.data.signIn.access_token }),
+        });
+
+        try {
+          await Promise.all([syncAdmin, syncViz]);
+          console.log('Token synced successfully with all apps');
+        } catch (syncError) {
+          console.error('Error syncing token:', syncError);
+        }
+        window.location.href = 'http://localhost:3000/viz';
       }
     } catch (err) {
       console.error('Error signing in:', err);

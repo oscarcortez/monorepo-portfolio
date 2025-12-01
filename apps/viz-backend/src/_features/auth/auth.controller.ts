@@ -142,21 +142,21 @@ export class AuthController {
   async googleAuthRedirect(@CurrentUser() user: User, @Res() res: Response) {
     this.logger.log('✅ Google callback received');
     this.logger.log(`User: ${JSON.stringify(user)}`);
-
+    const adminUrl =
+      process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
     try {
       const { access_token } = await this.authService.signIn(
         user.email,
         '123',
         'google',
       );
-      const redirectUrl = `http://localhost:3020/auth/callback?auth_token=${access_token}`;
+
+      const redirectUrl = `${adminUrl}/auth/callback?auth_token=${access_token}`;
       this.logger.log(`↪️  Redirecting to: ${redirectUrl}`);
       res.redirect(redirectUrl);
     } catch (error) {
       this.logger.error('Google auth failed', error);
-      res.redirect(
-        `http://localhost:3020/auth/callback?error=AuthenticationFailed`,
-      );
+      res.redirect(`${adminUrl}/auth/callback?error=AuthenticationFailed`);
     }
   }
 }

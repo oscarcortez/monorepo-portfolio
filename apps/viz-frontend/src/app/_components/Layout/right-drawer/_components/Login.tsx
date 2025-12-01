@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export function Login(): JSX.Element {
+  const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
   return (
     <div className="flex flex-col items-center justify-center gap-6 py-8 px-4">
       <div className="text-center space-y-2">
@@ -20,7 +21,7 @@ export function Login(): JSX.Element {
           <CardDescription>Save your preferences and access exclusive content</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
-          <Link href="http://localhost:3010/login-basic" className="block">
+          <Link href={`${authUrl}/login-basic`} className="block">
             <Button className="w-full bg-cyan-700 hover:bg-cyan-800 text-white cursor-pointer" size="lg">
               <LogIn className="mr-2" size={18} />
               Login
@@ -36,7 +37,7 @@ export function Login(): JSX.Element {
             </div>
           </div>
 
-          <Link href="http://localhost:3010/signup" className="block">
+          <Link href={`${authUrl}/signup`} className="block">
             <Button
               variant="outline"
               className="w-full border-cyan-700 text-cyan-700 hover:bg-cyan-50 cursor-pointer"

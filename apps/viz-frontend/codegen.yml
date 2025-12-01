@@ -1,4 +1,4 @@
-schema: 'http://localhost:3001/graphql'
+schema: ${NEXT_PUBLIC_GRAPHQL_URL}
 documents:
   - 'src/app/graphql/**/*.gql'
   - 'src/app/graphql/**/*.graphql'

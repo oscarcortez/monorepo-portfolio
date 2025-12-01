@@ -22,7 +22,14 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: '*',
+    origin: [
+      'http://localhost:3000', // viz-frontend
+      'http://localhost:3010', // auth-frontend
+      'http://localhost:3020', // admin-frontend
+      process.env.FRONTEND_URL,
+      process.env.AUTH_FRONTEND_URL,
+      process.env.ADMIN_FRONTEND_URL,
+    ].filter(Boolean),
     credentials: true,
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
@@ -75,7 +82,7 @@ async function bootstrap() {
     customSiteTitle: 'Auth API Documentation',
   });
 
-  const port = process.env.PORT ?? 3001;
+  const port = process.env.PORT ?? 4000;
   await app.listen(port);
 
   logger.log(`🚀 Server running on http://localhost:${port}`);
