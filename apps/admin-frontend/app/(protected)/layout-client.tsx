@@ -14,6 +14,7 @@ import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/s
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useBreadcrumbStore } from '@/stores/breadcrumb-store';
+import Cookies from 'js-cookie';
 
 export function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -23,7 +24,8 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const breadcrumbItems = useBreadcrumbStore((state) => state.items);
 
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
+    // const token = localStorage.getItem('auth_token');
+    const token = Cookies.get('auth_token');
 
     if (!token) {
       console.warn('⚠️ No auth token found, redirecting to login');

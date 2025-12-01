@@ -2,18 +2,19 @@
 
 import { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function AuthCallbackPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get('auth_token') as string;
+  const token = Cookies.get('auth_token');
 
   useEffect(() => {
     if (token) {
       console.log('🔐 Token received:', token.substring(0, 20) + '...');
 
       // Guarda en localStorage
-      localStorage.setItem('auth_token', token);
+      // localStorage.setItem('auth_token', token);
 
       // Extrae email de la URL si está disponible (opcional)
       // const email = searchParams.get('email');
@@ -25,7 +26,7 @@ export default function AuthCallbackPage() {
     } else {
       console.log('🔓 Logout detected, clearing tokens');
 
-      localStorage.removeItem('auth_token');
+      // localStorage.removeItem('auth_token');
 
       console.log('✅ Tokens cleared from localStorage');
       const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';

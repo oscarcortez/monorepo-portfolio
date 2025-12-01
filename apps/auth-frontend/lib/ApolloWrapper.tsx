@@ -3,12 +3,13 @@
 import { PropsWithChildren } from 'react';
 import { HttpLink, ApolloLink } from '@apollo/client';
 import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/client-integration-nextjs';
+import Cookies from 'js-cookie';
 
 const client = () => {
   // Auth middleware que agrega el token al header
   const authLink = new ApolloLink((operation, forward) => {
     // Obtén el token del localStorage
-    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null;
+    const token = typeof window !== 'undefined' ? Cookies.get('auth_token') : null;
 
     // Agrega el header Authorization con Bearer token
     operation.setContext({
