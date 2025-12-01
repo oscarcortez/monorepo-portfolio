@@ -28,8 +28,8 @@ export default function AuthCallbackPage() {
       localStorage.removeItem('auth_token');
 
       console.log('✅ Tokens cleared from localStorage');
-
-      router.push('http://localhost:3010/login-basic');
+      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+      router.push(`${authUrl}/login-basic`);
     }
   }, [token, router]);
 

@@ -27,7 +27,8 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
 
     if (!token) {
       console.warn('⚠️ No auth token found, redirecting to login');
-      router.push('http://localhost:3010/login-basic');
+      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+      router.push(`${authUrl}/login-basic`);
       return;
     }
 

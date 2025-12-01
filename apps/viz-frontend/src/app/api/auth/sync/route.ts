@@ -6,16 +6,19 @@ export async function POST(request: NextRequest) {
   try {
     const { token } = await request.json();
 
+    const jwtSecret = process.env.JWT_SECRET;
     // Verificar que el token sea válido
     // const secret = new TextEncoder().encode(process.env.JWT_SECRET);
     // console.log('Verifying token:', token);
-    const secret = new TextEncoder().encode('thisisaverylongsecretkeythatshouldbechangedinproduction');
+    const secret = new TextEncoder().encode(jwtSecret);
 
     await jwtVerify(token, secret);
 
     const response = NextResponse.json({ success: true });
 
-    response.headers.set('Access-Control-Allow-Origin', 'http://localhost:3010');
+    const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+
+    response.headers.set('Access-Control-Allow-Origin', authUrl);
     response.headers.set('Access-Control-Allow-Credentials', 'true');
     response.headers.set('Access-Control-Allow-Methods', 'POST, OPTIONS');
     response.headers.set('Access-Control-Allow-Headers', 'Content-Type');
