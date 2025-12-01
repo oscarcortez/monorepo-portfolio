@@ -5,6 +5,7 @@ import Image from 'next/image';
 import clsx from 'clsx';
 // import { motion } from 'framer-motion';
 
+import { useUserUuid } from 'src/app/viz/hooks/useUserUuid';
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 
 // import monitorPcSvg from './svg/monitorPc.svg';
@@ -18,7 +19,8 @@ import './css/main.css';
 type HeroLogoProps = React.HTMLAttributes<HTMLDivElement>;
 
 export default function HeroLogo(props: HeroLogoProps) {
-  const { loading } = useUserPublicData('fddbaaae-b84c-4aad-ba3d-8875c59d155c');
+  const userUuid = useUserUuid();
+  const { loading } = useUserPublicData(userUuid);
 
   if (loading) {
     return (

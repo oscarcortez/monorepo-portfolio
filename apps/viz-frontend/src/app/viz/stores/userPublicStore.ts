@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 
-import { UserPublic } from '@/src/app/graphql/generated/graphql';
+import { UserHeroQuery } from '@/src/app/graphql/generated/graphql-types';
+
+type UserHero = UserHeroQuery['userHero'];
 
 type UserPublicState = {
-  user: UserPublic | null;
-  setUser: (_user: UserPublic | null) => void;
+  user: UserHero | null;
+  setUser: (_user: UserHero | null) => void;
   loading: boolean;
   setLoading: (_loading: boolean) => void;
   error: Error | null;

@@ -19,8 +19,8 @@ import { DividerSection } from '../_components/divider-section';
 interface Section {
   id: string;
   component: ReactNode;
-  showDividerAfter?: boolean; // Controlar divider por sección
-  order?: number; // Ordenar dinámicamente
+  showDividerAfter?: boolean;
+  order?: number;
 }
 
 export default function Page() {

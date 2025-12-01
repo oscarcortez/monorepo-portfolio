@@ -6,10 +6,11 @@ import { useSearchParams } from 'next/navigation';
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 import { Skeleton } from '@/components/ui/skeleton';
 import { HeroGreeting as Greeting } from '@/src/app/graphql/generated/graphql-types';
+import { useUserUuid } from 'src/app/viz/hooks/useUserUuid';
 
 export default function HeroGreeting(): JSX.Element {
-  const searchParams = useSearchParams();
-  const userUuid = searchParams.get('userUuid') || 'fddbaaae-b84c-4aad-ba3d-8875c59d155c';
+  const userUuid = useUserUuid();
+
   const { user, loading } = useUserPublicData(userUuid);
   const [heroGreeting] = (user?.heroGreetings ?? []) as Greeting[];
   return (

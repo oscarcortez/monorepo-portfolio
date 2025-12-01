@@ -2,6 +2,7 @@ import { useSearchParams } from 'next/navigation';
 
 import { useUserPublicData } from '@/src/app/viz/hooks/useUserPublicData';
 import { Payment } from '@/src/app/graphql/generated/graphql-types';
+import { useUserUuid } from 'src/app/viz/hooks/useUserUuid';
 
 import VizSection from '../_components/viz-section';
 
@@ -9,8 +10,7 @@ import HeroPayment from './components/HeroPayment';
 import { PaymentSection } from './components/payment-section';
 
 export default function PaymentsSection() {
-  const searchParams = useSearchParams();
-  const userUuid = searchParams.get('userUuid') || 'fddbaaae-b84c-4aad-ba3d-8875c59d155c';
+  const userUuid = useUserUuid();
   const { user } = useUserPublicData(userUuid);
   // console.log({ user });
   const payments = user?.payments || [];
