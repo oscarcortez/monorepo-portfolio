@@ -22,7 +22,7 @@ export class AuthService {
 
   async signIn(
     email: string,
-    password: string,
+    password?: string,
     provider?: string,
   ): Promise<{ access_token: string }> {
     const user = await this.userService.findByEmail(email);
@@ -40,7 +40,10 @@ export class AuthService {
       return { access_token: await this.jwtService.signAsync(payload) };
     }
 
-    if ((await comparePassword(password, user?.passwordHash || '')) === false) {
+    if (
+      password &&
+      (await comparePassword(password, user?.passwordHash || '')) === false
+    ) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
