@@ -1,3 +1,6 @@
+-- ============================================
+-- 1. INSERT PAYMENT SOURCES
+-- ============================================
 INSERT INTO
   "public"."payment_sources" (
     "name",
@@ -46,12 +49,19 @@ VALUES
     '{"provider":"Meru","notes":"local PSP"}'
   );
 
+-- ============================================
+-- 2. INSERT USER WITH ALL RELATED DATA
+-- ============================================
 WITH
   user_insert AS (
     INSERT INTO
       users (
         email,
-        name,
+        username,
+        first_name,
+        last_name,
+        picture,
+        provider,
         password_hash,
         created_at,
         updated_at
@@ -59,8 +69,12 @@ WITH
     VALUES
       (
         'oscarkortez@gmail.com',
-        'Oscar Cortez',
-        '$2b$10$dummy.hash.for.initial.user', -- Cambia esto por un hash real
+        'oscarkortez',
+        'Oscar',
+        'Cortez',
+        '',
+        'google',
+        '$2b$10$aEANhDHiHtSD1JZI3NXC8uI7XpG75Gc3IPzOA58eWEGni6kc3cbFm',
         NOW(),
         NOW()
       )
@@ -177,9 +191,9 @@ WITH
           ),
           -- English greetings
           (
-            'Hello! I''m Oscar',
-            'Full-Stack Developer passionate about creating innovative solutions',
-            'Building the future, one line of code at a time',
+            'Hi, I''m Oscar Cortez — a Software Engineer with a degree in Computer Science.',
+            'I''ve worked as a Database Administrator (DBA), ETL Developer, and now I specialize in full-stack software development — from backend logic to user-facing interfaces',
+            'Thanks for stopping by — welcome to my professional site. 💙',
             'EN',
             'DESKTOP'
           ),
@@ -256,148 +270,204 @@ WITH
       user_insert ui,
       (
         VALUES
-          -- Spanish navigation
+          -- English navigation
           (
-            'Inicio',
-            'ES',
+            'Skills',
+            'EN',
             'nav-link',
-            '#home',
-            1
-          ),
-          (
-            'Acerca de',
-            'ES',
-            'nav-link',
-            '#about',
-            2
-          ),
-          (
-            'Proyectos',
-            'ES',
-            'nav-link',
-            '#projects',
-            3
-          ),
-          (
-            'Experiencia',
-            'ES',
-            'nav-link',
-            '#experience',
+            'skills',
             4
           ),
           (
-            'Contacto',
-            'ES',
+            'Contacts',
+            'EN',
             'nav-link',
-            '#contact',
-            5
+            'contacts',
+            2
           ),
-          -- English navigation
           (
             'Home',
             'EN',
             'nav-link',
-            '#home',
+            'hero',
             1
           ),
           (
-            'About',
+            'AI Builder',
             'EN',
             'nav-link',
-            '#about',
-            2
-          ),
-          (
-            'Projects',
-            'EN',
-            'nav-link',
-            '#projects',
+            'ai-builder',
             3
           ),
           (
-            'Experience',
+            'Footer',
             'EN',
             'nav-link',
-            '#experience',
+            'footer',
+            7
+          ),
+          (
+            'Payments',
+            'EN',
+            'nav-link',
+            'payments',
+            6
+          ),
+          (
+            'Resume',
+            'EN',
+            'nav-link',
+            'resume',
+            5
+          ),
+          -- Spanish navigation
+          (
+            'Habilidades',
+            'ES',
+            'nav-link',
+            'skills',
             4
           ),
           (
-            'Contact',
-            'EN',
+            'Contactos',
+            'ES',
             'nav-link',
-            '#contact',
+            'contacts',
+            2
+          ),
+          (
+            'Inicio',
+            'ES',
+            'nav-link',
+            'hero',
+            1
+          ),
+          (
+            'Constructor IA',
+            'ES',
+            'nav-link',
+            'ai-builder',
+            3
+          ),
+          (
+            'Pie de página',
+            'ES',
+            'nav-link',
+            'footer',
+            7
+          ),
+          (
+            'Pagos',
+            'ES',
+            'nav-link',
+            'payments',
+            6
+          ),
+          (
+            'Currículum',
+            'ES',
+            'nav-link',
+            'resume',
             5
           ),
           -- Portuguese navigation
           (
-            'Início',
+            'Habilidades',
             'PT',
             'nav-link',
-            '#home',
-            1
-          ),
-          (
-            'Sobre',
-            'PT',
-            'nav-link',
-            '#about',
-            2
-          ),
-          (
-            'Projetos',
-            'PT',
-            'nav-link',
-            '#projects',
-            3
-          ),
-          (
-            'Experiência',
-            'PT',
-            'nav-link',
-            '#experience',
+            'skills',
             4
           ),
           (
-            'Contato',
+            'Contatos',
             'PT',
             'nav-link',
-            '#contact',
+            'contacts',
+            2
+          ),
+          (
+            'Início',
+            'PT',
+            'nav-link',
+            'hero',
+            1
+          ),
+          (
+            'Construtor IA',
+            'PT',
+            'nav-link',
+            'ai-builder',
+            3
+          ),
+          (
+            'Rodapé',
+            'PT',
+            'nav-link',
+            'footer',
+            7
+          ),
+          (
+            'Pagamentos',
+            'PT',
+            'nav-link',
+            'payments',
+            6
+          ),
+          (
+            'Currículo',
+            'PT',
+            'nav-link',
+            'resume',
             5
           ),
           -- French navigation
           (
-            'Accueil',
+            'Compétences',
             'FR',
             'nav-link',
-            '#home',
-            1
-          ),
-          (
-            'À propos',
-            'FR',
-            'nav-link',
-            '#about',
-            2
-          ),
-          (
-            'Projets',
-            'FR',
-            'nav-link',
-            '#projects',
-            3
-          ),
-          (
-            'Expérience',
-            'FR',
-            'nav-link',
-            '#experience',
+            'skills',
             4
           ),
           (
-            'Contact',
+            'Contacts',
             'FR',
             'nav-link',
-            '#contact',
+            'contacts',
+            2
+          ),
+          (
+            'Accueil',
+            'FR',
+            'nav-link',
+            'hero',
+            1
+          ),
+          (
+            'Constructeur IA',
+            'FR',
+            'nav-link',
+            'ai-builder',
+            3
+          ),
+          (
+            'Pied de page',
+            'FR',
+            'nav-link',
+            'footer',
+            7
+          ),
+          (
+            'Paiements',
+            'FR',
+            'nav-link',
+            'payments',
+            6
+          ),
+          (
+            'CV',
+            'FR',
+            'nav-link',
+            'resume',
             5
           )
       ) AS nav_data (
@@ -410,49 +480,105 @@ WITH
     RETURNING
       nav_link_id,
       user_id
+  ),
+  payment_inserts AS (
+    INSERT INTO
+      payments (
+        user_id,
+        payment_source_id,
+        title,
+        display_text,
+        link,
+        class_name,
+        is_favorite,
+        sort_order,
+        created_at
+      )
+    SELECT
+      ui.user_id,
+      payment_data.payment_source_id,
+      payment_data.title,
+      payment_data.display_text,
+      payment_data.link,
+      payment_data.class_name,
+      payment_data.is_favorite,
+      payment_data.sort_order,
+      NOW()
+    FROM
+      user_insert ui,
+      (
+        VALUES
+          (
+            1,
+            'Banco Economico',
+            'Pagos Varios',
+            'https://www.bancoeconomico.com.bo/',
+            'bg-slate-800',
+            TRUE,
+            1
+          ),
+          (
+            2,
+            'BNB',
+            'Pagos Varios',
+            'https://www.bnb.com.bo/',
+            'bg-slate-700',
+            FALSE,
+            2
+          ),
+          (
+            3,
+            'Binance',
+            'Pagos Varios',
+            'https://www.binance.com/',
+            'bg-slate-800',
+            FALSE,
+            3
+          ),
+          (
+            4,
+            'Meru PSP',
+            'Pagos con Meru',
+            'https://www.meru.com/',
+            'bg-blue-600',
+            FALSE,
+            4
+          )
+      ) AS payment_data (
+        payment_source_id,
+        title,
+        display_text,
+        link,
+        class_name,
+        is_favorite,
+        sort_order
+      )
+    RETURNING
+      payment_id,
+      user_id
   )
 SELECT
-  1 as migration_complete;
-
-INSERT INTO
-  "public"."payments" (
-    user_id,
-    title,
-    display_text,
-    link,
-    class_name,
-    is_favorite,
-    sort_order,
-    payment_source_id
-  )
-VALUES
   (
-    1,
-    'BNB',
-    'Pagos Varios',
-    'https://www.bnb.com.bo/',
-    'bg-slate-700',
-    FALSE,
-    2,
-    1
-  ),
+    SELECT
+      COUNT(*)
+    FROM
+      contact_inserts
+  ) as contacts_created,
   (
-    1,
-    'Banco Economico',
-    'Pagos Varios',
-    'https://www.bcp.com.bo/',
-    'bg-slate-800',
-    TRUE,
-    1,
-    2
-  ),
+    SELECT
+      COUNT(*)
+    FROM
+      hero_greeting_inserts
+  ) as hero_greetings_created,
   (
-    1,
-    'Binance',
-    'Pagos Varios',
-    'https://www.binance.com/',
-    'bg-slate-800',
-    FALSE,
-    3,
-    3
-  );
+    SELECT
+      COUNT(*)
+    FROM
+      nav_link_inserts
+  ) as nav_links_created,
+  (
+    SELECT
+      COUNT(*)
+    FROM
+      payment_inserts
+  ) as payments_created;
