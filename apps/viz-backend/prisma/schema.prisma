@@ -256,7 +256,7 @@ model User {
   picture   String?
   provider  String  @default("google")
 
-  passwordHash String    @map("password_hash")
+  passwordHash String?    @map("password_hash")
   deletedAt    DateTime? @map("deleted_at") @db.Timestamp(6)
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamptz(6)
