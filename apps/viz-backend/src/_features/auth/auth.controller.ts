@@ -74,7 +74,7 @@ export class AuthController {
       signInDto.password,
     );
 
-    console.log(result.access_token);
+    // console.log(result.access_token);
 
     res.cookie('auth_token', result.access_token, {
       httpOnly: true,

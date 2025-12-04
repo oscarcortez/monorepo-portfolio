@@ -3,7 +3,6 @@ import { AuthModule } from './_features/auth/auth.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { join } from 'path';
 
 import { HelloWorldModule } from './hello-world/hello-world.module';
 import { UserHeroModule } from './_features/user-hero/user-hero.module';
@@ -19,12 +18,19 @@ import appConfig from './config/app.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [appConfig] }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig],
+      envFilePath: ['.env.local', '.env', '.env.production'],
+    }),
     forwardRef(() => AuthModule),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       playground: false,
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      autoSchemaFile:
+        process.env.NODE_ENV === 'production'
+          ? true // En memoria, sin archivo
+          : 'src/schema.gql',
       sortSchema: true,
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       context: ({ req, res }: { req: Request; res: Response }) => ({

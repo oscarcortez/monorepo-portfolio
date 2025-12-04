@@ -1,0 +1,26 @@
+
+services:
+  viz-backend:
+    environment:
+      - NODE_ENV=production
+    volumes: []  # Sin hot reload
+    command: node dist/main.js
+    restart: always
+
+  viz-frontend:
+    environment:
+      - NODE_ENV=production
+    volumes: []
+    restart: always
+
+  auth-frontend:
+    environment:
+      - NODE_ENV=production
+    volumes: []
+    restart: always
+
+  admin-frontend:
+    environment:
+      - NODE_ENV=production
+    volumes: []
+    restart: always

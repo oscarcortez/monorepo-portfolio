@@ -35,3 +35,24 @@ Thumbs.db
 tmp
 temp
 *.tmp
+
+# for docker
+node_modules
+.next
+.turbo
+dist
+build
+.git
+.gitignore
+*.md
+.env*.local
+coverage
+.DS_Store
+*.log
+.vscode
+.idea
+apps/*/node_modules
+apps/*/.next
+apps/*/dist
+packages/*/node_modules
+packages/*/dist
