@@ -21,7 +21,7 @@ export class AuthResolver {
   ): Promise<AuthResponse> {
     const result = await this.authService.signIn(email, password);
 
-    console.log(result.access_token);
+    // console.log(result.access_token);
     context.res.cookie('auth_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',

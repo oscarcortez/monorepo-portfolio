@@ -1,6 +1,8 @@
-import { gql } from '@apollo/client';
+import { gql, DocumentNode } from '@apollo/client';
 
-export const USER_HERO_QUERY = gql`
+import type { UserHeroQuery, UserHeroQueryVariables } from 'src/app/graphql/generated/graphql-types';
+
+export const USER_HERO_QUERY: DocumentNode = gql`
   query UserHero($userUuid: String!) {
     userHero(userUuid: $userUuid) {
       uuid
@@ -46,3 +48,6 @@ export const USER_HERO_QUERY = gql`
     }
   }
 `;
+
+// Exportar los tipos para usar en componentes
+export type { UserHeroQuery, UserHeroQueryVariables };

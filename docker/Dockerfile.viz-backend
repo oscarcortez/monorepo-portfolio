@@ -1,0 +1,60 @@
+# ============================================
+# Stage 1: Base image with pnpm
+# ============================================
+FROM node:24.11.1-alpine AS base
+
+LABEL maintainer="oscarkortez@gmail.com"
+LABEL description="VIZ Backend - NestJS API with Prisma"
+
+RUN apk add --no-cache openssl libc6-compat
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# ============================================
+# Stage 2: Builder
+# ============================================
+FROM base AS builder
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.json ./
+COPY apps/viz-backend ./apps/viz-backend
+
+RUN pnpm install --frozen-lockfile
+RUN cd apps/viz-backend && pnpm exec prisma generate
+RUN pnpm --filter viz-backend build
+
+# Eliminar devDependencies después del build
+RUN pnpm prune --prod
+
+# ============================================
+# Stage 3: Production runtime
+# ============================================
+FROM base AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nestjs
+
+# Copiar node_modules
+COPY --from=builder --chown=nestjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nestjs:nodejs /app/apps/viz-backend/node_modules ./apps/viz-backend/node_modules
+
+# Copiar aplicación
+COPY --from=builder --chown=nestjs:nodejs /app/apps/viz-backend/dist ./apps/viz-backend/dist
+COPY --from=builder --chown=nestjs:nodejs /app/apps/viz-backend/prisma ./apps/viz-backend/prisma
+COPY --from=builder --chown=nestjs:nodejs /app/apps/viz-backend/package.json ./apps/viz-backend/
+
+# Crear directorio src con permisos para el schema de GraphQL
+# RUN mkdir -p /app/apps/viz-backend/src && chown nestjs:nodejs /app/apps/viz-backend/src
+
+USER nestjs
+
+EXPOSE 4000
+
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:4000/health', (r) => {process.exit(r.statusCode === 200 ? 0 : 1)})"
+
+CMD ["node", "apps/viz-backend/dist/main.js"]
