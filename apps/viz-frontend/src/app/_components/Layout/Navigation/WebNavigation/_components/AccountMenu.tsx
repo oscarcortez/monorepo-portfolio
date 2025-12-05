@@ -14,7 +14,7 @@ type MenuAction = {
 };
 
 export default function AccountMenu(): JSX.Element {
-  const { isOpen, drawerType, openDrawer, closeDrawer, toggleDrawer } = useDrawerStore();
+  const { openDrawer } = useDrawerStore();
 
   const menuActions: MenuAction[] = [
     {
