@@ -32,7 +32,6 @@ export default function ContactSection() {
       <CommentPrompt
         message="Want to leave a public comment?"
         linkText="Click here to share your thoughts"
-        linkHref="#"
         icon={MessageCircle}
         delay={0.3}
       />
