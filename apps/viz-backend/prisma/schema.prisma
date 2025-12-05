@@ -123,7 +123,7 @@ model TemplateSection {
   templateId        Int      @map("template_id")
   uuid              String   @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   section           Section  @map("section")
-  content           Json?    @db.JsonB
+  frontendConfig    Json?    @map("frontend_config") @db.JsonB
   sortOrder         Int      @default(0) @map("sort_order")
   createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
   status            Status?  @map("status")
@@ -141,7 +141,7 @@ model Contact {
   link        String      @db.VarChar(500)
   type        ContactType @map("type")
   title       String      @db.VarChar(100)
-  iconPath    String?     @map("icon_path") @db.VarChar(255)
+  iconName    String?     @map("icon_name") @db.VarChar(255)
   displayText String?     @map("display_text") @db.VarChar(255)
   className   String?     @map("class_name") @db.VarChar(255)
   sortOrder   Int         @default(0) @map("sort_order")
@@ -256,7 +256,7 @@ model User {
   picture   String?
   provider  String  @default("google")
 
-  passwordHash String?    @map("password_hash")
+  passwordHash String?   @map("password_hash")
   deletedAt    DateTime? @map("deleted_at") @db.Timestamp(6)
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
   updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamptz(6)

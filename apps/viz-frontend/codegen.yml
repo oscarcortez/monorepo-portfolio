@@ -1,4 +1,5 @@
-schema: ${NEXT_PUBLIC_GRAPHQL_URL}
+overwrite: true
+schema: ${NEXT_PUBLIC_GRAPHQL_ENDPOINT}
 documents:
   - 'src/app/graphql/**/*.gql'
   - 'src/app/graphql/**/*.graphql'

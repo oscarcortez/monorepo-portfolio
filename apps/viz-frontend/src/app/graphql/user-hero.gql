@@ -8,7 +8,7 @@ query UserHero($userUuid: String!) {
     picture
     contacts {
       displayText
-      iconPath
+      iconName
       link
       title
       type

@@ -34,7 +34,7 @@ export type Contact = {
   createdAt: Scalars['DateTime']['output'];
   deletedAt: Maybe<Scalars['DateTime']['output']>;
   displayText: Maybe<Scalars['String']['output']>;
-  iconPath: Maybe<Scalars['String']['output']>;
+  iconName: Maybe<Scalars['String']['output']>;
   link: Scalars['String']['output'];
   sortOrder: Scalars['Int']['output'];
   title: Scalars['String']['output'];
@@ -50,7 +50,7 @@ export type ContactCreateManyUserInput = {
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
   deletedAt: InputMaybe<Scalars['DateTime']['input']>;
   displayText: InputMaybe<Scalars['String']['input']>;
-  iconPath: InputMaybe<Scalars['String']['input']>;
+  iconName: InputMaybe<Scalars['String']['input']>;
   link: Scalars['String']['input'];
   sortOrder: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
@@ -80,7 +80,7 @@ export type ContactCreateWithoutUserInput = {
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
   deletedAt: InputMaybe<Scalars['DateTime']['input']>;
   displayText: InputMaybe<Scalars['String']['input']>;
-  iconPath: InputMaybe<Scalars['String']['input']>;
+  iconName: InputMaybe<Scalars['String']['input']>;
   link: Scalars['String']['input'];
   sortOrder: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
@@ -125,7 +125,7 @@ export type ContactWhereInput = {
   createdAt: InputMaybe<DateTimeFilter>;
   deletedAt: InputMaybe<DateTimeNullableFilter>;
   displayText: InputMaybe<StringNullableFilter>;
-  iconPath: InputMaybe<StringNullableFilter>;
+  iconName: InputMaybe<StringNullableFilter>;
   link: InputMaybe<StringFilter>;
   sortOrder: InputMaybe<IntFilter>;
   title: InputMaybe<StringFilter>;
@@ -144,7 +144,7 @@ export type ContactWhereUniqueInput = {
   createdAt: InputMaybe<DateTimeFilter>;
   deletedAt: InputMaybe<DateTimeNullableFilter>;
   displayText: InputMaybe<StringNullableFilter>;
-  iconPath: InputMaybe<StringNullableFilter>;
+  iconName: InputMaybe<StringNullableFilter>;
   link: InputMaybe<StringFilter>;
   sortOrder: InputMaybe<IntFilter>;
   title: InputMaybe<StringFilter>;
@@ -1258,7 +1258,7 @@ export type User = {
   heroGreetings: Maybe<Array<HeroGreeting>>;
   lastName: Maybe<Scalars['String']['output']>;
   navLinks: Maybe<Array<NavLink>>;
-  passwordHash: Scalars['String']['output'];
+  passwordHash: Maybe<Scalars['String']['output']>;
   payments: Maybe<Array<Payment>>;
   picture: Maybe<Scalars['String']['output']>;
   provider: Scalars['String']['output'];
@@ -1287,7 +1287,7 @@ export type UserCreateInput = {
   heroGreetings: InputMaybe<HeroGreetingCreateNestedManyWithoutUserInput>;
   lastName: InputMaybe<Scalars['String']['input']>;
   navLinks: InputMaybe<NavLinkCreateNestedManyWithoutUserInput>;
-  passwordHash: Scalars['String']['input'];
+  passwordHash: InputMaybe<Scalars['String']['input']>;
   payments: InputMaybe<PaymentCreateNestedManyWithoutUserInput>;
   picture: InputMaybe<Scalars['String']['input']>;
   provider: InputMaybe<Scalars['String']['input']>;
@@ -1314,7 +1314,7 @@ export type UserWhereInput = {
   heroGreetings: InputMaybe<HeroGreetingListRelationFilter>;
   lastName: InputMaybe<StringNullableFilter>;
   navLinks: InputMaybe<NavLinkListRelationFilter>;
-  passwordHash: InputMaybe<StringFilter>;
+  passwordHash: InputMaybe<StringNullableFilter>;
   payments: InputMaybe<PaymentListRelationFilter>;
   picture: InputMaybe<StringNullableFilter>;
   provider: InputMaybe<StringFilter>;
@@ -1342,4 +1342,4 @@ export type UserHeroQueryVariables = Exact<{
 }>;
 
 
-export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, email: string, firstName: string | null, lastName: string | null, username: string | null, picture: string | null, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconPath: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', displayText: string | null, isFavorite: boolean, link: string | null, title: string, paymentSource: { __typename?: 'PaymentSource', logoPath: string | null, website: string | null, name: string } }> | null } };
+export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, email: string, firstName: string | null, lastName: string | null, username: string | null, picture: string | null, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconName: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', displayText: string | null, isFavorite: boolean, link: string | null, title: string, paymentSource: { __typename?: 'PaymentSource', logoPath: string | null, website: string | null, name: string } }> | null } };

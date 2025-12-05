@@ -13,7 +13,7 @@ export const USER_HERO_QUERY: DocumentNode = gql`
       picture
       contacts {
         displayText
-        iconPath
+        iconName
         link
         title
         type
