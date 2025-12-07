@@ -95,6 +95,26 @@ enum Section {
   @@map("sections")
 }
 
+enum SkillType {
+  TECH
+  SOFT
+  ART
+  SING
+  LANGUAGE
+  OTHER
+
+  @@map("skill_type")
+}
+
+enum SkillLevel {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+
+  @@map("skill_level")
+}
+
 // ========================= MODELS =========================
 
 model Template {

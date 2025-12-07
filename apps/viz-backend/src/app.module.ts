@@ -4,7 +4,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
-import { HelloWorldModule } from './hello-world/hello-world.module';
 import { UserHeroModule } from './_features/user-hero/user-hero.module';
 import { TemplateModule } from './_models/template/template.module';
 import { DeeplModule } from './_integrations/deepl/deepl.module';
@@ -38,7 +37,6 @@ import appConfig from './config/app.config';
         res,
       }),
     }),
-    HelloWorldModule,
     UserHeroModule,
     TemplateModule,
     DeeplModule,
