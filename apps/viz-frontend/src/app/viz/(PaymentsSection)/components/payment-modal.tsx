@@ -3,36 +3,47 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Copy, Check } from 'lucide-react';
 import { useState } from 'react';
-import { QRCodeSVG } from 'qrcode.react';
+import Image from 'next/image';
 
-interface PaymentMethodData {
-  id: string;
-  title: string;
-  color: string;
-  details: {
-    account?: string;
-    accountHolder?: string;
-    instructions?: string[];
-  };
+import { PaymentSourceType, UserHeroQuery } from '@/src/app/graphql/generated/graphql-types';
+
+type PaymentFromQuery = NonNullable<UserHeroQuery['userHero']['payments']>[number];
+
+export interface PaymentFrontendDetails {
+  account?: string;
+  accountHolder?: string;
+  instructions?: string[];
 }
 
-interface QRModalProps {
+export const PAYMENT_BG_MAP: Record<PaymentSourceType, string> = {
+  [PaymentSourceType.Airtm]: 'from-green-500 to-emerald-500', // Verde a esmeralda (AirTM)
+  [PaymentSourceType.Bank]: 'from-blue-500 to-cyan-500', // Azul a cyan (Bank Transfer)
+  [PaymentSourceType.Binance]: 'from-yellow-500 to-orange-500', // Amarillo a naranja (Binance)
+  [PaymentSourceType.Crypto]: 'from-orange-500 to-red-500', // Naranja a rojo (Crypto general)
+  [PaymentSourceType.Other]: 'from-gray-500 to-slate-500', // Gris a slate (Otros)
+  [PaymentSourceType.Psp]: 'from-purple-500 to-indigo-500', // Morado a índigo (PSP)
+  [PaymentSourceType.Qr]: 'from-purple-500 to-pink-500', // Morado a rosa (QR Code)
+  [PaymentSourceType.Wallet]: 'from-teal-500 to-cyan-500', // Teal a cyan (Wallet)
+};
+
+interface PaymentModalProps {
   isOpen: boolean;
   onClose: () => void;
-  method: PaymentMethodData;
+  method: PaymentFromQuery;
 }
 
-export function QRModal({ isOpen, onClose, method }: QRModalProps) {
+export function PaymentModal({ isOpen, onClose, method }: PaymentModalProps) {
+  const qrPath = `https://cubxbmyavmlsyaabsupa.supabase.co/storage/v1/object/sign/monorepo-portfolio/hero/payments/${method.uuid}.png?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV81NDM3YWM1Zi1mMGViLTQzOTAtYWYyMi0xY2JiOGIzMTdhYmIiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJtb25vcmVwby1wb3J0Zm9saW8vaGVyby9wYXltZW50cy84YjRiYTRlOC0zODA5LTQ1YjItYjU5Ni1mMWIyMjkzN2EzZjUucG5nIiwiaWF0IjoxNzY1MDUyMTQ1LCJleHAiOjE3OTY1ODgxNDV9.rsERikiF159DzXkTdzopcR2Aw-LdVD9hKZFj694Qu30`;
   const [copiedAccount, setCopiedAccount] = useState(false);
-
+  const details: PaymentFrontendDetails = method.frontendDetails;
   const handleCopyAccount = () => {
-    if (method.details.account) {
-      navigator.clipboard.writeText(method.details.account);
+    if (details.account) {
+      navigator.clipboard.writeText(details.account);
       setCopiedAccount(true);
       setTimeout(() => setCopiedAccount(false), 2000);
     }
   };
-
+  const color = PAYMENT_BG_MAP[method.paymentSource.type];
   return (
     <AnimatePresence>
       {isOpen && (
@@ -55,9 +66,7 @@ export function QRModal({ isOpen, onClose, method }: QRModalProps) {
           >
             <div className="bg-card/95 backdrop-blur-md rounded-3xl border border-border/50 shadow-2xl overflow-hidden">
               {/* Header */}
-              <div
-                className={`relative h-32 bg-gradient-to-br ${method.color} p-6 text-white flex items-end justify-between`}
-              >
+              <div className={`relative h-32 bg-gradient-to-br ${color} p-6 text-white flex items-end justify-between`}>
                 <div>
                   <h2 className="text-2xl font-bold">{method.title}</h2>
                 </div>
@@ -72,7 +81,7 @@ export function QRModal({ isOpen, onClose, method }: QRModalProps) {
               {/* Content */}
               <div className="p-8">
                 {/* QR Code Section */}
-                {method.id === 'qr' && (
+                {method.paymentSource.type === PaymentSourceType.Qr && (
                   <div className="mb-8 flex justify-center">
                     <motion.div
                       initial={{ opacity: 0, scale: 0.8 }}
@@ -80,36 +89,29 @@ export function QRModal({ isOpen, onClose, method }: QRModalProps) {
                       transition={{ delay: 0.2 }}
                       className="p-4 bg-white/95 rounded-xl border-2 border-border/30 shadow-lg"
                     >
-                      <QRCodeSVG
-                        value={method.details.account || 'https://example.com'}
-                        size={200}
-                        level="H"
-                        includeMargin
-                      />
+                      <Image src={qrPath} alt={`${method.title} QR Code`} width={200} height={200} />
                     </motion.div>
                   </div>
                 )}
 
                 {/* Account Information */}
-                {method.details.account && (
+                {details.account && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1 }}
                     className="mb-6 p-4 rounded-lg bg-muted/40 border border-border/40"
                   >
-                    {method.details.accountHolder && (
-                      <p className="text-sm text-muted-foreground mb-2">Account Holder</p>
-                    )}
-                    {method.details.accountHolder && (
-                      <p className="font-semibold text-foreground mb-4">{method.details.accountHolder}</p>
+                    {details.accountHolder && <p className="text-sm text-muted-foreground mb-2">Account Holder</p>}
+                    {details.accountHolder && (
+                      <p className="font-semibold text-foreground mb-4">{details.accountHolder}</p>
                     )}
                     <p className="text-sm text-muted-foreground mb-2">
-                      {method.id === 'binance' ? 'Wallet Address' : 'Account Number'}
+                      {method.paymentSource.type === PaymentSourceType.Binance ? 'Wallet Address' : 'Account Number'}
                     </p>
                     <div className="flex items-center gap-2">
                       <code className="flex-1 text-sm font-mono bg-background/60 p-2 rounded border border-border/30 truncate text-foreground">
-                        {method.details.account}
+                        {details.account}
                       </code>
                       <button onClick={handleCopyAccount} className="p-2 hover:bg-accent/20 rounded transition-colors">
                         {copiedAccount ? (
@@ -123,7 +125,7 @@ export function QRModal({ isOpen, onClose, method }: QRModalProps) {
                 )}
 
                 {/* Instructions */}
-                {method.details.instructions && (
+                {details.instructions && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -131,10 +133,10 @@ export function QRModal({ isOpen, onClose, method }: QRModalProps) {
                   >
                     <h3 className="font-semibold text-foreground mb-4">How to pay:</h3>
                     <ol className="space-y-3">
-                      {method.details.instructions.map((instruction, index) => (
+                      {details.instructions.map((instruction, index) => (
                         <li key={index} className="flex gap-3">
                           <div
-                            className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${method.color} text-white text-xs font-semibold flex items-center justify-center`}
+                            className={`flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-br ${color} text-white text-xs font-semibold flex items-center justify-center`}
                           >
                             {index + 1}
                           </div>

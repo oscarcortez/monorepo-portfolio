@@ -162,6 +162,9 @@ enum PaymentSourceType {
   CRYPTO
   PSP // payment service provider (MercadoPago, etc.)
   WALLET
+  QR
+  BINANCE
+  AIRTM
   OTHER
 
   @@map("payment_source_type")
@@ -195,7 +198,9 @@ model Payment {
   link            String?   @db.VarChar(500)
   title           String    @db.VarChar(100)
   displayText     String?   @map("display_text") @db.VarChar(255)
+  hasQrCode       Boolean   @default(false) @map("has_qr_code")
   className       String?   @map("class_name") @db.VarChar(255)
+  frontendDetails Json?     @map("frontend_details") @db.JsonB
   isFavorite      Boolean   @default(false) @map("is_favorite")
   sortOrder       Int       @default(0) @map("sort_order")
   deletedAt       DateTime? @map("deleted_at") @db.Timestamptz(6)

@@ -692,6 +692,8 @@ export type Payment = {
   createdAt: Scalars['DateTime']['output'];
   deletedAt: Maybe<Scalars['DateTime']['output']>;
   displayText: Maybe<Scalars['String']['output']>;
+  frontendDetails: Maybe<Scalars['JSON']['output']>;
+  hasQrCode: Scalars['Boolean']['output'];
   isFavorite: Scalars['Boolean']['output'];
   link: Maybe<Scalars['String']['output']>;
   paymentId: Scalars['ID']['output'];
@@ -709,6 +711,8 @@ export type PaymentCreateManyUserInput = {
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
   deletedAt: InputMaybe<Scalars['DateTime']['input']>;
   displayText: InputMaybe<Scalars['String']['input']>;
+  frontendDetails: InputMaybe<Scalars['JSON']['input']>;
+  hasQrCode: InputMaybe<Scalars['Boolean']['input']>;
   isFavorite: InputMaybe<Scalars['Boolean']['input']>;
   link: InputMaybe<Scalars['String']['input']>;
   paymentId: InputMaybe<Scalars['Int']['input']>;
@@ -740,6 +744,8 @@ export type PaymentCreateWithoutUserInput = {
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
   deletedAt: InputMaybe<Scalars['DateTime']['input']>;
   displayText: InputMaybe<Scalars['String']['input']>;
+  frontendDetails: InputMaybe<Scalars['JSON']['input']>;
+  hasQrCode: InputMaybe<Scalars['Boolean']['input']>;
   isFavorite: InputMaybe<Scalars['Boolean']['input']>;
   link: InputMaybe<Scalars['String']['input']>;
   paymentSource: PaymentSourceCreateNestedOneWithoutPaymentInput;
@@ -808,10 +814,13 @@ export type PaymentSourceScalarRelationFilter = {
 };
 
 export enum PaymentSourceType {
+  Airtm = 'AIRTM',
   Bank = 'BANK',
+  Binance = 'BINANCE',
   Crypto = 'CRYPTO',
   Other = 'OTHER',
   Psp = 'PSP',
+  Qr = 'QR',
   Wallet = 'WALLET'
 }
 
@@ -861,6 +870,8 @@ export type PaymentWhereInput = {
   createdAt: InputMaybe<DateTimeFilter>;
   deletedAt: InputMaybe<DateTimeNullableFilter>;
   displayText: InputMaybe<StringNullableFilter>;
+  frontendDetails: InputMaybe<JsonNullableFilter>;
+  hasQrCode: InputMaybe<BoolFilter>;
   isFavorite: InputMaybe<BoolFilter>;
   link: InputMaybe<StringNullableFilter>;
   paymentId: InputMaybe<IntFilter>;
@@ -881,6 +892,8 @@ export type PaymentWhereUniqueInput = {
   createdAt: InputMaybe<DateTimeFilter>;
   deletedAt: InputMaybe<DateTimeNullableFilter>;
   displayText: InputMaybe<StringNullableFilter>;
+  frontendDetails: InputMaybe<JsonNullableFilter>;
+  hasQrCode: InputMaybe<BoolFilter>;
   isFavorite: InputMaybe<BoolFilter>;
   link: InputMaybe<StringNullableFilter>;
   paymentId: InputMaybe<Scalars['Int']['input']>;
@@ -1082,8 +1095,8 @@ export type TemplateScalarRelationFilter = {
 
 export type TemplateSection = {
   __typename?: 'TemplateSection';
-  content: Maybe<Scalars['JSON']['output']>;
   createdAt: Scalars['DateTime']['output'];
+  frontendConfig: Maybe<Scalars['JSON']['output']>;
   section: Section;
   sortOrder: Scalars['Int']['output'];
   status: Maybe<Status>;
@@ -1094,8 +1107,8 @@ export type TemplateSection = {
 };
 
 export type TemplateSectionCreateManyTemplateInput = {
-  content: InputMaybe<Scalars['JSON']['input']>;
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  frontendConfig: InputMaybe<Scalars['JSON']['input']>;
   section: Section;
   sortOrder: InputMaybe<Scalars['Int']['input']>;
   status: InputMaybe<Status>;
@@ -1121,8 +1134,8 @@ export type TemplateSectionCreateOrConnectWithoutTemplateInput = {
 };
 
 export type TemplateSectionCreateWithoutTemplateInput = {
-  content: InputMaybe<Scalars['JSON']['input']>;
   createdAt: InputMaybe<Scalars['DateTime']['input']>;
+  frontendConfig: InputMaybe<Scalars['JSON']['input']>;
   section: Section;
   sortOrder: InputMaybe<Scalars['Int']['input']>;
   status: InputMaybe<Status>;
@@ -1139,8 +1152,8 @@ export type TemplateSectionWhereInput = {
   AND: InputMaybe<Array<TemplateSectionWhereInput>>;
   NOT: InputMaybe<Array<TemplateSectionWhereInput>>;
   OR: InputMaybe<Array<TemplateSectionWhereInput>>;
-  content: InputMaybe<JsonNullableFilter>;
   createdAt: InputMaybe<DateTimeFilter>;
+  frontendConfig: InputMaybe<JsonNullableFilter>;
   section: InputMaybe<EnumSectionFilter>;
   sortOrder: InputMaybe<IntFilter>;
   status: InputMaybe<EnumStatusNullableFilter>;
@@ -1154,8 +1167,8 @@ export type TemplateSectionWhereUniqueInput = {
   AND: InputMaybe<Array<TemplateSectionWhereInput>>;
   NOT: InputMaybe<Array<TemplateSectionWhereInput>>;
   OR: InputMaybe<Array<TemplateSectionWhereInput>>;
-  content: InputMaybe<JsonNullableFilter>;
   createdAt: InputMaybe<DateTimeFilter>;
+  frontendConfig: InputMaybe<JsonNullableFilter>;
   section: InputMaybe<EnumSectionFilter>;
   sortOrder: InputMaybe<IntFilter>;
   status: InputMaybe<EnumStatusNullableFilter>;
@@ -1342,4 +1355,4 @@ export type UserHeroQueryVariables = Exact<{
 }>;
 
 
-export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, email: string, firstName: string | null, lastName: string | null, username: string | null, picture: string | null, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconName: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', displayText: string | null, isFavorite: boolean, link: string | null, title: string, paymentSource: { __typename?: 'PaymentSource', logoPath: string | null, website: string | null, name: string } }> | null } };
+export type UserHeroQuery = { __typename?: 'Query', userHero: { __typename?: 'User', uuid: string, email: string, firstName: string | null, lastName: string | null, username: string | null, picture: string | null, contacts: Array<{ __typename?: 'Contact', displayText: string | null, iconName: string | null, link: string, title: string, type: ContactType, uuid: string, className: string | null }> | null, heroGreetings: Array<{ __typename?: 'HeroGreeting', content: string, device: DeviceType, footer: string, title: string, uuid: string }> | null, navLinks: Array<{ __typename?: 'NavLink', className: string | null, content: string, language: LanguageCode, url: string, uuid: string }> | null, payments: Array<{ __typename?: 'Payment', uuid: string, className: string | null, displayText: string | null, isFavorite: boolean, link: string | null, title: string, hasQrCode: boolean, frontendDetails: any | null, paymentSource: { __typename?: 'PaymentSource', uuid: string, type: PaymentSourceType, logoPath: string | null, website: string | null, name: string } }> | null } };

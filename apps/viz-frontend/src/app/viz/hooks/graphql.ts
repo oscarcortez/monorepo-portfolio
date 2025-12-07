@@ -35,11 +35,17 @@ export const USER_HERO_QUERY: DocumentNode = gql`
         uuid
       }
       payments {
+        uuid
+        className
         displayText
         isFavorite
         link
         title
+        hasQrCode
+        frontendDetails
         paymentSource {
+          uuid
+          type
           logoPath
           website
           name
