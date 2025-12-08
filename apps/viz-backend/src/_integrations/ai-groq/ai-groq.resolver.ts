@@ -1,7 +1,13 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { Logger } from '@nestjs/common';
+import {
+  Logger,
+  UsePipes,
+  ValidationPipe,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AiGroqService } from './ai-groq.service';
 import { GenerateTextInput, GenerateTextResponse } from './types';
+import { PromptLoggingInterceptor } from './interceptors/prompt-logging.interceptor';
 
 @Resolver()
 export class AiGroqResolver {
@@ -10,6 +16,8 @@ export class AiGroqResolver {
   constructor(private readonly aiGroqService: AiGroqService) {}
 
   @Mutation(() => GenerateTextResponse)
+  @UseInterceptors(PromptLoggingInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
   async generateText(
     @Args('input') input: GenerateTextInput,
   ): Promise<GenerateTextResponse> {
