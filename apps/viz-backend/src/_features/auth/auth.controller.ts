@@ -65,6 +65,13 @@ export class AuthController {
   @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Login with email and password' })
+  @ApiBody({ type: SignInDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully authenticated. Returns access token and sets auth_token cookie.',
+  })
+  @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async signIn(
     @Body() signInDto: SignInDto,
     @Res({ passthrough: true }) res: Response,
@@ -87,8 +94,16 @@ export class AuthController {
     return { access_token: result.access_token };
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiCookieAuth('auth_token')
   @Post('logout')
   @HttpCode(HttpStatus.OK)
+  @ApiOperation({ summary: 'Logout and clear auth cookie' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully logged out',
+  })
   logout(@Res({ passthrough: true }) res: Response): LogoutResponse {
     // Limpiar cookie
     res.clearCookie('auth_token', {
@@ -117,6 +132,14 @@ export class AuthController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiCookieAuth('auth_token')
+  @ApiOperation({ summary: 'Get current user information' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the current authenticated user',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
   @Get('me')
   getUser(@Req() req: Request & { user?: JwtPayload }): UserResponse {
     return {
@@ -124,8 +147,16 @@ export class AuthController {
     };
   }
 
-  @Get('check')
   @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiCookieAuth('auth_token')
+  @ApiOperation({ summary: 'Check authentication status' })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns authentication status and user data',
+  })
+  @ApiResponse({ status: 401, description: 'Unauthorized' })
+  @Get('check')
   checkAuth(@Req() req: Request & { user?: JwtPayload }): {
     authenticated: boolean;
     user: JwtPayload | null;
