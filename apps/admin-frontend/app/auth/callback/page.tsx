@@ -9,13 +9,14 @@ function AuthCallbackContent() {
   const token = Cookies.get('auth_token');
 
   useEffect(() => {
+    console.log('luco AuthCallbackContent: ', token);
     if (token) {
       console.log('🔐 Token received:', token.substring(0, 20) + '...');
-      router.push('/dashboard');
+      // router.push('/dashboard');
     } else {
       console.log('🔓 Logout detected, clearing tokens');
       const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
-      router.push(`${authUrl}/login-basic`);
+      // router.push(`${authUrl}/login-basic`);
     }
   }, [token, router]);
 

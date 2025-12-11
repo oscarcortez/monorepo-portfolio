@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import { LoginBasicForm } from '@/components/login-basic-form';
 import { SIGNIN_MUTATION } from './graphql';
 import { z } from 'zod';
@@ -30,9 +31,27 @@ const actions = {
   googleLabel: 'Login with Google',
 };
 
+const fetchSignIn = async (variables: { email: string; password: string }) => {
+  const response = await fetch('http://localhost:4000/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(variables),
+    credentials: 'include',
+  });
+
+  const result = await response.json();
+  if (result.errors) {
+    throw new Error(result.errors.map((err: any) => err.message).join(', '));
+  }
+  return result.data as SignInMutation;
+};
+
 export default function Page() {
   const router = useRouter();
-  const [signIn, { loading, error, data }] = useMutation<SignInMutation>(SIGNIN_MUTATION);
+  // const [signIn, { loading, error, data }] = useMutation<SignInMutation>(SIGNIN_MUTATION);
+
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   });
@@ -40,12 +59,12 @@ export default function Page() {
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
     console.log({ values });
     try {
-      const result = await signIn({
-        variables: {
-          email: values.email,
-          password: values.password,
-        },
-      });
+      // const result = await signIn({
+      //   variables: {
+      //     email: values.email,
+      //     password: values.password,
+      //   },
+      // });
 
       console.log('Access token:', result.data?.signIn.access_token);
       if (result.data?.signIn.access_token) {
@@ -73,7 +92,8 @@ export default function Page() {
         } catch (syncError) {
           console.error('Error syncing token:', syncError);
         }
-        window.location.href = 'http://localhost:3000/viz';
+        // window.location.href = 'http://localhost:3000/viz';
+        window.location.href = 'http://localhost:3020/dashboard';
       }
     } catch (err) {
       console.error('Error signing in:', err);

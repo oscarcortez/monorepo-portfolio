@@ -38,7 +38,7 @@ export function LoginBasicForm<T extends FieldValues>({
 }) {
   const handleGoogleLogin = () => {
     // Redirige al endpoint de Google OAuth en tu backend
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:4000';
     window.location.href = `${backendUrl}/auth/google`;
   };
 

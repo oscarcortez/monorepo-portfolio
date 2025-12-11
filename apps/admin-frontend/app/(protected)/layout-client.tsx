@@ -25,14 +25,18 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // const token = localStorage.getItem('auth_token');
-    const token = Cookies.get('auth_token');
 
-    if (!token) {
-      console.warn('⚠️ No auth token found, redirecting to login');
-      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
-      router.push(`${authUrl}/login-basic`);
-      return;
-    }
+    const token = Cookies.get('auth_token');
+    console.log('Auth token:', token);
+
+    // if (!token) {
+    //   console.warn('⚠️ No auth token found, redirecting to login');
+    //   // const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+    //   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
+    //   console.log('Redirecting to:', `${adminUrl}/login-basic`);
+    //   // router.push(`${adminUrl}/login-basic`);
+    //   return;
+    // }
 
     console.log('✅ User authenticated');
     setIsAuthenticated(true);

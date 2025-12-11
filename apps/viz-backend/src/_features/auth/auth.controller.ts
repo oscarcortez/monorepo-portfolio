@@ -12,12 +12,13 @@ import {
 } from '@nestjs/common';
 import {
   ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiCookieAuth,
-  ApiBody,
+  // ApiOperation,
+  // ApiResponse,
+  // ApiBearerAuth,
+  // ApiCookieAuth,
+  // ApiBody,
   ApiProperty,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { User } from '@prisma/client';
@@ -90,6 +91,7 @@ export class AuthController {
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   logout(@Res({ passthrough: true }) res: Response): LogoutResponse {
+    console.log('Logout called');
     // Limpiar cookie
     res.clearCookie('auth_token', {
       httpOnly: true,
@@ -116,6 +118,7 @@ export class AuthController {
     this.logger.log('Google auth initiated');
   }
 
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   @Get('me')
   getUser(@Req() req: Request & { user?: JwtPayload }): UserResponse {

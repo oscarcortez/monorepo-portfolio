@@ -7,6 +7,7 @@ import { ApolloNextAppProvider, ApolloClient, InMemoryCache } from '@apollo/clie
 const client = () => {
   const httpLink = new HttpLink({
     uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+    credentials: 'include',
     fetchOptions: { cache: 'no-store' },
   });
 

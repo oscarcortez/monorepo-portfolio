@@ -23,7 +23,7 @@ export class AuthResolver {
 
     // console.log(result.access_token);
     context.res.cookie('auth_token', result.access_token, {
-      httpOnly: true,
+      httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
