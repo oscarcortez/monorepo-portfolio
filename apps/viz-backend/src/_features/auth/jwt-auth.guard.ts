@@ -10,6 +10,7 @@ import { jwtConstants } from './constants';
 import { Request } from 'express';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { IS_PUBLIC_KEY } from './public.decorator';
+import { AuthService } from './auth.service';
 
 type JwtPayload = {
   sub?: number;
@@ -24,6 +25,7 @@ export class JwtAuthGuard implements CanActivate {
   constructor(
     private jwtService: JwtService,
     private reflector: Reflector,
+    private authService: AuthService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -44,15 +46,25 @@ export class JwtAuthGuard implements CanActivate {
     };
     const token = this.extractTokenFromHeader(request);
     if (!token) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('No token provided');
     }
+
+    // 🔐 NUEVO: Verifica si la sesión está activa en la base de datos
+    const isActive = await this.authService.isSessionActive(token);
+    if (!isActive) {
+      throw new UnauthorizedException('Session is invalid or expired');
+    }
+
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token, {
         secret: jwtConstants.secret,
       });
       request.user = payload;
+
+      // Actualiza última actividad de la sesión
+      await this.authService.updateSessionActivity(token);
     } catch {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Invalid token');
     }
     return true;
   }

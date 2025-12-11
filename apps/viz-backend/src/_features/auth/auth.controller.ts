@@ -74,11 +74,19 @@ export class AuthController {
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async signIn(
     @Body() signInDto: SignInDto,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
+    // Extrae IP y User-Agent para tracking de sesión
+    const ipAddress = req.ip || req.socket.remoteAddress;
+    const userAgent = req.headers['user-agent'];
+
     const result = await this.authService.signIn(
       signInDto.email,
       signInDto.password,
+      undefined, // provider
+      ipAddress,
+      userAgent,
     );
 
     // console.log(result.access_token);
@@ -104,23 +112,47 @@ export class AuthController {
     status: 200,
     description: 'Successfully logged out',
   })
-  logout(@Res({ passthrough: true }) res: Response): LogoutResponse {
-    // Limpiar cookie
+  async logout(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<LogoutResponse> {
+    // Extrae el token de la request
+    const token = this.extractToken(req);
+
+    if (token) {
+      // 🔐 Invalida la sesión en la base de datos
+      await this.authService.invalidateSession(token);
+      this.logger.log(`Session invalidated for token: ${token.substring(0, 10)}...`);
+    }
+
+    // Limpiar cookie del navegador
     res.clearCookie('auth_token', {
       httpOnly: true,
       path: '/',
       sameSite: 'lax',
     });
 
-    // TODO: Opcional — invalida el token en base de datos
-    // this.authService.invalidateToken(user.id);
-
-    console.log('🔓 User logged out at', new Date().toISOString());
+    this.logger.log('🔓 User logged out at ' + new Date().toISOString());
 
     return {
       success: true,
       message: 'Logged out successfully',
     };
+  }
+
+  /**
+   * Extrae el token de la request (header o cookie)
+   */
+  private extractToken(req: Request): string | null {
+    // 1. Intenta desde Authorization header
+    const [type, token] = req.headers.authorization?.split(' ') ?? [];
+    if (type === 'Bearer' && token) {
+      return token;
+    }
+
+    // 2. Intenta desde cookie
+    const cookieToken = (req as any).cookies?.['auth_token'];
+    return cookieToken || null;
   }
 
   @Public()
@@ -170,16 +202,26 @@ export class AuthController {
   @Public()
   @Get('google/callback')
   @UseGuards(AuthGuard('google'))
-  async googleAuthRedirect(@CurrentUser() user: User, @Res() res: Response) {
+  async googleAuthRedirect(
+    @CurrentUser() user: User,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
     this.logger.log('✅ Google callback received');
     this.logger.log(`User: ${JSON.stringify(user)}`);
     const adminUrl =
       process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
     try {
+      // Extrae IP y User-Agent para tracking de sesión
+      const ipAddress = req.ip || req.socket.remoteAddress;
+      const userAgent = req.headers['user-agent'];
+
       const { access_token } = await this.authService.signIn(
         user.email,
         '123',
         'google',
+        ipAddress,
+        userAgent,
       );
 
       const redirectUrl = `${adminUrl}/auth/callback?auth_token=${access_token}`;

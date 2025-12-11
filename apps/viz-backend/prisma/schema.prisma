@@ -291,6 +291,29 @@ model User {
   navLinks      NavLink[]
   payments      Payment[]      @relation(map: "fk_payments_user")
   templates     Template[]
+  sessions      Session[]
 
   @@map("users")
+}
+
+model Session {
+  sessionId    Int       @id @default(autoincrement()) @map("session_id")
+  userId       Int       @map("user_id")
+  uuid         String    @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token        String    @unique @db.VarChar(500)
+  isActive     Boolean   @default(true) @map("is_active")
+  expiresAt    DateTime  @map("expires_at") @db.Timestamptz(6)
+  ipAddress    String?   @map("ip_address") @db.VarChar(45)
+  userAgent    String?   @map("user_agent") @db.VarChar(500)
+  lastActiveAt DateTime  @default(now()) @map("last_active_at") @db.Timestamptz(6)
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt    DateTime  @default(now()) @map("updated_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [userId], onDelete: Cascade, map: "fk_sessions_user")
+
+  @@index([userId], map: "idx_sessions_user_id")
+  @@index([token], map: "idx_sessions_token")
+  @@index([isActive], map: "idx_sessions_is_active")
+  @@index([expiresAt], map: "idx_sessions_expires_at")
+  @@map("sessions")
 }
