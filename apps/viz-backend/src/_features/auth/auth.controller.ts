@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UseGuards,
   Logger,
+  // Headers,
 } from '@nestjs/common';
 import {
   ApiTags,
@@ -31,13 +32,15 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { Public } from './public.decorator';
 import { JwtPayload } from './types/jwt-payload.type';
+import { Token } from './decorators/token.decorator';
+import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
 
 class SignInDto {
-  @ApiProperty({ example: 'user@example.com' })
+  @ApiProperty({ example: 'oscarkortez@gmail.com' })
   @IsEmail()
   email!: string;
 
-  @ApiProperty({ example: 'password123' })
+  @ApiProperty({ example: '123456' })
   @IsString()
   @MinLength(6)
   @IsNotEmpty()
@@ -65,32 +68,44 @@ export class AuthController {
 
   @Public()
   @Post('login')
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(NotAuthenticatedGuard)
   @HttpCode(HttpStatus.OK)
   async signIn(
     @Body() signInDto: SignInDto,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
+    const userAgent = req.headers['user-agent'] || undefined;
+    const ipAddress = (req.ip ||
+      req.headers['x-forwarded-for'] ||
+      undefined) as string;
+
     const result = await this.authService.signIn(
       signInDto.email,
       signInDto.password,
+      userAgent,
+      ipAddress,
     );
-
-    // console.log(result.access_token);
 
     res.cookie('auth_token', result.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return { access_token: result.access_token };
   }
 
+  @ApiBearerAuth('JWT-auth')
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@Res({ passthrough: true }) res: Response): LogoutResponse {
+  async logout(
+    @Token() token: string | undefined,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<LogoutResponse> {
     console.log('Logout called');
     // Limpiar cookie
     res.clearCookie('auth_token', {
@@ -99,8 +114,9 @@ export class AuthController {
       sameSite: 'lax',
     });
 
-    // TODO: Opcional — invalida el token en base de datos
-    // this.authService.invalidateToken(user.id);
+    if (token) {
+      await this.authService.revokeSessionByToken(token);
+    }
 
     console.log('🔓 User logged out at', new Date().toISOString());
 
@@ -128,6 +144,7 @@ export class AuthController {
   }
 
   @Get('check')
+  @ApiBearerAuth('JWT-auth')
   @UseGuards(JwtAuthGuard)
   checkAuth(@Req() req: Request & { user?: JwtPayload }): {
     authenticated: boolean;

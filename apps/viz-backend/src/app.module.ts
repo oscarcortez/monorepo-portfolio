@@ -13,6 +13,7 @@ import { AiGroqModule } from './_integrations/ai-groq/ai-groq.module';
 import { EmailResendModule } from './_integrations/email-resend/email-resend.module';
 import { QrCodeModule } from './_integrations/qr-code/qr-code.module';
 import { SupabaseStorageModule } from './_integrations/supabase-storage/supabase-storage.module';
+import { SessionModule } from './_models/session/session.module';
 import appConfig from './config/app.config';
 
 @Module({
@@ -45,6 +46,7 @@ import appConfig from './config/app.config';
     EmailResendModule,
     QrCodeModule,
     SupabaseStorageModule,
+    SessionModule,
   ],
   controllers: [],
   providers: [],

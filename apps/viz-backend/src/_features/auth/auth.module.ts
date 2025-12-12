@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './google.strategy';
 import { PassportModule } from '@nestjs/passport';
+import { SessionService } from 'src/_models/session/session.service';
 
 @Module({
   providers: [
@@ -22,6 +23,7 @@ import { PassportModule } from '@nestjs/passport';
     AuthResolver,
     AuthService,
     PrismaService,
+    SessionService,
     // JwtAuthGuard,
   ],
   imports: [
@@ -30,7 +32,7 @@ import { PassportModule } from '@nestjs/passport';
     UserModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60m' },
+      signOptions: { expiresIn: '7d' },
     }),
   ],
   controllers: [AuthController],

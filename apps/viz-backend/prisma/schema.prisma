@@ -116,6 +116,27 @@ enum SkillLevel {
 }
 
 // ========================= MODELS =========================
+model Session {
+  sessionId Int      @id @default(autoincrement()) @map("session_id")
+  userId    Int      @map("user_id")
+  uuid      String   @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  token     String   @unique @db.VarChar(255)
+  isActive  Boolean  @default(true) @map("is_active")
+  userAgent String?  @map("user_agent") @db.VarChar(500)
+  browser   String?  @db.VarChar(100)
+  os        String?  @db.VarChar(100)
+  device    String?  @db.VarChar(100)
+  provider  String?  @db.VarChar(100)
+  ipAddress String?  @map("ip_address") @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(6)
+  expiresAt DateTime @map("expires_at") @db.Timestamptz(6)
+
+  user User @relation(fields: [userId], references: [userId], map: "fk_sessions_user")
+
+  @@index([userId], map: "idx_sessions_user_id")
+  @@index([expiresAt], map: "idx_sessions_expires_at")
+  @@map("sessions")
+}
 
 model Template {
   templateId   Int          @id @default(autoincrement()) @map("template_id")
@@ -291,6 +312,7 @@ model User {
   navLinks      NavLink[]
   payments      Payment[]      @relation(map: "fk_payments_user")
   templates     Template[]
+  sessions      Session[]
 
   @@map("users")
 }

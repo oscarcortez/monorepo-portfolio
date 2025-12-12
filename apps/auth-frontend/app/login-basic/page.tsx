@@ -13,6 +13,7 @@ import { FieldMeta } from '@/types/field-meta';
 // SignInMutation
 import type { SignInMutation } from '../graphql/generated/graphql-types';
 import { useRouter } from 'next/navigation';
+import { useSignIn } from '@/app/hooks/useAuth';
 
 const loginSchema = z.object({
   email: z.email({ message: 'Invalid email address' }),
@@ -31,25 +32,26 @@ const actions = {
   googleLabel: 'Login with Google',
 };
 
-const fetchSignIn = async (variables: { email: string; password: string }) => {
-  const response = await fetch('http://localhost:4000/auth/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(variables),
-    credentials: 'include',
-  });
+// const fetchSignIn = async (variables: { email: string; password: string }) => {
+//   const response = await fetch('http://localhost:4000/auth/login', {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(variables),
+//     credentials: 'include',
+//   });
 
-  const result = await response.json();
-  if (result.errors) {
-    throw new Error(result.errors.map((err: any) => err.message).join(', '));
-  }
-  return result.data as SignInMutation;
-};
+//   const result = await response.json();
+//   if (result.errors) {
+//     throw new Error(result.errors.map((err: any) => err.message).join(', '));
+//   }
+//   return result.data as SignInMutation;
+// };
 
 export default function Page() {
   const router = useRouter();
+  const { mutate: signIn, isPending, error } = useSignIn();
   // const [signIn, { loading, error, data }] = useMutation<SignInMutation>(SIGNIN_MUTATION);
 
   const form = useForm<LoginFormValues>({
@@ -58,46 +60,15 @@ export default function Page() {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (values) => {
     console.log({ values });
-    try {
-      // const result = await signIn({
-      //   variables: {
-      //     email: values.email,
-      //     password: values.password,
-      //   },
-      // });
-
-      console.log('Access token:', result.data?.signIn.access_token);
-      if (result.data?.signIn.access_token) {
-        localStorage.setItem('auth_token', result.data.signIn.access_token);
-        localStorage.setItem('user_email', values.email);
-
-        const syncAdmin = fetch('http://localhost:3020/api/auth/sync', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ token: result.data.signIn.access_token }),
-        });
-
-        // 3. Sincronizar con viz-frontend (puerto 3000)
-        const syncViz = fetch('http://localhost:3000/api/auth/sync', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ token: result.data.signIn.access_token }),
-        });
-
-        try {
-          await Promise.all([syncAdmin, syncViz]);
-          console.log('Token synced successfully with all apps');
-        } catch (syncError) {
-          console.error('Error syncing token:', syncError);
-        }
-        // window.location.href = 'http://localhost:3000/viz';
-        window.location.href = 'http://localhost:3020/dashboard';
-      }
-    } catch (err) {
-      console.error('Error signing in:', err);
-    }
+    signIn(values, {
+      onSuccess: (data) => {
+        console.log('Access token:', data.access_token);
+        // window.location.href = 'http://localhost:3020/dashboard';
+      },
+      onError: (err) => {
+        console.error('Error signing in:', err);
+      },
+    });
   };
 
   return (
@@ -111,7 +82,7 @@ export default function Page() {
           formFields={formFields}
           submitLabel={actions.submitLabel}
           googleLabel={actions.googleLabel}
-          isLoading={loading}
+          isLoading={isPending}
         />
       </div>
     </div>
