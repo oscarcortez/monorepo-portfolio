@@ -70,13 +70,14 @@ export function LoginBasicForm<T extends FieldValues>({
                     )}
                   />
                 ))}
-                <Field>
+
+                <div className="mt-4 space-y-4">
                   <Button type="submit" disabled={isLoading} className="w-full">
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                    {!isLoading && submitLabel}
+                    {isLoading ? 'Loading...' : submitLabel}
                   </Button>
 
-                  <div className="relative my-4">
+                  <div className="relative">
                     <div className="absolute inset-0 flex items-center">
                       <span className="w-full border-t" />
                     </div>
@@ -113,13 +114,13 @@ export function LoginBasicForm<T extends FieldValues>({
                     {googleLabel}
                   </Button>
 
-                  <FieldDescription className="text-center">
+                  <p className="text-center text-sm text-muted-foreground">
                     Don&apos;t have an account?{' '}
                     <a href="/signup" className="underline underline-offset-4 hover:text-primary">
                       Sign up
                     </a>
-                  </FieldDescription>
-                </Field>
+                  </p>
+                </div>
               </FieldGroup>
             </form>
           </Form>
