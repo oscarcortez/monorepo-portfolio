@@ -6,7 +6,8 @@ interface SignInVariables {
 }
 
 interface SignInResponse {
-  access_token: string;
+  code: string;
+  expires_in: number;
 }
 
 const signIn = async (variables: SignInVariables): Promise<SignInResponse> => {

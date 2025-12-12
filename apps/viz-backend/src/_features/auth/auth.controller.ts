@@ -47,8 +47,20 @@ class SignInDto {
   password!: string;
 }
 
+class ExchangeCodeDto {
+  @ApiProperty({ example: 'abc123...' })
+  @IsString()
+  @IsNotEmpty()
+  code!: string;
+}
+
 interface AuthResponse {
   access_token: string;
+}
+
+interface AuthCodeResponse {
+  code: string;
+  expires_in: number;
 }
 
 interface LogoutResponse {
@@ -75,7 +87,7 @@ export class AuthController {
     @Body() signInDto: SignInDto,
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<AuthResponse> {
+  ): Promise<AuthCodeResponse> {
     const userAgent = req.headers['user-agent'] || undefined;
     const ipAddress = (req.ip ||
       req.headers['x-forwarded-for'] ||
@@ -88,7 +100,34 @@ export class AuthController {
       ipAddress,
     );
 
-    res.cookie('auth_token', result.access_token, {
+    // Generar código temporal en lugar de devolver el token directamente
+    const code = this.authService.generateAuthCode(result.access_token);
+
+    this.logger.log(
+      `🔑 Generated auth code for ${signInDto.email} (expires in 60s)`,
+    );
+
+    return {
+      code,
+      expires_in: 60, // segundos
+    };
+  }
+
+  @Public()
+  @Post('exchange-code')
+  @HttpCode(HttpStatus.OK)
+  async exchangeCode(
+    @Body() exchangeCodeDto: ExchangeCodeDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<AuthResponse> {
+    this.logger.log('🔄 Exchanging authorization code for token');
+
+    const token = await this.authService.exchangeAuthCode(
+      exchangeCodeDto.code,
+    );
+
+    // Setear cookie httpOnly con el token
+    res.cookie('auth_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -96,7 +135,9 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return { access_token: result.access_token };
+    this.logger.log('✅ Token exchanged successfully');
+
+    return { access_token: token };
   }
 
   @ApiBearerAuth('JWT-auth')

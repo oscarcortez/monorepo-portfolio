@@ -7,43 +7,67 @@ import Cookies from 'js-cookie';
 function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const tokenFromUrl = searchParams.get('auth_token');
+  const authCode = searchParams.get('code');
 
   useEffect(() => {
-    // Si viene token en la URL, guardarlo como cookie
-    if (tokenFromUrl) {
-      console.log('🔐 Token received from URL, saving as cookie...');
+    const exchangeCodeForToken = async () => {
+      if (!authCode) {
+        // Si no hay código, verificar cookie existente
+        const existingToken = Cookies.get('auth_token');
+        if (existingToken) {
+          console.log('🔐 Existing token found, redirecting to dashboard...');
+          router.push('/dashboard');
+        } else {
+          console.log('🔓 No token found, redirecting to login...');
+          const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+          router.push(`${authUrl}/login-basic`);
+        }
+        return;
+      }
 
-      // Guardar token como cookie en el dominio de admin-frontend
-      Cookies.set('auth_token', tokenFromUrl, {
-        expires: 7, // 7 días
-        path: '/',
-        sameSite: 'lax',
-        secure: process.env.NODE_ENV === 'production',
-      });
+      try {
+        console.log('🔄 Exchanging authorization code for token...');
 
-      // Limpiar URL y redirigir al dashboard
-      console.log('✅ Authentication successful, redirecting to dashboard...');
-      router.replace('/dashboard');
-      return;
-    }
+        // Intercambiar código por token en el backend
+        const response = await fetch('http://localhost:4000/auth/exchange-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include', // Importante para recibir la cookie
+          body: JSON.stringify({ code: authCode }),
+        });
 
-    // Si no hay token en URL, verificar cookie existente
-    const existingToken = Cookies.get('auth_token');
-    if (existingToken) {
-      console.log('🔐 Existing token found, redirecting to dashboard...');
-      router.push('/dashboard');
-    } else {
-      console.log('🔓 No token found, redirecting to login...');
-      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
-      router.push(`${authUrl}/login-basic`);
-    }
-  }, [tokenFromUrl, router]);
+        if (!response.ok) {
+          throw new Error('Failed to exchange code for token');
+        }
+
+        const data = await response.json();
+        console.log('✅ Token received and cookie set by backend');
+
+        // También guardar en cookie del cliente (redundante pero útil)
+        Cookies.set('auth_token', data.access_token, {
+          expires: 7,
+          path: '/',
+          sameSite: 'lax',
+          secure: process.env.NODE_ENV === 'production',
+        });
+
+        // Limpiar URL y redirigir al dashboard
+        console.log('✅ Authentication successful, redirecting to dashboard...');
+        router.replace('/dashboard');
+      } catch (error) {
+        console.error('❌ Error exchanging code:', error);
+        const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+        router.push(`${authUrl}/login-basic?error=auth_failed`);
+      }
+    };
+
+    exchangeCodeForToken();
+  }, [authCode, router]);
 
   return (
     <div className="text-center">
       <h1 className="text-2xl font-bold text-white">
-        {tokenFromUrl ? 'Authenticating...' : 'Checking authentication...'}
+        {authCode ? 'Authenticating...' : 'Checking authentication...'}
       </h1>
       <p className="text-slate-400 mt-2">
         Please wait while we complete your login.

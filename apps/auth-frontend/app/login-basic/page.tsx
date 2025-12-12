@@ -62,10 +62,10 @@ export default function Page() {
     console.log({ values });
     signIn(values, {
       onSuccess: (data) => {
-        console.log('✅ Login successful, redirecting to admin...');
+        console.log('✅ Login successful, received auth code (expires in 60s)');
         const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
-        // Redirigir a admin-frontend con el token en la URL (patrón OAuth)
-        window.location.href = `${adminUrl}/auth/callback?auth_token=${data.access_token}`;
+        // Redirigir a admin-frontend con el código temporal (OAuth Authorization Code Flow)
+        window.location.href = `${adminUrl}/auth/callback?code=${data.code}`;
       },
       onError: (err) => {
         console.error('❌ Error signing in:', err);
