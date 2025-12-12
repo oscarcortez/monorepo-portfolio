@@ -6,25 +6,47 @@ import Cookies from 'js-cookie';
 
 function AuthCallbackContent() {
   const router = useRouter();
-  const token = Cookies.get('auth_token');
+  const searchParams = useSearchParams();
+  const tokenFromUrl = searchParams.get('auth_token');
 
   useEffect(() => {
-    console.log('luco AuthCallbackContent: ', token);
-    if (token) {
-      console.log('🔐 Token received:', token.substring(0, 20) + '...');
-      // router.push('/dashboard');
-    } else {
-      console.log('🔓 Logout detected, clearing tokens');
-      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
-      // router.push(`${authUrl}/login-basic`);
+    // Si viene token en la URL, guardarlo como cookie
+    if (tokenFromUrl) {
+      console.log('🔐 Token received from URL, saving as cookie...');
+
+      // Guardar token como cookie en el dominio de admin-frontend
+      Cookies.set('auth_token', tokenFromUrl, {
+        expires: 7, // 7 días
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+      });
+
+      // Limpiar URL y redirigir al dashboard
+      console.log('✅ Authentication successful, redirecting to dashboard...');
+      router.replace('/dashboard');
+      return;
     }
-  }, [token, router]);
+
+    // Si no hay token en URL, verificar cookie existente
+    const existingToken = Cookies.get('auth_token');
+    if (existingToken) {
+      console.log('🔐 Existing token found, redirecting to dashboard...');
+      router.push('/dashboard');
+    } else {
+      console.log('🔓 No token found, redirecting to login...');
+      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+      router.push(`${authUrl}/login-basic`);
+    }
+  }, [tokenFromUrl, router]);
 
   return (
     <div className="text-center">
-      <h1 className="text-2xl font-bold text-white">{token ? 'Authenticating...' : 'Logging out...'}</h1>
+      <h1 className="text-2xl font-bold text-white">
+        {tokenFromUrl ? 'Authenticating...' : 'Checking authentication...'}
+      </h1>
       <p className="text-slate-400 mt-2">
-        {token ? 'Please wait while we complete your login.' : 'Please wait while we log you out.'}
+        Please wait while we complete your login.
       </p>
     </div>
   );

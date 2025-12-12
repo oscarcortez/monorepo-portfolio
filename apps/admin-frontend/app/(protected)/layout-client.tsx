@@ -24,19 +24,16 @@ export function RootLayoutClient({ children }: { children: React.ReactNode }) {
   const breadcrumbItems = useBreadcrumbStore((state) => state.items);
 
   useEffect(() => {
-    // const token = localStorage.getItem('auth_token');
-
     const token = Cookies.get('auth_token');
-    console.log('Auth token:', token);
+    console.log('🔍 Checking auth token:', token ? 'present' : 'missing');
 
-    // if (!token) {
-    //   console.warn('⚠️ No auth token found, redirecting to login');
-    //   // const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
-    //   const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
-    //   console.log('Redirecting to:', `${adminUrl}/login-basic`);
-    //   // router.push(`${adminUrl}/login-basic`);
-    //   return;
-    // }
+    if (!token) {
+      console.warn('⚠️ No auth token found, redirecting to login');
+      const authUrl = process.env.NEXT_PUBLIC_AUTH_URL || 'http://localhost:3010';
+      console.log('Redirecting to:', `${authUrl}/login-basic`);
+      window.location.href = `${authUrl}/login-basic`;
+      return;
+    }
 
     console.log('✅ User authenticated');
     setIsAuthenticated(true);

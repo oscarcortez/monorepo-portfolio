@@ -62,11 +62,13 @@ export default function Page() {
     console.log({ values });
     signIn(values, {
       onSuccess: (data) => {
-        console.log('Access token:', data.access_token);
-        // window.location.href = 'http://localhost:3020/dashboard';
+        console.log('✅ Login successful, redirecting to admin...');
+        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL || 'http://localhost:3020';
+        // Redirigir a admin-frontend con el token en la URL (patrón OAuth)
+        window.location.href = `${adminUrl}/auth/callback?auth_token=${data.access_token}`;
       },
       onError: (err) => {
-        console.error('Error signing in:', err);
+        console.error('❌ Error signing in:', err);
       },
     });
   };
