@@ -2,16 +2,15 @@
 
 import { use } from 'react';
 import { LoginBasicForm } from '@/components/login-basic-form';
-import { SIGNIN_MUTATION } from './graphql';
+// import { SIGNIN_MUTATION } from './graphql';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-// import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
-import { useMutation } from '@apollo/client/react';
+
+// import { useMutation } from '@apollo/client/react';
 import { SubmitHandler } from 'react-hook-form';
 import { FieldMeta } from '@/types/field-meta';
-// SignInMutation
-import type { SignInMutation } from '../graphql/generated/graphql-types';
+// import type { SignInMutation } from '../graphql/generated/graphql-types';
 import { useRouter } from 'next/navigation';
 import { useSignIn } from '@/app/hooks/useAuth';
 
@@ -32,27 +31,9 @@ const actions = {
   googleLabel: 'Login with Google',
 };
 
-// const fetchSignIn = async (variables: { email: string; password: string }) => {
-//   const response = await fetch('http://localhost:4000/auth/login', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(variables),
-//     credentials: 'include',
-//   });
-
-//   const result = await response.json();
-//   if (result.errors) {
-//     throw new Error(result.errors.map((err: any) => err.message).join(', '));
-//   }
-//   return result.data as SignInMutation;
-// };
-
 export default function Page() {
   const router = useRouter();
   const { mutate: signIn, isPending, error } = useSignIn();
-  // const [signIn, { loading, error, data }] = useMutation<SignInMutation>(SIGNIN_MUTATION);
 
   const form = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -62,8 +43,8 @@ export default function Page() {
     console.log({ values });
     signIn(values, {
       onSuccess: (data) => {
-        console.log('Access token:', data.access_token);
-        // window.location.href = 'http://localhost:3020/dashboard';
+        console.log('exchange code:', data.exchangeCode);
+        window.location.href = `http://localhost:3000/auth/callback?exchangeCode=${data.exchangeCode}`;
       },
       onError: (err) => {
         console.error('Error signing in:', err);

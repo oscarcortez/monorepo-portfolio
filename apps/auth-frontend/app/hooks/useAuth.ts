@@ -5,8 +5,12 @@ interface SignInVariables {
   password: string;
 }
 
+// interface SignInResponse {
+//   access_token: string;
+// }
+
 interface SignInResponse {
-  access_token: string;
+  exchangeCode: string;
 }
 
 const signIn = async (variables: SignInVariables): Promise<SignInResponse> => {

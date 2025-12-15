@@ -1,26 +1,26 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { jwtVerify } from 'jose';
+import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-export async function GET(request: NextRequest) {
-  const token = request.cookies.get('auth_token')?.value;
+export async function GET() {
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get('auth_token');
 
-  if (!token) {
+  if (!authToken) {
     return NextResponse.json({ authenticated: false }, { status: 401 });
   }
 
   try {
-    const secret = new TextEncoder().encode(process.env.JWT_SECRET);
-    const { payload } = await jwtVerify(token, secret);
-
-    return NextResponse.json({
-      authenticated: true,
-      user: {
-        id: payload.sub,
-        email: payload.email,
-        // otros campos del payload
-      },
+    const response = await fetch('http://localhost:4000/auth/validate', {
+      headers: { Authorization: `Bearer ${authToken.value}` },
     });
-  } catch (error) {
-    return NextResponse.json({ authenticated: false }, { status: 401 });
+
+    if (!response.ok) {
+      return NextResponse.json({ authenticated: false }, { status: 401 });
+    }
+
+    const user = await response.json();
+    return NextResponse.json({ authenticated: true, user });
+  } catch {
+    return NextResponse.json({ authenticated: false }, { status: 500 });
   }
 }

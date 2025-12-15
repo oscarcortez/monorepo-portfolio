@@ -9,6 +9,7 @@ import {
   HttpStatus,
   UseGuards,
   Logger,
+  UnauthorizedException,
   // Headers,
 } from '@nestjs/common';
 import {
@@ -33,7 +34,9 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { Public } from './public.decorator';
 import { JwtPayload } from './types/jwt-payload.type';
 import { Token } from './decorators/token.decorator';
-import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
+import { randomBytes } from 'crypto';
+import { UserService } from 'src/_models/user/user.service';
+// import { NotAuthenticatedGuard } from './guards/not-authenticated.guard';
 
 class SignInDto {
   @ApiProperty({ example: 'oscarkortez@gmail.com' })
@@ -48,7 +51,8 @@ class SignInDto {
 }
 
 interface AuthResponse {
-  access_token: string;
+  // access_token: string;
+  exchangeCode: string;
 }
 
 interface LogoutResponse {
@@ -63,18 +67,25 @@ interface UserResponse {
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
+  private exchangeCodes = new Map<
+    string,
+    { token: string; expiresAt: number }
+  >();
   private readonly logger = new Logger(AuthController.name);
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+  ) {}
 
   @Public()
   @Post('login')
   @ApiBearerAuth('JWT-auth')
-  @UseGuards(NotAuthenticatedGuard)
+  // @UseGuards(NotAuthenticatedGuard)
   @HttpCode(HttpStatus.OK)
   async signIn(
     @Body() signInDto: SignInDto,
     @Req() req: Request,
-    @Res({ passthrough: true }) res: Response,
+    // @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponse> {
     const userAgent = req.headers['user-agent'] || undefined;
     const ipAddress = (req.ip ||
@@ -88,7 +99,54 @@ export class AuthController {
       ipAddress,
     );
 
-    res.cookie('auth_token', result.access_token, {
+    const exchangeCode = randomBytes(16).toString('hex');
+    this.exchangeCodes.set(exchangeCode, {
+      token: result.access_token,
+      expiresAt: Date.now() + 60000, // 1 minuto
+    });
+
+    this.cleanExpiredCodes();
+    // res.cookie('auth_token', result.access_token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === 'production',
+    //   sameSite: 'lax',
+    //   path: '/',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
+
+    // return { access_token: result.access_token };
+
+    return { exchangeCode };
+  }
+
+  private cleanExpiredCodes() {
+    const now = Date.now();
+
+    for (const [code, data] of this.exchangeCodes.entries()) {
+      if (data.expiresAt < now) {
+        this.exchangeCodes.delete(code);
+      }
+    }
+  }
+
+  @Public()
+  @Post('exchange')
+  @HttpCode(HttpStatus.OK)
+  exchangeCode(
+    @Body() body: { code: string },
+    @Res({ passthrough: true }) res: Response,
+  ): { success: boolean } {
+    const data = this.exchangeCodes.get(body.code);
+
+    if (!data || data.expiresAt < Date.now()) {
+      throw new UnauthorizedException('Invalid or expired code');
+    }
+
+    // Elimina el código (un solo uso)
+    this.exchangeCodes.delete(body.code);
+
+    // Establece la cookie
+    res.cookie('auth_token', data.token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -96,7 +154,7 @@ export class AuthController {
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    return { access_token: result.access_token };
+    return { success: true };
   }
 
   @ApiBearerAuth('JWT-auth')
@@ -153,6 +211,29 @@ export class AuthController {
     return {
       authenticated: !!req.user,
       user: req.user ?? null,
+    };
+  }
+
+  @Get('validate')
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(JwtAuthGuard)
+  async validate(
+    @CurrentUser() user?: JwtPayload,
+  ): Promise<{ id: string; email: string; name?: string }> {
+    if (!user?.sub) {
+      throw new UnauthorizedException('Invalid token');
+    }
+
+    const fullUser = await this.userService.getUserByUuid(user.sub);
+
+    if (!fullUser) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return {
+      id: fullUser.uuid,
+      email: fullUser.email,
+      name: fullUser.username ?? undefined,
     };
   }
 

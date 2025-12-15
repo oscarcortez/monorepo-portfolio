@@ -12,13 +12,14 @@ import { AuthController } from './auth.controller';
 import { GoogleStrategy } from './google.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { SessionService } from 'src/_models/session/session.service';
-
+import { UserService } from 'src/_models/user/user.service';
 @Module({
   providers: [
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    UserService,
     GoogleStrategy,
     AuthResolver,
     AuthService,

@@ -4,10 +4,13 @@ import { motion } from 'framer-motion';
 
 import { useDrawerStore } from 'src/app/viz/stores/right-drawer.store';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerClose } from '@/components/ui/drawer';
+import { useAuth } from 'src/hooks/useAuth';
 
 import { Comments, Lang, Login, Qr } from './_components';
 
 export default function RightDrawer(): JSX.Element {
+  const { isAuthenticated } = useAuth();
+  console.log('isAuthenticated:', isAuthenticated);
   const { isOpen, drawerType, openDrawer, closeDrawer, toggleDrawer } = useDrawerStore();
   const [showComments, setShowComments] = useState(false);
   const [newComment, setNewComment] = useState('');

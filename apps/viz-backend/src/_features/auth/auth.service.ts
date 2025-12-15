@@ -12,9 +12,10 @@ import { SessionService } from 'src/_models/session/session.service';
 
 @Injectable()
 export class AuthService {
-  invalidateToken(token: string) {
-    throw new Error('Method not implemented.');
-  }
+  // invalidateToken(token: string) {
+  //   throw new Error('Method not implemented.');
+  // }
+
   constructor(
     private userService: UserService,
     private jwtService: JwtService,
@@ -48,7 +49,7 @@ export class AuthService {
     if (provider && provider === 'google') {
       const accessToken = await this.jwtService.signAsync(payload);
       await this.sessionService.createSession({
-        token: accessToken,
+        accessToken,
         userId: user.userId,
         browser,
         os,
@@ -69,7 +70,7 @@ export class AuthService {
 
     const accessToken = await this.jwtService.signAsync(payload);
     await this.sessionService.createSession({
-      token: accessToken,
+      accessToken,
       userId: user.userId,
       browser,
       os,

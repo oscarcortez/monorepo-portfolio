@@ -23,16 +23,16 @@ export class SessionService {
     });
   }
 
-  async revokeSessionByToken(token: string) {
+  async revokeSessionByToken(accessToken: string) {
     return this.prisma.session.update({
-      where: { token },
-      data: { isActive: false },
+      where: { accessToken },
+      data: { isValid: false },
     });
   }
 
-  async isTokenActive(token: string) {
+  async isTokenActive(accessToken: string) {
     const session = await this.prisma.session.findFirst({
-      where: { token, isActive: true },
+      where: { accessToken, isValid: true },
     });
 
     return session !== null;

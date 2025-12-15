@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../prisma.service';
 import { Prisma, User } from '@prisma/client';
 import { hashPassword } from '../../utils/password';
-import { SupabaseStorageService } from '../../_integrations/supabase-storage/supabase-storage.service';
-import { QrCodeService } from 'src/_integrations/qr-code/qr-code.service';
+// import { SupabaseStorageService } from '../../_integrations/supabase-storage/supabase-storage.service';
+// import { QrCodeService } from 'src/_integrations/qr-code/qr-code.service';
 import { ConfigService } from '@nestjs/config';
 import { GoogleUser } from 'src/_features/auth/interfaces/google-profile.interface';
 
@@ -11,8 +11,8 @@ import { GoogleUser } from 'src/_features/auth/interfaces/google-profile.interfa
 export class UserService {
   constructor(
     private prisma: PrismaService,
-    private supabaseStorageService: SupabaseStorageService,
-    private qrCodeService: QrCodeService,
+    // private supabaseStorageService: SupabaseStorageService,
+    // private qrCodeService: QrCodeService,
     private configService: ConfigService,
   ) {}
 
@@ -72,14 +72,14 @@ export class UserService {
       const user = await this.prisma.user.create({
         data,
       });
-      const qrBuffer = await this.qrCodeService.toBuffer(
-        `${this.getAppUrl()}/viz/${user.uuid}`,
-      );
-      await this.supabaseStorageService.uploadFromBuffer(
-        qrBuffer,
-        `hero/qr/uuid/${user.uuid}.png`,
-        { contentType: 'image/png', upsert: true },
-      );
+      // const qrBuffer = await this.qrCodeService.toBuffer(
+      //   `${this.getAppUrl()}/viz/${user.uuid}`,
+      // );
+      // await this.supabaseStorageService.uploadFromBuffer(
+      //   qrBuffer,
+      //   `hero/qr/uuid/${user.uuid}.png`,
+      //   { contentType: 'image/png', upsert: true },
+      // );
       return user;
     } catch (error) {
       console.error('Error creating user:', error);
@@ -89,6 +89,10 @@ export class UserService {
 
   async getUserById(userId: number): Promise<User | null> {
     return this.prisma.user.findUnique({ where: { userId } });
+  }
+
+  async getUserByUuid(uuid: string): Promise<User | null> {
+    return this.prisma.user.findUnique({ where: { uuid } });
   }
 
   async updateUser(params: {

@@ -1,5 +1,7 @@
 export type JwtPayload = {
-  sub?: number;
+  sub?: string;
   email?: string;
+  iat?: number; // Issued at
+  exp?: number; // Expiration
   [k: string]: any;
 };
