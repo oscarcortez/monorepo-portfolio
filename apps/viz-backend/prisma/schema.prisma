@@ -116,6 +116,44 @@ enum SkillLevel {
 }
 
 // ========================= MODELS =========================
+
+model Skill {
+  skillId     Int         @id @default(autoincrement()) @map("skill_id")
+  uuid        String      @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String      @db.VarChar(100)
+  type        SkillType   @map("type")
+  description String?     @db.VarChar(500)
+  iconName    String?     @map("icon_name") @db.VarChar(100)
+  deletedAt   DateTime?   @map("deleted_at") @db.Timestamptz(6)
+  createdAt   DateTime    @default(now()) @map("created_at") @db.Timestamptz(6)
+  updatedAt   DateTime    @default(now()) @map("updated_at") @db.Timestamptz(6)
+  skillUsers  SkillUser[]
+
+  @@index([type], map: "idx_skills_type")
+  @@index([deletedAt], map: "idx_skills_deleted_at")
+  @@map("skills")
+}
+
+model SkillUser {
+  skillUserId Int        @id @default(autoincrement()) @map("skill_user_id")
+  userId      Int        @map("user_id")
+  skillId     Int        @map("skill_id")
+  uuid        String     @unique @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  level       SkillLevel @map("level")
+  sortOrder   Int        @default(0) @map("sort_order")
+  deletedAt   DateTime?  @map("deleted_at") @db.Timestamptz(6)
+  createdAt   DateTime   @default(now()) @map("created_at") @db.Timestamptz(6)
+
+  user  User  @relation(fields: [userId], references: [userId], map: "fk_skill_users_user")
+  skill Skill @relation(fields: [skillId], references: [skillId], map: "fk_skill_users_skill")
+
+  @@unique([userId, skillId], map: "unique_user_skill")
+  @@index([userId], map: "idx_skill_users_user_id")
+  @@index([skillId], map: "idx_skill_users_skill_id")
+  @@index([deletedAt], map: "idx_skill_users_deleted_at")
+  @@map("skill_users")
+}
+
 model Session {
   sessionId Int      @id @default(autoincrement()) @map("session_id")
   userId    Int      @map("user_id")
@@ -313,6 +351,7 @@ model User {
   payments      Payment[]      @relation(map: "fk_payments_user")
   templates     Template[]
   sessions      Session[]
+  skillUsers    SkillUser[]
 
   @@map("users")
 }
