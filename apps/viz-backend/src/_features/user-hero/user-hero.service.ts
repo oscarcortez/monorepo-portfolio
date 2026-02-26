@@ -31,6 +31,18 @@ export class UserHeroService {
             paymentSource: true,
           },
         },
+        skillUsers: {
+          where: {
+            deletedAt: null,
+            skill: {
+              deletedAt: null,
+            },
+          },
+          orderBy: { sortOrder: 'asc' },
+          include: {
+            skill: true,
+          },
+        },
       },
     });
   }

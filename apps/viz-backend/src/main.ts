@@ -7,7 +7,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const logger = new Logger('NestApplication');
-
   // ✅ Register cookie-parser FIRST, before any other middleware
   app.use(cookieParser());
 

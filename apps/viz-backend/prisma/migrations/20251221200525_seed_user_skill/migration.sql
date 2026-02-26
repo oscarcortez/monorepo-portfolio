@@ -20,7 +20,7 @@ SELECT
       'PostgreSQL',
       'Prisma',
       'GraphQL'
-    ) THEN 'EXPERT'
+    ) THEN 'EXPERT'::skill_level
     -- Advanced level - tecnologías que usas frecuentemente
     WHEN name IN (
       'Docker',
@@ -35,7 +35,7 @@ SELECT
       'VS Code',
       'Linux',
       'Bash'
-    ) THEN 'ADVANCED'
+    ) THEN 'ADVANCED'::skill_level
     -- Intermediate level - tecnologías complementarias
     WHEN name IN (
       'MongoDB',
@@ -48,14 +48,14 @@ SELECT
       'Python',
       'Socket.io',
       'Kubernetes'
-    ) THEN 'INTERMEDIATE'
+    ) THEN 'INTERMEDIATE'::skill_level
     -- Beginner level - tecnologías explorando
     WHEN name IN (
       'AWS',
       'TensorFlow',
       'Go',
       'Rust'
-    ) THEN 'BEGINNER'
+    ) THEN 'BEGINNER'::skill_level
   END as level,
   ROW_NUMBER() OVER (
     ORDER BY
